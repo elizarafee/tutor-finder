@@ -22,6 +22,8 @@ class UpdateUsersTable extends Migration
             $table->text('picture')->nullable()->after('last_name');
             $table->text('bio')->after('last_name')->nullable();
             $table->dropUnique('users_email_unique');
+            $table->boolean('reviewed')->default(0);
+            $table->text('approval_note')->nullable()->after('remember_token');
             $table->integer('approved_by')->nullable()->after('remember_token');
             $table->timestamp('profile_approved_at')->nullable()->after('remember_token');
             $table->timestamp('profile_completed_at')->nullable()->after('remember_token');
