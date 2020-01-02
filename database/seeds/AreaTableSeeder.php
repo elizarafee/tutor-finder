@@ -22,8 +22,6 @@ class AreaTableSeeder extends Seeder
             'Purba Subidbazar',
             'Rajargali',
             'Dariapara',
-            'Jallapara',
-            'Tripara',
             'Kazi Elias Para',
             'Lama Bazar',
             'Mirza Jangal',

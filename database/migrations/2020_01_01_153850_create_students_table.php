@@ -16,14 +16,11 @@ class CreateStudentsTable extends Migration
         Schema::create('students', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->integer('user_id');
-            $table->text('proof_of_id')->nullable();
             $table->integer('year');
             $table->string('institute');
-            $table->string('level')->nullable();
-            $table->string('mobile')->nullable();
-            $table->text('bio');
             $table->string('location');
             $table->text('subjects');
+            $table->text('requirements')->nullable();
             $table->decimal('budget', 8, 2)->default(0.00);
             $table->timestamps();
         });
