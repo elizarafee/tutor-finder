@@ -36,18 +36,26 @@
 
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <!-- Left Side Of Navbar -->
-                    <ul class="navbar-nav mr-auto"></ul>
+                    <ul class="navbar-nav mr-auto">
+
+                    <li class="nav-item">
+                            <a class="nav-link" href="{{ url('/about') }}">About</a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ url('/tutors') }}">Tutors</a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ url('/students') }}">Students</a>
+                        </li>
+                    </ul>
 
                     <!-- Right Side Of Navbar -->
                     <ul class="navbar-nav ml-auto">
                         <!-- Authentication Links -->
                         @guest
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ route('login') }}">About</a>
-                        </li>
                         
-                        
-
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('register') }}">Register</a>
                         </li>
@@ -59,19 +67,14 @@
                         @else
 
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('login') }}">Profile</a>
+                            <a class="nav-link" href="{{ url('/login') }}">{{Auth::user()->first_name}} {{Auth::user()->last_name}}</a>
                         </li>
 
 
                         <li class="nav-item mr-3">
-                            <a class="nav-link" href="{{ route('login') }}"><i class="fas fa-user-friends fa-2x float-left"></i><sup class="badge badge-success float-left">3</sup></a>
+                            <a class="nav-link" href="{{ url('/login') }}" title="Requests"><i class="fas fa-user-friends fa-2x float-left"></i><sup class="badge badge-success float-left">3</sup></a>
                         </li>
 
-                        
-
-                       
-
-                        
 
                         <li class="nav-item mt-2">
                             
@@ -83,9 +86,7 @@
                                 <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                                     @csrf
                                 </form>
-                        
-                        
-                        
+
                         </li>
 
                         @endguest
@@ -108,6 +109,7 @@
             </div>
         </div>
     </div>
+
 </body>
 
 </html>

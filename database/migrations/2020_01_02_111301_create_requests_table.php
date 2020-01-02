@@ -20,6 +20,7 @@ class CreateRequestsTable extends Migration
             $table->timestamp('requested_at')->nullable();
             $table->boolean('seen')->default(0);
             $table->timestamp('approved_at')->nullable();
+            $table->timestamp('rejected_at')->nullable();
             $table->timestamps();
         });
     }
