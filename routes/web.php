@@ -1,5 +1,8 @@
 <?php
 
+use App\Mail\SendTestEmail;
+use Illuminate\Support\Facades\Mail;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -13,6 +16,16 @@
 
 Route::get('/', function () {
     return view('welcome');
+});
+
+
+
+Route::get('/send-mail', function () {
+
+    Mail::to('newuser@example.com')->send(new SendTestEmail()); 
+
+    return 'A message has been sent to Mailtrap!';
+
 });
 
 Route::get('profile', function () {

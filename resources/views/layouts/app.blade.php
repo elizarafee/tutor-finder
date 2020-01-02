@@ -43,8 +43,10 @@
                         </li> 
                         @else 
 
+                     
 
-                        <?php $user_type = Auth::user()->type; ?>
+
+                        <?php $user_type = auth()->user()->type; ?>
                         
 
                         @if($user_type == 1)  
