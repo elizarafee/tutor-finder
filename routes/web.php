@@ -15,6 +15,10 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Auth::routes();
+Route::get('profile', function () {
+    // Only verified users may enter...
+})->middleware('verified');
+
+Auth::routes(['verify' => true]);
 
 Route::get('/home', 'HomeController@index')->name('home');
