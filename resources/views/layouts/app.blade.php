@@ -37,25 +37,41 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <!-- Left Side Of Navbar -->
                     <ul class="navbar-nav mr-auto">
+                        @guest
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ url('/about') }}">About</a>
+                        </li> 
+                        @else 
 
-                    <li class="nav-item">
+
+                        <?php $user_type = Auth::user()->type; ?>
+                        
+
+                        @if($user_type == 1)  
+                        <li class="nav-item">
                             <a class="nav-link" href="{{ url('/about') }}">About</a>
                         </li>
+                        @elseif($user_type == 2)
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ url('/students') }}">Students</a>
+                            </li>
+                        @elseif($user_type == 3) 
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ url('/tutors') }}">Tutors</a>
+                            </li>
+                        @endif 
 
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ url('/tutors') }}">Tutors</a>
-                        </li>
 
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ url('/students') }}">Students</a>
-                        </li>
+
+                        @endguest 
+
+                        
                     </ul>
 
                     <!-- Right Side Of Navbar -->
                     <ul class="navbar-nav ml-auto">
                         <!-- Authentication Links -->
                         @guest
-                        
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('register') }}">Register</a>
                         </li>
@@ -70,25 +86,20 @@
                             <a class="nav-link" href="{{ url('/login') }}">{{Auth::user()->first_name}} {{Auth::user()->last_name}}</a>
                         </li>
 
-
                         <li class="nav-item mr-3">
                             <a class="nav-link" href="{{ url('/login') }}" title="Requests"><i class="fas fa-user-friends fa-2x float-left"></i><sup class="badge badge-success float-left">3</sup></a>
                         </li>
 
-
                         <li class="nav-item mt-2">
-                            
                             <a class="btn btn-sm btn-outline-secondary" href="{{ route('logout') }}" onclick="event.preventDefault();
-                                                     document.getElementById('logout-form').submit();">
-                                    Logout
-                                </a>
+                                    document.getElementById('logout-form').submit();">
+                                    Logout <i class="fas fa-sign-out-alt"></i>
+                            </a>
 
-                                <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                                    @csrf
-                                </form>
-
+                            <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                @csrf
+                            </form>
                         </li>
-
                         @endguest
                     </ul>
                 </div>
@@ -110,6 +121,6 @@
         </div>
     </div>
 
-</body>
+ </body>
 
 </html>

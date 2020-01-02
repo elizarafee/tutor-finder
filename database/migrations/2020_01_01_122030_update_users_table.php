@@ -14,7 +14,7 @@ class UpdateUsersTable extends Migration
     public function up()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->boolean('type')->default(0)->after('id'); // 1 => Student 2 => Tutor 3 => Modarator 
+            $table->boolean('type')->default(0)->after('id'); // 1 => Admin 2 => Tutor 3 => Student
             $table->renameColumn('name', 'first_name');
             $table->string('last_name')->after('name');
             $table->string('mobile')->nullable()->after('last_name');
