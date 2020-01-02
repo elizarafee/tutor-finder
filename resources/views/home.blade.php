@@ -32,9 +32,9 @@
                         <div class="col-sm-6 col-md-3">
                         <i class="far fa-id-badge"></i>
                         <i class="far fa-id-card"></i>
-                            <a href="{{url('/tutors/1')}}">
+                           <!-- <a href="{{url('/tutors/1')}}">
                             <img src="{{url('/png/black/361.png')}}" class="w-100 img-thumbnail" alt="...">
-                            </a>
+                            </a> -->
                         </div>
                         <div class="col-sm-6 col-md-9">
                         

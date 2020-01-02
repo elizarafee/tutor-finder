@@ -3,7 +3,7 @@
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
 
-class ModaratorTableSeeder extends Seeder
+class AdminTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -14,14 +14,14 @@ class ModaratorTableSeeder extends Seeder
     {
         $modarators = array(
             [
-                'type' => 3,
-                'first_name' => 'Hasan',
-                'last_name' => 'Tareque',
-                'email' => 'hmtareque@gmail.com',
+                'type' => 1,
+                'first_name' => 'Eliza',
+                'last_name' => 'Ahmed',
+                'email' => 'elizarafee@gmail.com',
                 'password' => Hash::make('password'),
             ],
             [
-                'type' => 3,
+                'type' => 1,
                 'first_name' => 'Hasan',
                 'last_name' => 'Tareque',
                 'email' => 'hmtareque@gmail.com',
