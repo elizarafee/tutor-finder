@@ -43,9 +43,6 @@
                         </li> 
                         @else 
 
-                     
-
-
                         <?php $user_type = auth()->user()->type; ?>
                         
 
@@ -53,11 +50,21 @@
                         <li class="nav-item">
                             <a class="nav-link" href="{{ url('/about') }}">About</a>
                         </li>
+                        
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ url('/tutors') }}">Tutors</a>
+                            </li>
+
+
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ url('/students') }}">Students</a>
+                            </li>
+
                         @elseif($user_type == 2)
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ url('/students') }}">Students</a>
                             </li>
-                        @elseif($user_type == 3) 
+                        @elseif(in_array($user_type, [1,3])) 
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ url('/tutors') }}">Tutors</a>
                             </li>

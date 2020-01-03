@@ -2,7 +2,7 @@
 
 use Illuminate\Database\Seeder;
 
-class AreaTableSeeder extends Seeder
+class AreasTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -220,5 +220,15 @@ class AreaTableSeeder extends Seeder
             'Ganganagar',
             'Mejortila',
         ];
+
+        $areas = array();
+        
+        foreach($list_of_area as $area) {
+            $areas[] = [
+                'name' => ucfirst($area),
+            ];
+        }
+
+        DB::table('areas')->insert($areas);
     }
 }

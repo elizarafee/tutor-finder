@@ -1,8 +1,5 @@
 <?php
 
-use App\Mail\SendTestEmail;
-use Illuminate\Support\Facades\Mail;
-
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -14,24 +11,27 @@ use Illuminate\Support\Facades\Mail;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::group(['middleware' => ['auth', 'verified']], function () {
 
 
-
-Route::get('/send-mail', function () {
-
-    Mail::to('newuser@example.com')->send(new SendTestEmail()); 
-
-    return 'A message has been sent to Mailtrap!';
+Route::get('/profile', 'ProfileController@index');
 
 });
 
-Route::get('profile', function () {
-    // Only verified users may enter...
-})->middleware('verified');
+
+
+// Route::get('/send-mail', function () {
+
+//     Mail::to('newuser@example.com')->send(new SendTestEmail()); 
+
+//     return 'A message has been sent to Mailtrap!';
+
+// });
+
 
 Auth::routes(['verify' => true]);
 
-Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/', 'PublicController@index');
+
+Route::get('/tutors', 'TutorController@index');
+Route::get('/students', 'StudentController@index');

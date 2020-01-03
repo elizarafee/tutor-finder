@@ -17,12 +17,14 @@ class UpdateUsersTable extends Migration
             $table->boolean('type')->default(0)->after('id'); // 1 => Admin 2 => Tutor 3 => Student
             $table->renameColumn('name', 'first_name');
             $table->string('last_name')->after('name');
-            $table->string('mobile')->nullable()->after('last_name');
+            $table->string('mobile', 11)->nullable()->after('last_name');
             $table->text('proof_of_id')->nullable()->after('last_name');
             $table->text('picture')->nullable()->after('last_name');
-            $table->text('bio')->after('last_name')->nullable();
+            $table->string('bio')->after('last_name')->nullable();
+            $table->string('doy', 4)->nullable()->after('last_name');
+            $table->string('gender', 10)->nullable()->after('last_name');
             $table->dropUnique('users_email_unique');
-            $table->boolean('reviewed')->default(0);
+            $table->boolean('reviewed')->default(0)->after('remember_token');
             $table->text('approval_note')->nullable()->after('remember_token');
             $table->integer('approved_by')->nullable()->after('remember_token');
             $table->timestamp('profile_approved_at')->nullable()->after('remember_token');
