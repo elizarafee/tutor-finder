@@ -31,7 +31,11 @@ Route::get('/profile', 'ProfileController@index');
 
 Auth::routes(['verify' => true]);
 
-Route::get('/', 'PublicController@index');
+Route::get('/about', 'PublicController@about');
+Route::get('/terms-of-use', 'PublicController@termsOfUse');
+Route::post('/contact', 'PublicController@sendContact');
+Route::get('/contact', 'PublicController@contact');
+Route::get('/', 'PublicController@home');
 
 Route::get('/tutors', 'TutorController@index');
 Route::get('/students', 'StudentController@index');

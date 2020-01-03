@@ -11,9 +11,9 @@ class PublicController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function home()
     {
-        //
+        return view('home');
     }
 
     /**
@@ -23,7 +23,7 @@ class PublicController extends Controller
      */
     public function about()
     {
-        //
+        return view('home');
     }
 
     /**
@@ -34,7 +34,7 @@ class PublicController extends Controller
      */
     public function termsOfUse()
     {
-        //
+        return view('home');
     }
 
     /**
@@ -43,8 +43,19 @@ class PublicController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function contact(Request $request)
+    public function contact()
     {
-        //
+        return view('home');
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function sendContact(Request $request)
+    {
+        return view('home');
     }
 }

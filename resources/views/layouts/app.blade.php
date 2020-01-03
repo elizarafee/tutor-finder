@@ -40,17 +40,20 @@
                         @guest
                         <li class="nav-item">
                             <a class="nav-link" href="{{ url('/about') }}">About</a>
-                        </li> 
-                        @else 
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ url('/contact') }}">Contact</a>
+                        </li>
+                        @else
 
                         <?php $user_type = auth()->user()->type; ?>
-                        
 
-                        @if($user_type == 1)  
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ url('/about') }}">About</a>
-                        </li>
-                        
+                        @if($user_type == 1)
+
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ url('/about') }}">About</a>
+                            </li>
+
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ url('/tutors') }}">Tutors</a>
                             </li>
@@ -64,17 +67,19 @@
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ url('/students') }}">Students</a>
                             </li>
-                        @elseif(in_array($user_type, [1,3])) 
+                            <li class="nav-item">
+                            <a class="nav-link" href="{{ url('/contact') }}">Contact</a>
+                        </li>
+                        @elseif(in_array($user_type, [1,3]))
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ url('/tutors') }}">Tutors</a>
                             </li>
-                        @endif 
+                            <li class="nav-item">
+                            <a class="nav-link" href="{{ url('/contact') }}">Contact</a>
+                        </li>
+                        @endif
 
-
-
-                        @endguest 
-
-                        
+                        @endguest
                     </ul>
 
                     <!-- Right Side Of Navbar -->
@@ -88,21 +93,21 @@
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('login') }}">Login</a>
                         </li>
-                       
+
                         @else
 
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ url('/login') }}">{{Auth::user()->first_name}} {{Auth::user()->last_name}}</a>
+                            <a class="nav-link" href="{{ url('/profile') }}">{{Auth::user()->first_name}} {{Auth::user()->last_name}}</a>
                         </li>
 
                         <li class="nav-item mr-3">
-                            <a class="nav-link" href="{{ url('/login') }}" title="Requests"><i class="fas fa-user-friends fa-2x float-left"></i><sup class="badge badge-success float-left">3</sup></a>
+                            <a class="nav-link" href="{{ url('/requests') }}" title="Requests"><i class="fas fa-user-friends fa-2x float-left"></i><sup class="badge badge-success float-left">3</sup></a>
                         </li>
 
                         <li class="nav-item mt-2">
                             <a class="btn btn-sm btn-outline-secondary" href="{{ route('logout') }}" onclick="event.preventDefault();
                                     document.getElementById('logout-form').submit();">
-                                    Logout <i class="fas fa-sign-out-alt"></i>
+                                Logout <i class="fas fa-sign-out-alt"></i>
                             </a>
 
                             <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
@@ -118,11 +123,23 @@
         <main class="py-4" style="min-height: 450px;">
             @yield('content')
         </main>
+
         <div class="border-top h-100 position-sticky">
             <div class="container">
                 <div class="row justify-content-center">
                     <div class="col-md-8 pt-4 text-muted text-center">
                         <p>This application is designed and developed by Eliza Ahmed</p>
+                        <p>
+                            <a href="{{url('/about')}}" class="mr-2">About</a>
+
+                            <a href="{{url('/terms-of-use')}}" class="mr-2">Terms of Use</a>
+                            <a href="{{url('/contact')}}">Contact</a>
+
+                        </p>
+
+
+
+
                         <p>Tutor Finder &copy; {{date('Y')}}</p>
                     </div>
                 </div>
@@ -130,6 +147,6 @@
         </div>
     </div>
 
- </body>
+</body>
 
 </html>
