@@ -28,9 +28,7 @@ class UsersTableSeeder extends Seeder
                 'proof_of_id' => $faker->imageUrl($width = 640, $height = 480),
                 'email' => $faker->safeEmail,
                 'mobile' => '01711'.$faker->numberBetween(100000, 999999),
-                'bio' => $faker->realText(rand(150,200)),
-                'gender' => $gender[rand(0,1)],
-                'doy' => $faker->year('now'),
+                
                 'password' => Hash::make('password')
             ]);
 
@@ -40,6 +38,9 @@ class UsersTableSeeder extends Seeder
 
                 $tutor_id = DB::table('tutors')->insertGetId([
                     'user_id' => $user_id,
+                    'bio' => $faker->realText(rand(150,200)),
+                'gender' => $gender[rand(0,1)],
+                'doy' => $faker->year('now'),
                     'covered_area' => $faker->city.','.$faker->city.','.$faker->city,
                     'covered_subjects' => $faker->realText(rand(150,200)),
                     'covered_years' => $faker->realText(rand(150,200)),
@@ -62,6 +63,9 @@ class UsersTableSeeder extends Seeder
             } elseif($type == 3) {
                 DB::table('students')->insertGetId([
                     'user_id' => $user_id,
+                    'bio' => $faker->realText(rand(150,200)),
+                'gender' => $gender[rand(0,1)],
+                'doy' => $faker->year('now'),
                     'year' => $years[rand(0, count($years)-1)],
                     'institute' => $faker->company,
                     'location' => $faker->city,

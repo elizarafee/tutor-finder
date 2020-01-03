@@ -25,13 +25,13 @@ class ProfileController extends Controller
             return view('profiles.admin', ['user' => $user]);
         } elseif($type == 2) {
             // Tutor 
-            if($completed_profile != '') {
+            if($completed_profile == '') {
                 return view('tutors.create', ['user' => $user]);
             }
             return view('profiles.tutor', ['user' => $user]);
         } elseif($type == 3) {
             // Student Guardian 
-            if($completed_profile != '') {
+            if($completed_profile == '') {
                 return view('students.create', ['user' => $user]);
             }
             return view('profiles.student', ['user' => $user]);

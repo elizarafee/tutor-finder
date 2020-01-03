@@ -16,6 +16,9 @@ class CreateTutorsTable extends Migration
         Schema::create('tutors', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->integer('user_id');
+            $table->string('bio');
+            $table->string('doy', 4);
+            $table->string('gender', 10);
             $table->text('covered_area');
             $table->text('covered_subjects');
             $table->text('covered_years');

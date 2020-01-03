@@ -16,7 +16,7 @@ class CreateTutorQualificationsTable extends Migration
         Schema::create('tutor_qualifications', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->integer('tutor_id');
-            $table->string('level');
+            $table->integer('level');
             $table->string('subject');
             $table->string('institute');
             $table->string('status');

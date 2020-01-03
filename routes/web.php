@@ -1,5 +1,8 @@
 <?php
 
+use Illuminate\Support\Facades\Mail;
+use App\Mail\ProfileCompleted;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -20,13 +23,13 @@ Route::get('/profile', 'ProfileController@index');
 
 
 
-// Route::get('/send-mail', function () {
+Route::get('/send-mail', function () {
 
-//     Mail::to('newuser@example.com')->send(new SendTestEmail()); 
+    Mail::to('newuser@example.com')->send(new ProfileCompleted()); 
 
-//     return 'A message has been sent to Mailtrap!';
+    return 'A message has been sent to Mailtrap!';
 
-// });
+});
 
 
 Auth::routes(['verify' => true]);
