@@ -40,5 +40,13 @@ Route::post('/contact', 'PublicController@sendContact');
 Route::get('/contact', 'PublicController@contact');
 Route::get('/', 'PublicController@home');
 
+
+
+Route::get('/tutors/create', 'TutorController@create');
+Route::get('/tutors/{tutor_id}', 'TutorController@show');
+
+Route::put('/tutors', 'TutorController@update');
+Route::post('/tutors', 'TutorController@store');
 Route::get('/tutors', 'TutorController@index');
+
 Route::get('/students', 'StudentController@index');

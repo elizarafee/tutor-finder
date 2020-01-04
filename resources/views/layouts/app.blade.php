@@ -28,7 +28,7 @@
         <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
             <div class="container pt-2 pb-2">
                 <a class="navbar-brand" href="{{ url('/') }}">
-                    {{ config('app.name', 'Tutor Finder') }}
+                    {{ config('app.name', 'Tutor Finder') }} 
                 </a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
                     <span class="navbar-toggler-icon"></span>
@@ -45,8 +45,11 @@
                             <a class="nav-link" href="{{ url('/contact') }}">Contact</a>
                         </li>
                         @else
+                        
 
                         <?php $user_type = auth()->user()->type; ?>
+
+                        <li><span>{{ $user_type }}</span></li>
 
                         @if($user_type == 1)
 
@@ -128,18 +131,12 @@
             <div class="container">
                 <div class="row justify-content-center">
                     <div class="col-md-8 pt-4 text-muted text-center">
-                        <p>This application is designed and developed by Eliza Ahmed</p>
+                        <p>This application is designed and developed by {{ dev_name() }}</p>
                         <p>
                             <a href="{{url('/about')}}" class="mr-2">About</a>
-
                             <a href="{{url('/terms-of-use')}}" class="mr-2">Terms of Use</a>
                             <a href="{{url('/contact')}}">Contact</a>
-
                         </p>
-
-
-
-
                         <p>Tutor Finder &copy; {{date('Y')}}</p>
                     </div>
                 </div>

@@ -4,6 +4,10 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
+use App\User;
+use App\Tutor;
+use App\Student;
+
 use Illuminate\Support\Facades\Auth;
 
 class ProfileController extends Controller
@@ -25,10 +29,32 @@ class ProfileController extends Controller
             return view('profiles.admin', ['user' => $user]);
         } elseif($type == 2) {
             // Tutor 
-            if($completed_profile == '') {
-                return view('tutors.create', ['user' => $user]);
+            $tutor = Tutor::find($user->id);
+
+
+
+
+            
+
+                $tutor = Tutor::find($user->id);
+
+                if($tutor) {
+
+                    if ($completed_profile != '') {
+                        return view('profiles.tutor', ['user' => $user]);
+                    } else {
+                        return view('tutors.edit', ['user' => $user]);
+                    }
+                } else {
+                    
+                    
+                
+                    return view('tutors.create', ['user' => $user]);
+
+
+                
             }
-            return view('profiles.tutor', ['user' => $user]);
+            
         } elseif($type == 3) {
             // Student Guardian 
             if($completed_profile == '') {

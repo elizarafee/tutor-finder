@@ -36,7 +36,14 @@ class TutorController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        echo "<pre>";
+        print_r($request->all());
+        echo "</pre>";
+
+
+        
+
+
     }
 
     /**
@@ -68,9 +75,9 @@ class TutorController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
-        //
+        echo "update";
     }
 
     /**
