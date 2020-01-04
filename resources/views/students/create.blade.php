@@ -62,8 +62,8 @@
                                 <select class="custom-select @error('location') is-invalid @enderror" name="location">
                                     <option value="" selected> -- Please select -- </option>
                                     @foreach(get_locations() as $location)
-                                    <option value="{{$location['id']}}" @if(old('location') == $location['id']) selected @endif> {{ $location['name'] }} </option>
-                                    @endforeach 
+                                    <option value="{{$location['id']}}" @if(old('location')==$location['id']) selected @endif> {{ $location['name'] }} </option>
+                                    @endforeach
                                 </select>
 
                                 @error('location')
@@ -76,7 +76,7 @@
 
 
                         <div class="form-group row">
-                            <label for="budget" class="col-md-4 col-form-label text-md-right">Estimated Budget <span class="text-danger">*</span><br/><small class="text-info">(per subject)</small></label>
+                            <label for="budget" class="col-md-4 col-form-label text-md-right">Estimated Budget <span class="text-danger">*</span><br /><small class="text-info">(per subject)</small></label>
                             <div class="col-md-6">
                                 <div class="input-group">
                                     <div class="input-group-prepend">
@@ -181,8 +181,8 @@
                                 <select class="custom-select @error('class') is-invalid @enderror" name="class">
                                     <option value=""> -- Please select -- </option>
                                     @foreach(years_of_study() as $key => $year)
-                                    <option value="{{$key}}" @if(old('class') == $key) selected @endif> {{ $year }} </option>
-                                    @endforeach 
+                                    <option value="{{$key}}" @if(old('class')==$key) selected @endif> {{ $year }} </option>
+                                    @endforeach
                                 </select>
 
                                 @error('class')
