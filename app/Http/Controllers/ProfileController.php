@@ -22,45 +22,35 @@ class ProfileController extends Controller
         $user = Auth::user();
 
         $type = $user->type;
-        $completed_profile = $user->completed_at;
+        $completed_profile = $user->profile_completed_at;
         
         if($type == 1) {
             // Admin
             return view('profiles.admin', ['user' => $user]);
         } elseif($type == 2) {
             // Tutor 
-            $tutor = Tutor::find($user->id);
-
-
-
-
-            
-
-                $tutor = Tutor::find($user->id);
-
+            $tutor = Tutor::where('user_id', $user->id)->first();
                 if($tutor) {
-
                     if ($completed_profile != '') {
-                        return view('profiles.tutor', ['user' => $user]);
+                        return view('profiles.tutor', ['user' => $user, 'tutor' => $tutor]);
                     } else {
                         return view('tutors.edit', ['user' => $user]);
                     }
                 } else {
-                    
-                    
-                
                     return view('tutors.create', ['user' => $user]);
-
-
-                
             }
-            
         } elseif($type == 3) {
             // Student Guardian 
-            if($completed_profile == '') {
-                return view('students.create', ['user' => $user]);
+            $student = student::where('user_id', $user->id)->first();
+                if($student) {
+                    if ($completed_profile != '') {
+                        return view('profiles.student', ['user' => $user, 'student' => $student]);
+                    } else {
+                        return view('students.edit', ['user' => $user]);
+                    }
+                } else {
+                    return view('students.create', ['user' => $user]);
             }
-            return view('profiles.student', ['user' => $user]);
         }
     }
 

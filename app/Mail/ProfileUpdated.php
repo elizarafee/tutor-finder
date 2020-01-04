@@ -2,12 +2,14 @@
 
 namespace App\Mail;
 
+use App\User;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
-class OrderShipped extends Mailable
+
+class ProfileUpdated extends Mailable
 {
     use Queueable, SerializesModels;
 
@@ -16,9 +18,9 @@ class OrderShipped extends Mailable
      *
      * @return void
      */
-    public function __construct()
+    public function __construct(User $user)
     {
-        //
+        $this->user = $user;
     }
 
     /**
@@ -28,6 +30,12 @@ class OrderShipped extends Mailable
      */
     public function build()
     {
-        return $this->markdown('emails.profiles.completed');
+        return $this->subject('Tutor Finder - Profile Updated')
+            ->markdown('emails.profiles.updated')
+            ->with(
+                [
+                    'first_name' => $this->user->first_name,
+                ]
+            );
     }
 }

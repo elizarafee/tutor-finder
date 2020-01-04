@@ -4,14 +4,14 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Tutor extends Model
+class TutorQualification extends Model
 {
     /**
      * The table associated with the model.
      *
      * @var string
      */
-    protected $table = 'tutors';
+    protected $table = 'tutor_qualifications';
 
     /**
      * The attributes that aren't mass assignable.

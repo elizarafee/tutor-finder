@@ -124,6 +124,7 @@
         </nav>
 
         <main class="py-4" style="min-height: 450px;">
+            @include('alerts')
             @yield('content')
         </main>
 

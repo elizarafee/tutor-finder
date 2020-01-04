@@ -8,7 +8,7 @@
 
                 <form method="POST" action="{{ url('/tutors') }}" enctype="multipart/form-data">
                     @csrf
-      
+
                     <div class="card-header">
                         <h5 class="card-title text-center">Tutor Profile</h5>
                         <h6 class="card-subtitle mb-2 text-muted text-center">Please complete your profile</h6>
@@ -44,8 +44,8 @@
                             <div class="col-md-6">
                                 <select class="custom-select @error('gender') is-invalid @enderror" name="gender">
                                     <option value=""> -- Please select -- </option>
-                                    <option value="Male" @if(old('gender') == 'Male') selected @endif> Male </option>
-                                    <option value="Female" @if(old('gender') == 'Female') selected @endif> Female </option>
+                                    <option value="Male" @if(old('gender')=='Male' ) selected @endif> Male </option>
+                                    <option value="Female" @if(old('gender')=='Female' ) selected @endif> Female </option>
                                 </select>
 
                                 @error('gender')
@@ -56,7 +56,21 @@
                             </div>
                         </div>
 
-                        
+                        <div class="form-group row">
+                            <label for="year_of_birth" class="col-md-4 col-form-label text-md-right">Year of Birth <span class="text-danger">*</span></label>
+
+                            <div class="col-md-6">
+                                <input id="year_of_birth" type="text" class="form-control @error('year_of_birth') is-invalid @enderror" name="year_of_birth" value="{{ old('year_of_birth') }}">
+
+                                @error('year_of_birth')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                                @enderror
+                            </div>
+                        </div>
+
+
                         <div class="form-group row">
 
                             <label for="picture" class="col-md-4 col-form-label text-md-right">Profile Picture</label>
@@ -78,7 +92,7 @@
                             <div class="col-md-6">
                                 <input type="file" name="proof_of_id" class="btn btn-sm btn-outline-secondary @error('proof_of_id') is-invalid @enderror">
                                 <small class="form-text text-danger"><span class="text-info">i.e. NID card, Passport, Driving Licence, Student ID card.</span> Your profile will not be approved without a valid Proof of identification.</small>
-                                
+
                                 @error('proof_of_id')
                                 <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>
@@ -87,7 +101,7 @@
                             </div>
                         </div>
 
-                        
+
 
                         <div class="form-group row">
                             <label for="subjects" class="col-md-4 col-form-label text-md-right">Subjects <span class="text-danger">*</span></label>
@@ -134,6 +148,30 @@
                             </div>
                         </div>
 
+                        <div class="form-group row">
+                            <label for="salary" class="col-md-4 col-form-label text-md-right">Expected Salary <span class="text-danger">*</span><br/><small class="text-info">(per subject)</small></label>
+                            <div class="col-md-6">
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text" id="inputsalaryPrepend">&#2547;</span>
+                                    </div>
+                                    <input type="text" name="salary" class="form-control @error('salary') is-invalid @enderror" aria-describedby="inputsalaryPrepend" value="{{ old('salary') }}">
+                                    <small class="form-text text-info">This should be your minimum expected salary per month</small>
+
+                                    @error('salary')
+                                    <div class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </div>
+                                    @enderror
+                                </div>
+                            </div>
+                        </div>
+
+
+
+
+
+
                         <h5 class="card-title">Contacts</h5>
                         <h6 class="card-subtitle mb-2 text-muted">Please provide contact detials</h6>
                         <hr class="mt-0" />
@@ -146,22 +184,25 @@
                         <div class="form-group row">
                             <label for="mobile" class="col-md-4 col-form-label text-md-right">Mobile <span class="text-danger">*</span></label>
                             <div class="col-md-6">
-                                <div class="input-group flex-nowrap">
+                                <div class="input-group">
                                     <div class="input-group-prepend">
-                                        <span class="input-group-text" id="addon-wrapping">+880</span>
+                                        <span class="input-group-text" id="inputMobilePrepend">+880</span>
                                     </div>
-                                    <input type="text" name="mobile" class="form-control" placeholder="Mobile" aria-label="Mobile" aria-describedby="addon-wrapping">
-                                    
+                                    <input type="text" name="mobile" class="form-control @error('mobile') is-invalid @enderror" aria-describedby="inputMobilePrepend" value="{{ old('mobile') }}">
+
                                     @error('mobile')
-                                    <span class="invalid-feedback" role="alert">
+                                    <div class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
-                                    </span>
+                                    </div>
                                     @enderror
                                 </div>
 
                                 <small class="form-text text-info">Please provide the mobile no. you want receive calls from guardians</small>
+
                             </div>
                         </div>
+
+
 
 
                         <h5 class="card-title">Qualification</h5>
@@ -174,14 +215,14 @@
                             <div class="col-md-6">
                                 <select class="custom-select @error('level') is-invalid @enderror" name="level">
                                     <option value=""> -- Please select -- </option>
-                                    <option value="8" @if(old('level') == 8) selected @endif> Ph.D. </option>
-                                    <option value="7" @if(old('level') == 7) selected @endif> Masters </option>
-                                    <option value="6" @if(old('level') == 6) selected @endif> Bachelor </option>
-                                    <option value="5" @if(old('level') == 5) selected @endif> Diploma </option>
-                                    <option value="4" @if(old('level') == 4) selected @endif> HSC </option>
-                                    <option value="3" @if(old('level') == 3) selected @endif> SSC </option>
-                                    <option value="2" @if(old('level') == 2) selected @endif> School Student </option>
-                                    <option value="1" @if(old('level') == 1) selected @endif> Other Training </option>
+                                    <option value="8" @if(old('level')==8) selected @endif> Ph.D. </option>
+                                    <option value="7" @if(old('level')==7) selected @endif> Masters </option>
+                                    <option value="6" @if(old('level')==6) selected @endif> Bachelor </option>
+                                    <option value="5" @if(old('level')==5) selected @endif> Diploma </option>
+                                    <option value="4" @if(old('level')==4) selected @endif> HSC </option>
+                                    <option value="3" @if(old('level')==3) selected @endif> SSC </option>
+                                    <option value="2" @if(old('level')==2) selected @endif> School Student </option>
+                                    <option value="1" @if(old('level')==1) selected @endif> Other Training </option>
                                 </select>
 
                                 @error('level')
@@ -226,8 +267,8 @@
                             <div class="col-md-6">
                                 <select class="custom-select @error('status') is-invalid @enderror" name="status">
                                     <option value=""> -- Please select -- </option>
-                                    <option value="Studying" @if(old('status') == 'Studying') selected @endif> Studying </option>
-                                    <option value="Completed" @if(old('status') == 'Completed') selected @endif> Completed </option>
+                                    <option value="Studying" @if(old('status')=='Studying' ) selected @endif> Studying </option>
+                                    <option value="Completed" @if(old('status')=='Completed' ) selected @endif> Completed </option>
                                 </select>
 
                                 @error('status')
@@ -243,7 +284,7 @@
                             <div class="col-md-6">
                                 <input type="file" name="proof_of_doc" class="btn btn-sm btn-outline-secondary @error('proof_of_doc') is-invalid @enderror">
                                 <small class="form-text text-danger"><span class="text-info">i.e. Certificate, Registration card, Student photo card.</span> Your profile will not be approved without a valid Proof of document.</small>
-                                
+
                                 @error('proof_of_doc')
                                 <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>
@@ -254,11 +295,10 @@
 
                         <div class="form-group row">
                             <label for="note" class="col-md-4 col-form-label text-md-right">Note</label>
-
                             <div class="col-md-6">
                                 <textarea id="note" class="form-control @error('note') is-invalid @enderror" name="note">{{ old('note') }}</textarea>
                                 <small class="form-text text-info">Other information you want add about this qualification</small>
-                                
+
                                 @error('note')
                                 <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>
@@ -266,9 +306,6 @@
                                 @enderror
                             </div>
                         </div>
-
-                        
-
                     </div>
 
                     <div class="card-footer text-center">

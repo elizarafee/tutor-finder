@@ -15,7 +15,7 @@
                         <div class="col-sm-6 col-md-3 text-center text-info">
                             <!-- <i class="far fa-id-badge fa-9x"></i> -->
                             <a href="{{url('/tutors/'.$tutor->id)}}">
-                                <img src="{{url($tutor->picture)}}" class="w-100 img-thumbnail" alt="...">
+                                <img src="{{ asset('storage/'.$tutor->picture) }}" class="w-100 img-thumbnail" alt="...">
                             </a>
                         </div>
                         <div class="col-sm-6 col-md-9">
