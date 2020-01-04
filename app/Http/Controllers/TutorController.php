@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Auth;
 
 use App\Http\Requests\StoreTutorRequest;
 
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\ProfileUpdated;
 use App\Mail\ReviewProfile;

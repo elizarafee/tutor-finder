@@ -19,7 +19,7 @@ class CreateStudentsTable extends Migration
             $table->string('bio');
             $table->string('doy', 4);
             $table->string('gender', 10);
-            $table->string('year', 50);
+            $table->integer('class');
             $table->string('institute');
             $table->string('location');
             $table->text('subjects');
