@@ -4,6 +4,16 @@ function dev_name() {
         echo "Eliza Ahmed";
     }
 
+    function has_connection($request_to) {
+
+        $connection = \App\Connection::where('request_to', $request_to)
+        ->where('requested_by', Auth::user()->id)
+        ->first();
+
+        return $connection;
+
+    }
+
 
     function levels_of_study($level  = false) {
         $levels = [

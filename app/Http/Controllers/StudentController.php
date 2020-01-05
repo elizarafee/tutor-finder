@@ -29,7 +29,8 @@ class StudentController extends Controller
     {
         $data = array(
             'students.id as id',
-            'users.picture as user_picture', 
+            'users.id as user_id',
+            'users.picture as picture', 
             'users.approved_at',
             'students.location', 
             'students.budget', 
@@ -42,7 +43,7 @@ class StudentController extends Controller
        );
 
         $students = Student::join('users', 'users.id', 'students.user_id')
-        ->select(['students.id as id', 'users.*', 'students.*'])
+        ->select($data)
         ->whereNotNull('users.approved_at')
         ->where('users.type', 3)
         ->orderBy('users.approved_at', 'desc')
@@ -90,9 +91,9 @@ class StudentController extends Controller
 
             $picture = null;
             if($request->has('picture')) {
-                $picture = $request->file('picture')->store('docs/'.$user->id.'/profiles', 'public');
+                $picture = $request->file('picture')->store('storage/docs/'.$user->id.'/profiles', 'public');
             } 
-            $proof_of_id = $request->file('proof_of_id')->store('docs/'.$user->id.'/proof_of_ids', 'public');
+            $proof_of_id = $request->file('proof_of_id')->store('storage/docs/'.$user->id.'/proof_of_ids', 'public');
 
             $user_data = array(
                 'picture' => $picture,
@@ -111,7 +112,7 @@ class StudentController extends Controller
 
         } catch(\Exception $e) {
             DB::rollBack();
-            Storage::deleteDirectory('docs/'.$user->id);
+            Storage::deleteDirectory('storage/docs/'.$user->id);
             return redirect('/profile')->with('error', 'Failed to update profile. Please try again.('.$e->getMessage().')');
         }
 
