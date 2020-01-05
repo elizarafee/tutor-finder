@@ -15,7 +15,7 @@
             <div class="card">
                 <div class="card-header">
                     <h5 class="card-title">{{$user->first_name}} {{$user->last_name}}</h5>
-                    <h6 class="card-subtitle mb-2 text-muted">We assume you looking for tutor</h6>
+                    <h6 class="card-subtitle mb-2 text-muted">Student Guardian / Student</h6>
                 </div>
 
                 <div class="card-body">
@@ -27,7 +27,7 @@
                         <div class="col-sm-6 col-md-8">
 
                             <ul class="list-unstyled float-left">
-                                <li><span class="text-muted">Location: </span>{{ get_locations($student->location) }}</li>
+                                <li><span class="text-muted">Location: </span>{{ $student->location }}</li>
                                 <li><span class="text-muted">Budget: </span>&#2547;{{ $student->budget }}</li>
 
                                 <li class="mt-4 mb-2">

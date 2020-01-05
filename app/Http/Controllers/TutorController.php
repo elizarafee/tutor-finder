@@ -27,7 +27,10 @@ class TutorController extends Controller
      */
     public function index()
     {
-        $tutors = Tutor::join('users', 'users.id', 'tutors.user_id')->select(['tutors.id as id', 'users.*', 'tutors.*'])->paginate(10);
+        $tutors = Tutor::join('users', 'users.id', 'tutors.user_id')
+        ->select(['tutors.id as id', 'users.*', 'tutors.*'])
+        ->paginate(10);
+        
         return view('tutors.index', ['tutors' => $tutors]);
     }
 

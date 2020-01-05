@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 
 use App\User;
 use App\Tutor;
+use App\TutorQualification;
 use App\Student;
 
 use Illuminate\Support\Facades\Auth;
@@ -36,8 +37,9 @@ class ProfileController extends Controller
             // Tutor 
             $tutor = Tutor::where('user_id', $user->id)->first();
                 if($tutor) {
+                    $qualification = TutorQualification::where('tutor_id', $tutor->id)->first();
                     if ($completed_profile != '') {
-                        return view('profiles.tutor', ['user' => $user, 'tutor' => $tutor]);
+                        return view('profiles.tutor', ['user' => $user, 'tutor' => $tutor, 'qualification' => $qualification]);
                     } else {
                         return view('tutors.edit', ['user' => $user]);
                     }

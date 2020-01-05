@@ -5,6 +5,25 @@ function dev_name() {
     }
 
 
+    function levels_of_study($level  = false) {
+        $levels = [
+            1 => 'School Student',
+            2 => 'SSC',
+            3 => 'HSC',
+            4 => 'Other Training',
+            5 => 'Diploma',
+            6 => 'Bachelor',
+            7 => 'Master',
+            8 => 'Ph.D.',
+        ];
+
+        if($level) {
+            return (isset($levels[$level]))? $levels[$level] : 'Not found';
+        }
+
+        return $levels;
+    }
+
     function years_of_study($class_id = false) {
         $classes = [
             1 => 'Play Group',
@@ -30,7 +49,7 @@ function dev_name() {
     }
 
 
-    function get_locations($location_id = false) {
+    function locations($location_id = false) {
         if($location_id) {
             $location = \App\Area::find($location_id);
             return ($location)? $location->name : 'Not found';

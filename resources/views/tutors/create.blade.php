@@ -215,14 +215,9 @@
                             <div class="col-md-6">
                                 <select class="custom-select @error('level') is-invalid @enderror" name="level">
                                     <option value=""> -- Please select -- </option>
-                                    <option value="8" @if(old('level')==8) selected @endif> Ph.D. </option>
-                                    <option value="7" @if(old('level')==7) selected @endif> Masters </option>
-                                    <option value="6" @if(old('level')==6) selected @endif> Bachelor </option>
-                                    <option value="5" @if(old('level')==5) selected @endif> Diploma </option>
-                                    <option value="4" @if(old('level')==4) selected @endif> HSC </option>
-                                    <option value="3" @if(old('level')==3) selected @endif> SSC </option>
-                                    <option value="2" @if(old('level')==2) selected @endif> School Student </option>
-                                    <option value="1" @if(old('level')==1) selected @endif> Other Training </option>
+                                    @foreach(levels_of_study() as $key => $level)
+                                    <option value="{{ $key }}" @if(old('level') == $key) selected @endif> {{ $level }} </option>
+                                    @endforeach 
                                 </select>
 
                                 @error('level')

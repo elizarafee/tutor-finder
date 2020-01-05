@@ -7,7 +7,7 @@
     <div class="col-md-8">
       <div class="card">
 
-        <div class="card-header">
+        <div class="card-header text-center">
           <h5 class="card-title">{{$student->user_first_name}} {{$student->user_last_name}}</h5>
           <h6 class="card-subtitle mb-2 text-muted">We assume you looking for tutor</h6>
         </div>
@@ -19,7 +19,7 @@
             </div>
             <div class="col-sm-6 col-md-9">
               <ul class="list-unstyled float-left">
-                <li><span class="text-muted">Location: </span>{{ get_locations($student->location) }}</li>
+                <li><span class="text-muted">Location: </span>{{ $student->location }}</li>
                 <li><span class="text-muted">Budget: </span>&#2547;{{ $student->budget }}</li>
                 <li class="mt-4 mb-2">
                   <h6 class="text-muted">Proof of Identification</h6>
@@ -50,7 +50,7 @@
           </div>
         </div>
 
-        <div class="card-footer text-center">
+        <div class="card-footer text-center pt-4 pb-4">
 
           @if(auth()->user()->type == 1)
 

@@ -19,7 +19,7 @@ class CreateTutorsTable extends Migration
             $table->string('bio');
             $table->string('doy', 4);
             $table->string('gender', 10);
-            $table->text('covered_area');
+            $table->text('locations');
             $table->text('covered_subjects');
             $table->text('covered_years');
             $table->decimal('salary', 8, 2)->default(0.00);
