@@ -38,12 +38,12 @@ class UsersTableSeeder extends Seeder
                 'type' => $type,
                 'first_name' => $faker->firstName,
                 'last_name' => $faker->lastName,
-                'picture' => $faker->imageUrl($width = 200, $height = 200),
-                'proof_of_id' => $faker->imageUrl($width = 640, $height = 480),
+                'picture' => null,
+                'proof_of_id' => null,
                 'email' => (in_array($i, [25,75]))? $email : $faker->safeEmail,
                 'email_verified_at' => date('Y-m-d H:i:s'),
                 'mobile' => '01711' . $faker->numberBetween(100000, 999999),
-                'password' => Hash::make('123'),
+                'password' => Hash::make('111'),
                 'completed_at' => $completed_at,
                 'approved_at' => in_array($i, $varified_profiles)? date('Y-m-d H:i:s') : null,
                 'approved_by' => 1
@@ -70,7 +70,7 @@ class UsersTableSeeder extends Seeder
                     'subject' => $faker->text(20),
                     'institute' => $faker->company,
                     'status' => $status[rand(0, 1)],
-                    'proof_of_doc' => $faker->imageUrl($width = 640, $height = 480),
+                    'proof_of_doc' => null,
                     'note' => $faker->realText(rand(100, 200)),
                 ]);
 

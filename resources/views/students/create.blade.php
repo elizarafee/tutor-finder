@@ -61,8 +61,8 @@
                             <div class="col-md-6">
                                 <select class="custom-select @error('location') is-invalid @enderror" name="location">
                                     <option value="" selected> -- Please select -- </option>
-                                    @foreach(get_locations() as $location)
-                                    <option value="{{$location['id']}}" @if(old('location')==$location['id']) selected @endif> {{ $location['name'] }} </option>
+                                    @foreach(locations() as $location)
+                                    <option value="{{$location['name']}}" @if(old('location') == $location['name']) selected @endif> {{ $location['name'] }} </option>
                                     @endforeach
                                 </select>
 

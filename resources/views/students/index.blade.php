@@ -13,10 +13,13 @@
         <div class="card-body">
           <div class="row">
             <div class="col-sm-6 col-md-3 text-center text-info">
-              <!-- <i class="far fa-id-badge fa-9x"></i> -->
+              @if($student->picture == '')
+              <i class="far fa-id-badge fa-9x text-light"></i>
+              @else
               <a href="{{url('/students/'.$student->id)}}">
-                <img src="{{ asset('storage/'.$student->picture) }}" class="w-100 img-thumbnail" alt="...">
+              <img src="{{ asset('storage/'.$user->picture) }}" class="img-thumbnail" alt="Profile Picture">
               </a>
+              @endif
             </div>
             <div class="col-sm-6 col-md-9">
 

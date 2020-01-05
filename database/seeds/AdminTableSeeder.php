@@ -18,7 +18,7 @@ class AdminTableSeeder extends Seeder
                 'first_name' => 'Eliza',
                 'last_name' => 'Ahmed',
                 'email' => 'elizarafee@gmail.com',
-                'password' => Hash::make('password'),
+                'password' => Hash::make('111'),
                 'email_verified_at' => date('Y-m-d H:i:s'),
             ],
             [
@@ -26,7 +26,7 @@ class AdminTableSeeder extends Seeder
                 'first_name' => 'Hasan',
                 'last_name' => 'Tareque',
                 'email' => 'hmtareque@gmail.com',
-                'password' => Hash::make('password'),
+                'password' => Hash::make('111'),
                 'email_verified_at' => date('Y-m-d H:i:s'),
             ]
         );
