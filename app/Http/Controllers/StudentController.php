@@ -27,7 +27,27 @@ class StudentController extends Controller
      */
     public function index()
     {
-        //
+        $data = array(
+            'students.id as id',
+            'users.picture as user_picture', 
+            'users.approved_at',
+            'students.location', 
+            'students.budget', 
+            'students.bio', 
+            'students.doy', 
+            'students.gender', 
+            'students.class', 
+            'students.institute', 
+            'students.subjects', 
+       );
+
+        $students = Student::join('users', 'users.id', 'students.user_id')
+        ->select(['students.id as id', 'users.*', 'students.*'])
+        ->whereNotNull('users.approved_at')
+        ->where('users.type', 3)
+        ->orderBy('users.approved_at', 'desc')
+        ->paginate(10);
+        return view('students.index', ['students' => $students]);
     }
 
     /**
@@ -70,9 +90,9 @@ class StudentController extends Controller
 
             $picture = null;
             if($request->has('picture')) {
-                $picture = $request->file('picture')->store('public/docs/'.$user->id.'/profiles');
+                $picture = $request->file('picture')->store('docs/'.$user->id.'/profiles', 'public');
             } 
-            $proof_of_id = $request->file('proof_of_id')->store('public/docs/'.$user->id.'/proof_of_ids');
+            $proof_of_id = $request->file('proof_of_id')->store('docs/'.$user->id.'/proof_of_ids', 'public');
 
             $user_data = array(
                 'picture' => $picture,
@@ -105,9 +125,35 @@ class StudentController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($student_id)
     {
-        //
+        $data = array(
+             'users.id as user_id', 
+             'users.first_name as user_first_name', 
+             'users.last_name as user_last_name', 
+             'users.email as user_email', 
+             'users.mobile as user_mobile', 
+             'users.picture as user_picture', 
+             'users.proof_of_id as user_proof_of_id', 
+             'users.approved_at',
+             'users.type as user_type',
+             'students.id as id', 
+             'students.location', 
+             'students.budget', 
+             'students.bio', 
+             'students.doy', 
+             'students.gender', 
+             'students.class', 
+             'students.institute', 
+             'students.subjects', 
+             'students.requirements', 
+        );
+
+        $student = Student::join('users', 'users.id', 'students.user_id')
+        ->where('students.id', $student_id)
+        ->first($data);
+
+        return view('students.show', ['student' => $student]);
     }
 
     /**

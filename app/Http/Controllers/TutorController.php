@@ -82,14 +82,14 @@ class TutorController extends Controller
 
             $tutor_qualification = TutorQualification::create($tutor_qualification_data);
 
-            $proof_of_doc = $request->file('proof_of_doc')->store('public/docs/'.$user->id.'/qualifications/'.$tutor_qualification->id);
+            $proof_of_doc = $request->file('proof_of_doc')->store('docs/'.$user->id.'/qualifications/'.$tutor_qualification->id, 'public');
             TutorQualification::where('id', $tutor_qualification->id)->update(['proof_of_doc' => $proof_of_doc]);
 
             $picture = null;
             if($request->has('picture')) {
-                $picture = $request->file('picture')->store('public/docs/'.$user->id.'/profiles');
+                $picture = $request->file('picture')->store('docs/'.$user->id.'/profiles', 'public');
             } 
-            $proof_of_id = $request->file('proof_of_id')->store('public/docs/'.$user->id.'/proof_of_ids');
+            $proof_of_id = $request->file('proof_of_id')->store('docs/'.$user->id.'/proof_of_ids', 'public');
 
             $user_data = array(
                 'picture' => $picture,

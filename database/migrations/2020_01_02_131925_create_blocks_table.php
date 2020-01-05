@@ -18,7 +18,6 @@ class CreateBlocksTable extends Migration
             $table->integer('blocked');
             $table->integer('blocked_by');
             $table->timestamp('blocked_at')->nullable();
-            $table->timestamp('unblocked_at')->nullable();
             $table->timestamps();
         });
     }

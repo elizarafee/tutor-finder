@@ -22,7 +22,7 @@ class ProfileController extends Controller
         $user = Auth::user();
 
         $type = $user->type;
-        $completed_profile = $user->profile_completed_at;
+        $completed_profile = $user->completed_at;
         
         if($type == 1) {
             // Admin
@@ -54,37 +54,6 @@ class ProfileController extends Controller
         }
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
 
     /**
      * Show the form for editing the specified resource.

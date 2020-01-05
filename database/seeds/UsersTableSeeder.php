@@ -20,6 +20,8 @@ class UsersTableSeeder extends Seeder
 
             $type = rand(2, 3);
 
+            $varified_profiles = [6,8,9,11,17,18,23,25,31,37,41,47,49,53,55,57,61,68,69,72,75,79,80,81,88,71,96,91,92,97];
+
             $user_id = DB::table('users')->insertGetId([
                 'type' => $type,
                 'first_name' => $faker->firstName,
@@ -27,8 +29,11 @@ class UsersTableSeeder extends Seeder
                 'picture' => $faker->imageUrl($width = 200, $height = 200),
                 'proof_of_id' => $faker->imageUrl($width = 640, $height = 480),
                 'email' => $faker->safeEmail,
+                'email_verified_at' => date('Y-m-d H:i:s'),
                 'mobile' => '01711' . $faker->numberBetween(100000, 999999),
-                'password' => Hash::make('password')
+                'password' => Hash::make('password'),
+                'approved_at' => in_array($i, $varified_profiles)? date('Y-m-d H:i:s') : null,
+                'approved_by' => 1
             ]);
 
 
@@ -40,8 +45,8 @@ class UsersTableSeeder extends Seeder
                     'bio' => $faker->realText(rand(150, 200)),
                     'gender' => $gender[rand(0, 1)],
                     'doy' => $faker->year('now'),
-                    'covered_area' => $faker->city . ',' . $faker->city . ',' . $faker->city,
-                    'covered_subjects' => $faker->realText(rand(150, 200)),
+                    'covered_area' => rand(1,200),
+                    'covered_subjects' => tution_subjects(rand(1,20)).', '.tution_subjects(rand(1,20)).', '.tution_subjects(rand(1,20)),
                     'covered_years' => $faker->realText(rand(150, 200)),
                     'salary' => $faker->numberBetween(1000, 5000),
                 ]);
@@ -67,8 +72,8 @@ class UsersTableSeeder extends Seeder
                     'doy' => $faker->year('now'),
                     'class' => rand(1, count($class)),
                     'institute' => $faker->company,
-                    'location' => $faker->city,
-                    'subjects' => $faker->realText(rand(150, 200)),
+                    'location' => rand(1,200),
+                    'subjects' => tution_subjects(rand(1,20)).', '.tution_subjects(rand(1,20)).', '.tution_subjects(rand(1,20)),
                     'requirements' => $faker->realText(rand(100, 200)),
                     'budget' => $faker->numberBetween(1000, 5000),
                 ]);
