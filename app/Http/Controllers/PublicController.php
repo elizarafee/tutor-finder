@@ -23,7 +23,7 @@ class PublicController extends Controller
      */
     public function about()
     {
-        return view('home');
+        return view('about');
     }
 
     /**
@@ -34,7 +34,7 @@ class PublicController extends Controller
      */
     public function termsOfUse()
     {
-        return view('home');
+        return view('terms-of-use');
     }
 
     /**
@@ -45,7 +45,7 @@ class PublicController extends Controller
      */
     public function contact()
     {
-        return view('home');
+        return view('contact');
     }
 
     /**
@@ -56,6 +56,8 @@ class PublicController extends Controller
      */
     public function sendContact(Request $request)
     {
-        return view('home');
+        echo "<pre>";
+        print_r($request->all());
+        echo "</pre>";
     }
 }
