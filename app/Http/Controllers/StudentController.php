@@ -98,7 +98,7 @@ class StudentController extends Controller
                 'picture' => $picture,
                 'proof_of_id' => $proof_of_id,
                 'mobile' => $request->get('mobile'),
-                'profile_completed_at' => date('Y-m-d H:i:s')
+                'completed_at' => date('Y-m-d H:i:s')
             );
 
             User::where('id', $user->id)->update($user_data);

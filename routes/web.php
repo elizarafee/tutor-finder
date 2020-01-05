@@ -14,10 +14,12 @@ use App\Mail\ProfileCompleted;
 |
 */
 
+Route::get('/profiles', 'ProfileController@index');
+
 Route::group(['middleware' => ['auth', 'verified']], function () {
 
 
-Route::get('/profile', 'ProfileController@index');
+Route::get('/profile', 'ProfileController@show');
 
 });
 

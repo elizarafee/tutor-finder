@@ -12,12 +12,17 @@ use Illuminate\Support\Facades\Auth;
 
 class ProfileController extends Controller
 {
+
+    public function index() 
+    {
+        return view('profiles.index');
+    }
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function show()
     {
         $user = Auth::user();
 

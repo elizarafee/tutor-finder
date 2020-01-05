@@ -104,7 +104,16 @@
                         </li>
 
                         <li class="nav-item mr-3">
-                            <a class="nav-link" href="{{ url('/requests') }}" title="Requests"><i class="fas fa-user-friends fa-2x float-left"></i><sup class="badge badge-success float-left">3</sup></a>
+
+                        @if(auth()->user()->type == 1)
+                        <a class="nav-link" href="{{ url('/profiles') }}" title="Requests"><i class="fas fa-bell fa-2x float-left"></i><sup class="badge badge-success float-left" title="Profiles pending approval">3</sup></a>
+                       
+                        @elseif(auth()->user()->type == 2 || auth()->user()->type == 3) 
+                        <a class="nav-link" href="{{ url('/connections') }}" title="Connections"><i class="fas fa-user-friends fa-2x float-left"></i><sup class="badge badge-success float-left" title="Pending connection requests">3</sup></a>
+                       
+                        @endif 
+
+
                         </li>
 
                         <li class="nav-item mt-2">

@@ -12,6 +12,6 @@ class ConnectionController extends Controller
     public function index() 
     {
         $connections = Connection::where('request_to', Auth::user()->id)->get();
-        return view('connecions.index', ['connections' => $connections]);
+        return view('connections.index', ['connections' => $connections]);
     }
 }

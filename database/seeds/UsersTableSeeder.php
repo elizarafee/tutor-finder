@@ -22,16 +22,29 @@ class UsersTableSeeder extends Seeder
 
             $varified_profiles = [6,8,9,11,17,18,23,25,31,37,41,47,49,53,55,57,61,68,69,72,75,79,80,81,88,71,96,91,92,97];
 
+            $completed_at = null;
+            if($i == 25) {
+                $type = 2;
+                $email = 'tutor@email.com';
+                $completed_at = date('Y-m-d H:i:s');
+            } elseif($i == 75) {
+                $type = 3;
+                $email = 'student@email.com';
+                $completed_at = date('Y-m-d H:i:s');
+            }
+            
+            
             $user_id = DB::table('users')->insertGetId([
                 'type' => $type,
                 'first_name' => $faker->firstName,
                 'last_name' => $faker->lastName,
                 'picture' => $faker->imageUrl($width = 200, $height = 200),
                 'proof_of_id' => $faker->imageUrl($width = 640, $height = 480),
-                'email' => $faker->safeEmail,
+                'email' => (in_array($i, [25,75]))? $email : $faker->safeEmail,
                 'email_verified_at' => date('Y-m-d H:i:s'),
                 'mobile' => '01711' . $faker->numberBetween(100000, 999999),
-                'password' => Hash::make('password'),
+                'password' => Hash::make('123'),
+                'completed_at' => $completed_at,
                 'approved_at' => in_array($i, $varified_profiles)? date('Y-m-d H:i:s') : null,
                 'approved_by' => 1
             ]);
