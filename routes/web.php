@@ -56,6 +56,6 @@ Route::put('/students', 'StudentController@update');
 Route::post('/students', 'StudentController@store');
 Route::get('/students', 'StudentController@index');
 
-//Route::put('/connections', 'ConnectionController@update');
-Route::post('/connections/{user_id}', 'ConnectionController@store');
+Route::delete('/connections/{request_to}', 'ConnectionController@cancel');
+Route::post('/connections/{request_to}', 'ConnectionController@connect');
 Route::get('/connections', 'ConnectionController@index');

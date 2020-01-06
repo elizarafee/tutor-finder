@@ -48,6 +48,7 @@ class StudentController extends Controller
         ->where('users.type', 3)
         ->orderBy('users.approved_at', 'desc')
         ->paginate(10);
+        
         return view('students.index', ['students' => $students]);
     }
 

@@ -28,7 +28,9 @@ class TutorController extends Controller
     public function index()
     {
         $tutors = Tutor::join('users', 'users.id', 'tutors.user_id')
-        ->select(['tutors.id as id', 'users.*', 'tutors.*'])
+        ->join('tutor_qualifications', 'tutors.id', 'tutor_qualifications.tutor_id')
+        ->select(['tutors.id as tutor_id', 'users.*', 'tutors.*', 'tutor_qualifications.*'])
+        ->whereNotNull('users.approved_at')
         ->paginate(10);
         
         return view('tutors.index', ['tutors' => $tutors]);
