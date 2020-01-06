@@ -37056,8 +37056,9 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 //     encrypted: true
 // });
 
-$(function () {});
-$('.toast').toast();
+$(function () {
+  $('.pagination').addClass('justify-content-center');
+});
 
 /***/ }),
 

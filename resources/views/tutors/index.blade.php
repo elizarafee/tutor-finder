@@ -1,5 +1,7 @@
 @extends('layouts.app')
 
+@section('page_title', 'Tutors')
+
 @section('content')
 <div class="container">
 
@@ -14,42 +16,31 @@
                 <?php $connection = has_connection($tutor->user_id); ?>
                     <div class="row">
                         <div class="col-sm-6 col-md-3 text-center text-info">
+                        <a href="{{url('/tutors/'.$tutor->id)}}" class="d-block mb-3">
                         @if($tutor->picture == '')
-              <i class="far fa-id-badge fa-9x text-light"></i>
+              <i class="far fa-id-badge fa-6x text-light"></i>
               @else
-              <a href="{{url('/tutors/'.$tutor->id)}}">
+              
                 <img src="{{ asset('storage/'.$user->picture) }}" class="img-thumbnail" alt="Profile Picture">
-              </a>
+              
               @endif
+              </a>
 
-              @if($connection && $connection->approved_at != "") <span class="badge badge-success mt-3">Connected</span> @endif
-            
 
-                        </div>
-                        <div class="col-sm-6 col-md-9">
-
-                            <ul class="list-unstyled float-left">
-                                <li><span class="text-muted">Bio: </span>{{$tutor->bio}}</li>
-                                <li><span class="text-muted">Subjects covered: </span>{{$tutor->covered_subjects}}</li>
-                                <li><span class="text-muted">Area covered: </span>{{$tutor->locations}}</li>
-                                <li><span class="text-muted">Min expected salary: </span>&#2547;{{$tutor->salary}} <small>(per subject per month)</small></li>
-                                <li><span class="text-muted">Qualification: </span>{{$tutor->status}} in {{$tutor->subject}} at {{$tutor->institute}}</span></li>
-
-                                @if(auth()->user()->type == 1)
-                <li class="mt-2">
+              @if(auth()->user()->type == 1)
+                
                   <a href="{{ url('/tutors/'.$tutor->id) }}" class="btn btn-sm btn-outline-success">View details</a>
-                </li>
+               
                 @elseif(auth()->user()->type == 3)
 
-                <li class="mt-2">
+                
 
                   @if($connection)
 
                   @if($connection->approved_at == "")
-                  <span class="badge badge-secondary">Request sent at {{date('j F Y g:iA', strtotime($connection->created_at))}}</span>
-                  <br />
+                  
                   <!-- connection request modal -->
-                  <button type="button" class="btn btn-sm btn-outline-danger mt-1" data-toggle="modal" data-target="#cancel-{{$tutor->id}}-request-modal">
+                  <button type="button" title="Sent at {{ date('j F Y g:iA', strtotime($connection->created_at)) }}" class="btn btn-sm btn-outline-danger" data-toggle="modal" data-target="#cancel-{{$tutor->id}}-request-modal">
                     Cancel request
                   </button>
 
@@ -114,8 +105,29 @@
 
                   @endif
 
-                </li>
+               
                 @endif
+
+             
+
+                        </div>
+                        <div class="col-sm-6 col-md-9">
+
+                            <ul class="list-unstyled float-left">
+                                <li><span class="text-muted">Bio <small>({{date('Y') - $tutor->doy}} year old {{$tutor->gender}})</small> : </span>{{substr($tutor->bio, 0, 120)}} @if(strlen($tutor->bio)>120) ... @endif</li>
+                                <li><span class="text-muted">Subjects covered: </span>{{$tutor->covered_subjects}}</li>
+                                <li><span class="text-muted">Area covered: </span>{{$tutor->locations}}</li>
+                                <li><span class="text-muted">Expected salary: </span>&#2547;{{$tutor->salary}} <small>(per subject per month)</small></li>
+                                <li><span class="text-muted">Qualification: </span>
+                                @if($tutor->status == 'Studying') 
+                                {{$tutor->status}} in {{$tutor->subject}} at {{$tutor->institute}}
+                                @elseif($tutor->status == 'Completed') 
+                                {{$tutor->status}} {{$tutor->subject}} from {{$tutor->institute}}
+                                @endif 
+                                
+                                </li>
+
+                                
                             </ul>
                         </div>
                     </div>

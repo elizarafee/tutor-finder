@@ -41,7 +41,10 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 // });
 
 $(function () {
+
+  $('.pagination').addClass('justify-content-center');
+
     
   });
 
-  $('.toast').toast();
+ 

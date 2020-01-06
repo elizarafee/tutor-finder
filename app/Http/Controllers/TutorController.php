@@ -127,9 +127,40 @@ class TutorController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($tutor_id)
     {
-        //
+        $data = array(
+            'users.id as user_id', 
+            'users.first_name as user_first_name', 
+            'users.last_name as user_last_name', 
+            'users.email as user_email', 
+            'users.mobile as user_mobile', 
+            'users.picture as user_picture', 
+            'users.proof_of_id as user_proof_of_id', 
+            'users.approved_at',
+            'users.type as user_type',
+            'tutors.id as id', 
+            'tutors.bio', 
+            'tutors.doy', 
+            'tutors.gender', 
+            'tutors.locations', 
+            'tutors.covered_subjects', 
+            'tutors.covered_years',
+            'tutors.salary',  
+            'tutor_qualifications.level',
+            'tutor_qualifications.subject', 
+            'tutor_qualifications.institute', 
+            'tutor_qualifications.status', 
+            'tutor_qualifications.proof_of_doc',
+            'tutor_qualifications.note',
+       );
+
+       $tutor = Tutor::join('users', 'users.id', 'tutors.user_id')
+       ->join('tutor_qualifications', 'tutors.id', 'tutor_qualifications.tutor_id')
+       ->where('tutors.id', $tutor_id)
+       ->first($data);
+
+       return view('tutors.show', ['tutor' => $tutor]);
     }
 
     /**

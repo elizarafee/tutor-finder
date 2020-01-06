@@ -38,6 +38,7 @@ class ConnectionController extends Controller
 
         $requests = false;
         $students = false;
+        $tutors = false;
         if($user->type == 2) {
             $data = array(
                 'students.id as id',
@@ -71,11 +72,41 @@ class ConnectionController extends Controller
 
         } elseif($user->type == 3) {
 
+            $data = array(
+                'students.id as id',
+                'users.id as user_id',
+                'users.picture as picture', 
+                'users.first_name',
+                'users.last_name',
+                'users.approved_at',
+                'students.location', 
+                'students.budget', 
+                'students.bio', 
+                'students.doy', 
+                'students.gender', 
+                'students.class', 
+                'students.institute', 
+                'students.subjects', 
+           );
+
+           $tutors = Student::join('users', 'users.id', 'students.user_id')
+           ->whereIn('users.id', $connections)
+            ->whereNotNull('users.approved_at')
+            ->where('users.type', 3)
+            ->orderBy('users.approved_at', 'desc')
+            ->get($data);
+
+            $requests = Connection::join('users', 'users.id', 'connections.request_to')
+            ->join('students', 'users.id', 'students.user_id')
+            ->whereNull('connections.approved_at')
+            ->where('connections.request_to', $user->id)
+            ->get(['students.id as student_id', 'users.first_name', 'users.last_name']);
+
         }
 
         
 
-        return view('connections.index', ['requests' => $requests, 'students' => $students]);
+        return view('connections.index', ['requests' => $requests, 'tutors' => $tutors, 'students' => $students]);
     }
 
     public function connect($request_to)

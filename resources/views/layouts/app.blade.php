@@ -12,7 +12,8 @@
 
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}" defer></script>
-    <!-- Scripts -->
+    
+    <!-- Fontawesome Scripts -->
     <script src="{{ asset('js/all.js') }}" defer></script>
 
     <!-- Fonts -->
@@ -28,9 +29,11 @@
         <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
             <div class="container pt-2 pb-2">
                 <a class="navbar-brand" href="{{ url('/') }}">
-                    {{ config('app.name', 'Tutor Finder') }} 
+                    {{ config('app.name', 'Tutor Finder') }}
                 </a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
+                <button class="navbar-toggler" type="button" data-toggle="collapse"
+                    data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+                    aria-label="{{ __('Toggle navigation') }}">
                     <span class="navbar-toggler-icon"></span>
                 </button>
 
@@ -45,7 +48,7 @@
                             <a class="nav-link" href="{{ url('/contact') }}">Contact</a>
                         </li>
                         @else
-                        
+
 
                         <?php $user_type = auth()->user()->type; ?>
 
@@ -53,31 +56,31 @@
 
                         @if($user_type == 1)
 
-                            <li class="nav-item">
-                                <a class="nav-link" href="{{ url('/about') }}">About</a>
-                            </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ url('/about') }}">About</a>
+                        </li>
 
-                            <li class="nav-item">
-                                <a class="nav-link" href="{{ url('/tutors') }}">Tutors</a>
-                            </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ url('/tutors') }}">Tutors</a>
+                        </li>
 
 
-                            <li class="nav-item">
-                                <a class="nav-link" href="{{ url('/students') }}">Students</a>
-                            </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ url('/students') }}">Students</a>
+                        </li>
 
                         @elseif($user_type == 2)
-                            <li class="nav-item">
-                                <a class="nav-link" href="{{ url('/students') }}">Students</a>
-                            </li>
-                            <li class="nav-item">
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ url('/students') }}">Students</a>
+                        </li>
+                        <li class="nav-item">
                             <a class="nav-link" href="{{ url('/contact') }}">Contact</a>
                         </li>
                         @elseif(in_array($user_type, [1,3]))
-                            <li class="nav-item">
-                                <a class="nav-link" href="{{ url('/tutors') }}">Tutors</a>
-                            </li>
-                            <li class="nav-item">
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ url('/tutors') }}">Tutors</a>
+                        </li>
+                        <li class="nav-item">
                             <a class="nav-link" href="{{ url('/contact') }}">Contact</a>
                         </li>
                         @endif
@@ -100,18 +103,24 @@
                         @else
 
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ url('/profile') }}">{{Auth::user()->first_name}} {{Auth::user()->last_name}}</a>
+                            <a class="nav-link" href="{{ url('/profile') }}">{{Auth::user()->first_name}}
+                                {{Auth::user()->last_name}}</a>
                         </li>
 
                         <li class="nav-item mr-3">
 
-                        @if(auth()->user()->type == 1)
-                        <a class="nav-link" href="{{ url('/profiles') }}" title="Requests"><i class="fas fa-bell fa-2x float-left"></i><sup class="badge badge-success float-left" title="Profiles pending approval">3</sup></a>
-                       
-                        @elseif(auth()->user()->type == 2 || auth()->user()->type == 3) 
-                        <a class="nav-link" href="{{ url('/connections') }}" title="Connections"><i class="fas fa-user-friends fa-2x float-left"></i><sup class="badge badge-success float-left" title="Pending connection requests">3</sup></a>
-                       
-                        @endif 
+                            @if(auth()->user()->type == 1)
+                            <a class="nav-link" href="{{ url('/profiles') }}" title="Requests"><i
+                                    class="fas fa-bell fa-2x float-left"></i><sup class="badge badge-success float-left"
+                                    title="Profiles pending approval">3</sup></a>
+
+                            @elseif(auth()->user()->type == 2 || auth()->user()->type == 3)
+                            <a class="nav-link" href="{{ url('/connections') }}" title="Connections"><i
+                                    class="fas fa-user-friends fa-2x float-left"></i><sup
+                                    class="badge badge-success float-left"
+                                    title="Pending connection requests">3</sup></a>
+
+                            @endif
 
 
                         </li>
@@ -132,7 +141,13 @@
             </div>
         </nav>
 
-        <main class="py-4" style="min-height: 450px;">
+        <main class="container py-4" style="min-height: 450px; width: 100%;">
+        
+
+                <div class="row mb-3 justify-content-center">
+                    <div class="col-md-8"><h3 class="text-center pb-2 border-bottom">@yield('page_title')</h3></div>
+                </div>
+
             @include('alerts')
             @yield('content')
         </main>

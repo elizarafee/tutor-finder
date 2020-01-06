@@ -61,6 +61,17 @@
                 @if($student->requirements != '')
                 <li><span class="text-muted">Any other requirements: </span> {{ $student->requirements }}</li>
                 @endif
+
+                <li class="mt-4 mb-2">
+                  <h6 class="text-muted">Contact Details</h6>
+                  <hr class="mt-0" />
+                </li>
+                <li><span class="text-muted">Email Address: </span>{{ $user->email }}</li>
+                
+                @if($user->mobile != "") 
+                <li><span class="text-muted">Mobile: </span> +880{{ $user->mobile }}</li>
+                @endif
+
               </ul>
             </div>
           </div>

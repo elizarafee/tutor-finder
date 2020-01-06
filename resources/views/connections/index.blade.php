@@ -1,5 +1,7 @@
 @extends('layouts.app')
 
+@section('page_title', 'Connections')
+
 @section('content')
 <div class="container">
     <div class="row justify-content-center">
@@ -8,15 +10,7 @@
         <div class="col-md-6">
             <div class="card bg-warning">
                 <div class="card-body">
-
-                    <pre>
-    <?php print_r($requests); 
-    ?>
-</pre>
-
-
                     <h6>You have 3 new connection request</h6>
-
                     <ul>
                         @foreach($requests as $request)
                         <li><a href="">dfasdf</a></li>
@@ -28,8 +22,6 @@
         @endif
 
         <div class="col-md-8">
-            <h3 class="mt-3 text-center">My Connections</h3>
-            <hr />
 
             @foreach($students as $student)
 
