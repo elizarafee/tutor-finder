@@ -14,12 +14,12 @@ use App\Mail\ProfileCompleted;
 |
 */
 
-Route::get('/profiles', 'ProfileController@index');
+
 
 Route::group(['middleware' => ['auth', 'verified']], function () {
 
 
-Route::get('/profile', 'ProfileController@show');
+
 Route::get('/tutors/create', 'TutorController@create');
 Route::get('/tutors/{tutor_id}', 'TutorController@show');
 Route::put('/tutors', 'TutorController@update');
@@ -35,6 +35,11 @@ Route::get('/students', 'StudentController@index');
 Route::delete('/connections/{request_to}', 'ConnectionController@cancel');
 Route::post('/connections/{request_to}', 'ConnectionController@connect');
 Route::get('/connections', 'ConnectionController@index');
+
+Route::get('/profiles', 'ProfileController@index');
+Route::get('/profiles/{user_id}/disapprove', 'ProfileController@index');
+Route::get('/profiles/{user_id}/approve', 'ProfileController@index');
+Route::get('/profile', 'ProfileController@show');
 
 });
 

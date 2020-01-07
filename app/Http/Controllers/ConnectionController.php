@@ -92,7 +92,7 @@ class ConnectionController extends Controller
            $tutors = Student::join('users', 'users.id', 'students.user_id')
            ->whereIn('users.id', $connections)
             ->whereNotNull('users.approved_at')
-            ->where('users.type', 3)
+            ->where('users.type', 2)
             ->orderBy('users.approved_at', 'desc')
             ->get($data);
 
@@ -100,7 +100,7 @@ class ConnectionController extends Controller
             ->join('students', 'users.id', 'students.user_id')
             ->whereNull('connections.approved_at')
             ->where('connections.request_to', $user->id)
-            ->get(['students.id as student_id', 'users.first_name', 'users.last_name']);
+            ->get(['students.id as student_id', 'users.first_name', 'users.last_name', 'connections.created_at']);
 
         }
 

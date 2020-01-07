@@ -16,7 +16,21 @@ class ProfileController extends Controller
 
     public function index() 
     {
-        return view('profiles.index');
+        $tutors = User::join('tutors', 'tutors.user_id', 'users.id')
+        ->where('users.type', 2)
+        ->whereNotNull('completed_at')
+        ->whereNull('rejected_at')
+        ->whereNull('approved_at')
+        ->get(['users.id as user_id', 'users.first_name', 'users.last_name', 'tutors.id as id', 'users.completed_at']);
+
+        $students = User::join('students', 'students.user_id', 'users.id')
+        ->where('users.type', 3)
+        ->whereNotNull('completed_at')
+        ->whereNull('rejected_at')
+        ->whereNull('approved_at')
+        ->get(['users.id as user_id', 'users.first_name', 'users.last_name', 'students.id as id', 'users.completed_at']);
+
+        return view('profiles.index', ['tutors' => $tutors, 'students' => $students]);
     }
     /**
      * Display a listing of the resource.
@@ -68,9 +82,9 @@ class ProfileController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function approved($user_id)
     {
-        //
+        
     }
 
     /**
@@ -80,9 +94,9 @@ class ProfileController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function disapprove($user_id)
     {
-        //
+        
     }
 
     /**
@@ -91,7 +105,7 @@ class ProfileController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy($user_id)
     {
         //
     }

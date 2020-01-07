@@ -23,6 +23,9 @@ class UpdateUsersTable extends Migration
             $table->dropUnique('users_email_unique');
             $table->boolean('active')->default(1)->after('remember_token');
             $table->boolean('reviewed')->default(0)->after('remember_token');
+            $table->timestamp('rejected_at')->nullable()->after('remember_token');
+            $table->timestamp('rejected_by')->nullable()->after('remember_token');
+            $table->text('rejection_reason')->nullable()->after('remember_token');
             $table->text('approval_note')->nullable()->after('remember_token');
             $table->integer('approved_by')->nullable()->after('remember_token');
             $table->timestamp('approved_at')->nullable()->after('remember_token');

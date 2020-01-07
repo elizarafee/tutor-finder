@@ -20,7 +20,7 @@ class UsersTableSeeder extends Seeder
 
             $type = rand(2, 3);
 
-            $varified_profiles = [6,8,9,11,17,18,23,25,31,37,41,47,49,53,55,57,61,68,69,72,75,79,80,81,88,71,96,91,92,97];
+            $varified_profiles = [23,25,31,72,75,79,80];
 
             $completed_at = null;
             if($i == 25) {
@@ -44,7 +44,7 @@ class UsersTableSeeder extends Seeder
                 'email_verified_at' => date('Y-m-d H:i:s'),
                 'mobile' => '01711' . $faker->numberBetween(100000, 999999),
                 'password' => Hash::make('111'),
-                'completed_at' => $completed_at,
+                'completed_at' => date('Y-m-d H:i:s'),
                 'approved_at' => in_array($i, $varified_profiles)? date('Y-m-d H:i:s') : null,
                 'approved_by' => 1
             ]);

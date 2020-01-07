@@ -7,15 +7,30 @@
     <div class="row justify-content-center">
 
         @if($requests->count() > 0)
-        <div class="col-md-6">
-            <div class="card bg-warning">
+        <div class="col-md-8">
+            <div class="card">
                 <div class="card-body">
-                    <h6>You have 3 new connection request</h6>
-                    <ul>
+
+                <table class="table table-sm table-hover table-bordered">
+                        <thead class="thead-dark">
+                            <tr>
+                                <th scope="col">You have {{ $requests->count() }} new connection request</th>
+                            </tr>
+                        </thead>
+                        <tbody>
                         @foreach($requests as $request)
-                        <li><a href="">dfasdf</a></li>
-                        @endforeach
-                    </ul>
+                            <tr>
+                                <td>
+                                    <a href="{{ url('/tutors/'.$request->id) }}">{{$request->first_name.' '.$request->last_name}}</a> 
+                                    <small class="text-muted">requested at {{date('j M Y g:i a', strtotime($request->created_at))}}</small>
+                                </td>
+                            </tr>
+                            @endforeach 
+                        </tbody>
+                    </table>
+
+
+                   
                 </div>
             </div>
         </div>
@@ -23,6 +38,7 @@
 
         <div class="col-md-8">
 
+        @if($students && $students->count() > 0)
             @foreach($students as $student)
 
             <div class="row mb-3 justify-content-center">
@@ -61,6 +77,7 @@
             </div>
 
             @endforeach
+            @endif 
 
 
         </div>
