@@ -30,6 +30,8 @@ class StudentController extends Controller
         $data = array(
             'students.id as id',
             'users.id as user_id',
+            'users.first_name',
+            'users.last_name',
             'users.picture as picture', 
             'users.approved_at',
             'students.location', 

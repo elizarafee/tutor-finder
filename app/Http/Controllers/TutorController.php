@@ -27,23 +27,33 @@ class TutorController extends Controller
      */
     public function index()
     {
+        $data = array(
+            'tutors.id as id',
+            'users.id as user_id',
+            'users.first_name',
+            'users.last_name',
+            'users.picture as picture', 
+            'users.approved_at',
+            'tutors.salary', 
+            'tutors.bio', 
+            'tutors.doy', 
+            'tutors.gender',  
+            'tutors.locations', 
+            'tutors.covered_subjects', 
+            'tutor_qualifications.institute',
+            'tutor_qualifications.subject',
+            'tutor_qualifications.status',
+       );
+
         $tutors = Tutor::join('users', 'users.id', 'tutors.user_id')
         ->join('tutor_qualifications', 'tutors.id', 'tutor_qualifications.tutor_id')
-        ->select(['tutors.id as tutor_id', 'users.*', 'tutors.*', 'tutor_qualifications.*'])
+        ->select($data)
         ->whereNotNull('users.approved_at')
+        ->where('users.type', 2)
+        ->orderBy('users.approved_at', 'desc')
         ->paginate(10);
         
         return view('tutors.index', ['tutors' => $tutors]);
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
     }
 
     /**

@@ -8,23 +8,12 @@
 
                 <form method="POST" action="{{ route('register') }}">
                     @csrf
-
-
                     <div class="card-header">
-
                         <h5 class="card-title text-center">Registration</h5>
                         <h6 class="card-subtitle mb-2 text-muted text-center">Please register</h6>
-
-
-
-
                     </div>
 
                     <div class="card-body">
-
-
-
-
                         <div class="form-group row">
                             <label for="first_name" class="col-md-4 col-form-label text-md-right">First Name <span
                                     class="text-danger">*</span></label>
@@ -113,12 +102,12 @@
 
                             <div class="col-md-6">
                                 <div class="custom-control @error('type') is-invalid @enderror custom-radio custom-control-inline">
-                                    <input type="radio" id="customRadioInline1" name="customRadioInline1"
+                                    <input type="radio" name="type" value="2" id="customRadioInline1" name="customRadioInline1"
                                         class="custom-control-input">
                                     <label class="custom-control-label" for="customRadioInline1">Tutor</label>
                                 </div>
                                 <div class="custom-control @error('type') is-invalid @enderror custom-radio custom-control-inline">
-                                    <input type="radio" id="customRadioInline2" name="customRadioInline1"
+                                    <input type="radio" name="type" value="3" id="customRadioInline2" name="customRadioInline1"
                                         class="custom-control-input">
                                     <label class="custom-control-label" for="customRadioInline2">Guardian</label>
                                 </div>
