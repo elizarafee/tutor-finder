@@ -1,8 +1,8 @@
 @if($tutors['rejected']->count()) 
                     <table class="table table-sm table-hover table-bordered">
-                        <thead class="thead-dark">
+                        <thead class="thead bg-danger text-white">
                             <tr>
-                                <th scope="col">{{ $tutors['rejected']->count() }} tutors rejected for approval</th>
+                                <th scope="col">{{ $tutors['awaiting']->count() }} {{ ($tutors['awaiting']->count() > 1)? 'tutors' : 'tutor' }} profile was reject</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -10,7 +10,7 @@
                             <tr>
                                 <td>
                                     <a href="{{ url('/tutors/'.$tutor->id) }}">{{$tutor->first_name.' '.$tutor->last_name}}</a> 
-                                    <small class="text-muted">requested at {{date('j M Y g:i a', strtotime($tutor->completed_at))}}</small>
+                                    <small class="text-muted">rejected at {{date('j M Y g:i a', strtotime($tutor->rejected_at))}} for {{$tutor->rejection_reason}}</small>
                                 </td>
                             </tr>
                             @endforeach 
@@ -18,6 +18,6 @@
                     </table>
                     @else 
                     <div class="alert alert-success" role="alert">
-                        No tutor awaiting for approval.
+                        No tutor was rejected.
                     </div>
                     @endif 

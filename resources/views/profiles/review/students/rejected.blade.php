@@ -2,7 +2,7 @@
                     <table class="table table-sm table-hover table-bordered">
                         <thead class="thead-dark">
                             <tr>
-                                <th scope="col">{{ $students['rejected']->count() }} guardians profile rejected</th>
+                                <th scope="col">{{ $students['rejected']->count() }} {{ ($students['rejected']->count() > 1)? 'guardians' : 'guardian' }} profile rejected</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -18,6 +18,6 @@
                     </table>
                     @else 
                     <div class="alert alert-success" role="alert">
-                        No guadians profile is rejected.
+                        No guadian was rejected.
                     </div>
                     @endif

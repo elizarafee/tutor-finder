@@ -115,7 +115,10 @@ class ProfileController extends Controller
             User::where('id', $user_id)->update([
                 'reviewed' => 1,
                 'approved_at' => date('Y-m-d H:i:s'),
-                'approved_by' => Auth::user()->id
+                'approved_by' => Auth::user()->id,
+                'rejected_at' => null,
+                'rejected_by' => null,
+                'rejection_reason' => null
             ]);
 
             $user = User::find($user_id);
@@ -140,11 +143,6 @@ class ProfileController extends Controller
     public function disapprove(Request $request, $user_id)
     {
 
-        // echo $user_id;
-        // exit;
-
-        
-
         $validator = Validator::make($request->all(), [
             'reason' => 'required',
         ]);
@@ -154,12 +152,12 @@ class ProfileController extends Controller
             ->with('error', 'Please provide the reason for disapproving the profile.');
         }
 
-
         DB::beginTransaction();
         try {
             User::where('id', $user_id)->update([
                 'reviewed' => 1,
                 'approved_at' => null,
+                'approved_by' => null,
                 'rejected_at' => date('Y-m-d H:i:s'),
                 'rejected_by' => Auth::user()->id,
                 'rejection_reason' => $request->get('reason')
