@@ -83,7 +83,7 @@
 
                             @if(auth()->user()->type == 1)
                             <li class="nav-item mr-3">
-                            <a class="nav-link" href="{{ url('/profiles') }}" title="Requests"><i
+                            <a class="nav-link" href="{{ url('/profiles/review') }}" title="Review profiles"><i
                                     class="fas fa-bell fa-2x float-left"></i><sup class="badge badge-success float-left"
                                     title="Profiles pending approval">3</sup></a>
                             </li>

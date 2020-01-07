@@ -19,23 +19,43 @@ use App\Mail\ProfileDisapproved;
 
 class ProfileController extends Controller
 {
-    public function index()
+    public function review()
     {
-        $tutors = User::join('tutors', 'tutors.user_id', 'users.id')
+        $tutors['awaiting'] = User::join('tutors', 'tutors.user_id', 'users.id')
         ->where('users.type', 2)
         ->whereNotNull('completed_at')
         ->whereNull('rejected_at')
         ->whereNull('approved_at')
         ->get(['users.id as user_id', 'users.first_name', 'users.last_name', 'tutors.id as id', 'users.completed_at']);
 
-        $students = User::join('students', 'students.user_id', 'users.id')
+
+        $tutors['rejected'] = User::join('tutors', 'tutors.user_id', 'users.id')
+        ->where('users.type', 2)
+        ->whereNotNull('completed_at')
+        ->whereNotNull('rejected_at')
+        ->get(['users.id as user_id', 'users.first_name', 'users.last_name', 'tutors.id as id', 'users.rejected_at', 'users.rejection_reason']);
+
+
+
+
+        $students['awaiting'] = User::join('students', 'students.user_id', 'users.id')
         ->where('users.type', 3)
         ->whereNotNull('completed_at')
         ->whereNull('rejected_at')
         ->whereNull('approved_at')
         ->get(['users.id as user_id', 'users.first_name', 'users.last_name', 'students.id as id', 'users.completed_at']);
 
-        return view('profiles.index', ['tutors' => $tutors, 'students' => $students]);
+        $students['rejected'] = User::join('students', 'students.user_id', 'users.id')
+        ->where('users.type', 3)
+        ->whereNotNull('completed_at')
+        ->whereNotNull('rejected_at')
+        ->get(['users.id as user_id', 'users.first_name', 'users.last_name', 'students.id as id', 'users.rejected_at', 'users.rejection_reason']);
+
+
+
+
+
+        return view('profiles.review.index', ['tutors' => $tutors, 'students' => $students]);
     }
     /**
      * Display a listing of the resource.
@@ -93,6 +113,7 @@ class ProfileController extends Controller
         try {
     
             User::where('id', $user_id)->update([
+                'reviewed' => 1,
                 'approved_at' => date('Y-m-d H:i:s'),
                 'approved_by' => Auth::user()->id
             ]);
@@ -119,6 +140,9 @@ class ProfileController extends Controller
     public function disapprove(Request $request, $user_id)
     {
 
+        // echo $user_id;
+        // exit;
+
         
 
         $validator = Validator::make($request->all(), [
@@ -134,6 +158,7 @@ class ProfileController extends Controller
         DB::beginTransaction();
         try {
             User::where('id', $user_id)->update([
+                'reviewed' => 1,
                 'approved_at' => null,
                 'rejected_at' => date('Y-m-d H:i:s'),
                 'rejected_by' => Auth::user()->id,

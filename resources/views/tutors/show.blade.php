@@ -102,7 +102,7 @@
             @include('tutors.modals.block')
           @endif
         </div>
-        
+
       </div>
 
     </div>

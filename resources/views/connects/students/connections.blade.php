@@ -21,15 +21,12 @@
                                         @if($tutor->picture == '')
                                         <i class="far fa-id-badge fa-9x text-light"></i>
                                         @else
-
                                         <img src="{{ asset('storage/'.$tutor->picture) }}" class="img-thumbnail" alt="Profile Picture">
-
                                         @endif
                                     </a>
 
                                 </div>
                                 <div class="col-sm-6 col-md-9">
-
                                     <ul class="list-unstyled float-left">
                                         <li>
                                             <h6><a href="{{url('/tutors/'.$tutor->id)}}">{{$tutor->first_name}} {{$tutor->last_name}}</a></h6>

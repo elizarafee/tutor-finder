@@ -37,7 +37,7 @@ Route::delete('/connects/{request_to}', 'ConnectController@cancel');
 Route::post('/connects/{request_to}', 'ConnectController@connect');
 Route::get('/connections', 'ConnectController@connections');
 
-Route::get('/profiles', 'ProfileController@index');
+Route::get('/profiles/review', 'ProfileController@review');
 Route::put('/profiles/{user_id}/disapprove', 'ProfileController@disapprove');
 Route::put('/profiles/{user_id}/approve', 'ProfileController@approve');
 Route::get('/profile', 'ProfileController@show');
