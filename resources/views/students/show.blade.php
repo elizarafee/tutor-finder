@@ -79,7 +79,7 @@
             <div class="modal-dialog" role="document">
               <div class="modal-content">
 
-                <form method="POST" action="{{ url('/profile/'.$student->user_id.'/approve') }}">
+                <form method="POST" action="{{ url('/profiles/'.$student->user_id.'/approve') }}">
                   @csrf
                   @method('PUT')
 
@@ -113,7 +113,7 @@
             <div class="modal-dialog" role="document">
               <div class="modal-content">
 
-                <form method="POST" action="{{ url('/profile/'.$student->user_id.'/disapprove') }}">
+                <form method="POST" action="{{ url('/profiles/'.$student->user_id.'/disapprove') }}">
                   @csrf
                   @method('PUT')
 
@@ -151,7 +151,7 @@
             <div class="modal-dialog" role="document">
               <div class="modal-content">
 
-                <form method="POST" action="{{ url('/profile/'.$student->user_id.'/disapprove') }}">
+                <form method="POST" action="{{ url('/profiles/'.$student->user_id.'/disapprove') }}">
                   @csrf
                   @method('PUT')
 

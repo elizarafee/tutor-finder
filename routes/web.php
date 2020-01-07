@@ -37,8 +37,8 @@ Route::post('/connections/{request_to}', 'ConnectionController@connect');
 Route::get('/connections', 'ConnectionController@index');
 
 Route::get('/profiles', 'ProfileController@index');
-Route::get('/profiles/{user_id}/disapprove', 'ProfileController@index');
-Route::get('/profiles/{user_id}/approve', 'ProfileController@index');
+Route::put('/profiles/{user_id}/disapprove', 'ProfileController@disapprove');
+Route::put('/profiles/{user_id}/approve', 'ProfileController@approve');
 Route::get('/profile', 'ProfileController@show');
 
 });

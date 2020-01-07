@@ -4,17 +4,22 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
+use DB;
 use App\User;
 use App\Tutor;
 use App\TutorQualification;
 use App\Student;
 
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\ProfileApproved;
+use App\Mail\ProfileDisapproved;
+
 
 class ProfileController extends Controller
 {
-
-    public function index() 
+    public function index()
     {
         $tutors = User::join('tutors', 'tutors.user_id', 'users.id')
         ->where('users.type', 2)
@@ -44,33 +49,33 @@ class ProfileController extends Controller
         $type = $user->type;
         $completed_profile = $user->completed_at;
         
-        if($type == 1) {
+        if ($type == 1) {
             // Admin
             return view('profiles.admin', ['user' => $user]);
-        } elseif($type == 2) {
-            // Tutor 
+        } elseif ($type == 2) {
+            // Tutor
             $tutor = Tutor::where('user_id', $user->id)->first();
-                if($tutor) {
-                    $qualification = TutorQualification::where('tutor_id', $tutor->id)->first();
-                    if ($completed_profile != '') {
-                        return view('profiles.tutor', ['user' => $user, 'tutor' => $tutor, 'qualification' => $qualification]);
-                    } else {
-                        return view('tutors.edit', ['user' => $user]);
-                    }
+            if ($tutor) {
+                $qualification = TutorQualification::where('tutor_id', $tutor->id)->first();
+                if ($completed_profile != '') {
+                    return view('profiles.tutor', ['user' => $user, 'tutor' => $tutor, 'qualification' => $qualification]);
                 } else {
-                    return view('tutors.create', ['user' => $user]);
+                    return view('tutors.edit', ['user' => $user]);
+                }
+            } else {
+                return view('tutors.create', ['user' => $user]);
             }
-        } elseif($type == 3) {
-            // Student Guardian 
+        } elseif ($type == 3) {
+            // Student Guardian
             $student = student::where('user_id', $user->id)->first();
-                if($student) {
-                    if ($completed_profile != '') {
-                        return view('profiles.student', ['user' => $user, 'student' => $student]);
-                    } else {
-                        return view('students.edit', ['user' => $user]);
-                    }
+            if ($student) {
+                if ($completed_profile != '') {
+                    return view('profiles.student', ['user' => $user, 'student' => $student]);
                 } else {
-                    return view('students.create', ['user' => $user]);
+                    return view('students.edit', ['user' => $user]);
+                }
+            } else {
+                return view('students.create', ['user' => $user]);
             }
         }
     }
@@ -82,9 +87,26 @@ class ProfileController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function approved($user_id)
+    public function approve($user_id)
     {
-        
+        DB::beginTransaction();
+        try {
+    
+            User::where('id', $user_id)->update([
+                'approved_at' => date('Y-m-d H:i:s'),
+                'approved_by' => Auth::user()->id
+            ]);
+
+            $user = User::find($user_id);
+
+            // profile approved
+            Mail::to($user->email)->send(new ProfileApproved($user));
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return redirect()->back()->with('error', 'Failed to approved the profile. Please try again.'.$e->getMessage());
+        }
+        DB::commit();
+        return redirect()->back()->with('success', 'Profile of '.$user->first_name.' '.$user->last_name.' successfully approved.');
     }
 
     /**
@@ -94,9 +116,40 @@ class ProfileController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function disapprove($user_id)
+    public function disapprove(Request $request, $user_id)
     {
+
         
+
+        $validator = Validator::make($request->all(), [
+            'reason' => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            return redirect()->back()
+            ->with('error', 'Please provide the reason for disapproving the profile.');
+        }
+
+
+        DB::beginTransaction();
+        try {
+            User::where('id', $user_id)->update([
+                'approved_at' => null,
+                'rejected_at' => date('Y-m-d H:i:s'),
+                'rejected_by' => Auth::user()->id,
+                'rejection_reason' => $request->get('reason')
+            ]);
+
+            $user = User::find($user_id);
+
+            // profile disapproved
+            Mail::to($user->email)->send(new ProfileDisapproved($user));
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return redirect()->back()->with('error', 'Failed to disapproved the profile. Please try again.'.$e->getMessage());
+        }
+        DB::commit();
+        return redirect()->back()->with('success', 'Profile of '.$user->first_name.' '.$user->last_name.' successfully disapproved.');
     }
 
     /**
