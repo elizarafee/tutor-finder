@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Connection;
 use App\Student;
+use App\Tutor;
 use Illuminate\Support\Facades\Auth;
 
 
@@ -65,23 +66,25 @@ class ConnectController extends Controller
         } elseif($user->type == 3) {
 
             $data = array(
-                'students.id as id',
+                'tutors.id as id',
                 'users.id as user_id',
                 'users.picture as picture', 
                 'users.first_name',
                 'users.last_name',
                 'users.approved_at',
-                'students.location', 
-                'students.budget', 
-                'students.bio', 
-                'students.doy', 
-                'students.gender', 
-                'students.class', 
-                'students.institute', 
-                'students.subjects', 
+                'tutors.locations', 
+                'tutors.salary', 
+                'tutors.bio', 
+                'tutors.doy', 
+                'tutors.gender', 
+                'tutors.covered_subjects', 
+                'tutor_qualifications.institute', 
+                'tutor_qualifications.subject', 
+                'tutor_qualifications.status', 
            );
 
-           $tutors = Student::join('users', 'users.id', 'students.user_id')
+           $tutors = Tutor::join('users', 'users.id', 'tutors.user_id')
+           ->join('tutor_qualifications', 'tutor_qualifications.tutor_id', 'tutors.id')
            ->whereIn('users.id', $connections)
             ->whereNotNull('users.approved_at')
             ->where('users.type', 2)
@@ -105,7 +108,7 @@ class ConnectController extends Controller
             ->join('students', 'users.id', 'students.user_id')
             ->whereNull('connections.approved_at')
             ->where('connections.request_to', $user->id)
-            ->get(['students.id as student_id', 'users.first_name', 'users.last_name']);
+            ->get(['connections.id as id', 'students.id as student_id', 'users.first_name', 'users.last_name']);
 
             return view('connects.tutors.requests', ['requests' => $requests]);
 
@@ -115,7 +118,7 @@ class ConnectController extends Controller
             ->join('students', 'users.id', 'students.user_id')
             ->whereNull('connections.approved_at')
             ->where('connections.request_to', $user->id)
-            ->get(['students.id as student_id', 'users.first_name', 'users.last_name', 'connections.created_at']);
+            ->get(['connections.id as id', 'students.id as student_id', 'users.first_name', 'users.last_name', 'connections.created_at']);
 
             return view('connects.students.requests', ['requests' => $requests]);
 

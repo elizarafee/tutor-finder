@@ -37,7 +37,7 @@
                                         <li class="text-muted"><span class="text-dark">Location: </span>{{ $tutor->location }}</li>
                                         <li class="text-muted"><span class="text-dark">Budget: </span>&#2547;{{ $tutor->budget }} <small>(per subject per month)</small></li>
                                         <li class="text-muted"><span class="text-dark">Tution needed for: </span> {{$tutor->subjects}}</li>
-                                        <li class="text-muted"><span class="text-dark">tutor status : </span> Studying in {{ years_of_study($tutor->class) }} at {{ $tutor->institute }}</li>
+                                        <li class="text-muted"><span class="text-dark">tutor status : </span> </li>
                                     </ul>
                                 </div>
                             </div>
