@@ -8,11 +8,10 @@ use App\Student;
 use Illuminate\Support\Facades\Auth;
 
 
-class ConnectionController extends Controller
+class ConnectController extends Controller
 {
-    public function index() 
+    public function connections() 
     {
-       
         $user = Auth::user();
         $connections = array(); 
         
@@ -36,9 +35,6 @@ class ConnectionController extends Controller
             }
         }
 
-        $requests = false;
-        $students = false;
-        $tutors = false;
         if($user->type == 2) {
             $data = array(
                 'students.id as id',
@@ -64,11 +60,7 @@ class ConnectionController extends Controller
             ->orderBy('users.approved_at', 'desc')
             ->get($data);
 
-            $requests = Connection::join('users', 'users.id', 'connections.request_to')
-            ->join('students', 'users.id', 'students.user_id')
-            ->whereNull('connections.approved_at')
-            ->where('connections.request_to', $user->id)
-            ->get(['students.id as student_id', 'users.first_name', 'users.last_name']);
+            return view('connects.tutors.connections', ['students' => $students]);
 
         } elseif($user->type == 3) {
 
@@ -96,17 +88,39 @@ class ConnectionController extends Controller
             ->orderBy('users.approved_at', 'desc')
             ->get($data);
 
+         
+            return view('connects.students.connections', ['tutors' => $tutors]);
+
+        }
+
+    }
+
+    public function requests()
+    {
+        $user = Auth::user();
+        if($user->type == 2) {
+            
+
+            $requests = Connection::join('users', 'users.id', 'connections.request_to')
+            ->join('students', 'users.id', 'students.user_id')
+            ->whereNull('connections.approved_at')
+            ->where('connections.request_to', $user->id)
+            ->get(['students.id as student_id', 'users.first_name', 'users.last_name']);
+
+            return view('connects.tutors.requests', ['requests' => $requests]);
+
+        } elseif($user->type == 3) {
+
             $requests = Connection::join('users', 'users.id', 'connections.request_to')
             ->join('students', 'users.id', 'students.user_id')
             ->whereNull('connections.approved_at')
             ->where('connections.request_to', $user->id)
             ->get(['students.id as student_id', 'users.first_name', 'users.last_name', 'connections.created_at']);
 
+            return view('connects.students.requests', ['requests' => $requests]);
+
         }
-
         
-
-        return view('connections.index', ['requests' => $requests, 'tutors' => $tutors, 'students' => $students]);
     }
 
     public function connect($request_to)
@@ -136,5 +150,15 @@ class ConnectionController extends Controller
         }
 
         return redirect()->back()->with('error', 'Failed to cancel the request. Please try again.');
+    }
+
+    public function accept()
+    {
+
+    }
+
+    public function reject() 
+    {
+
     }
 }

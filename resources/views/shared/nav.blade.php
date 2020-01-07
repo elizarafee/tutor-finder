@@ -79,18 +79,27 @@
                                 {{Auth::user()->last_name}}</a>
                         </li>
 
-                        <li class="nav-item mr-3">
+                        
 
                             @if(auth()->user()->type == 1)
+                            <li class="nav-item mr-3">
                             <a class="nav-link" href="{{ url('/profiles') }}" title="Requests"><i
                                     class="fas fa-bell fa-2x float-left"></i><sup class="badge badge-success float-left"
                                     title="Profiles pending approval">3</sup></a>
+                            </li>
 
                             @elseif(auth()->user()->type == 2 || auth()->user()->type == 3)
+                            <li class="nav-item">
                             <a class="nav-link" href="{{ url('/connections') }}" title="Connections"><i
+                                    class="fas fa-link fa-2x float-left"></i></a>
+                            </li>
+
+                            <li class="nav-item mr-3">
+                            <a class="nav-link" href="{{ url('/connects/requests') }}" title="Pending connection requests"><i
                                     class="fas fa-user-friends fa-2x float-left"></i><sup
                                     class="badge badge-success float-left"
                                     title="Pending connection requests">3</sup></a>
+                            </li>
 
                             @endif
 

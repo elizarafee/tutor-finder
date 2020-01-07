@@ -8,6 +8,7 @@
         <div class="col-md-6">
             <div class="card">
                 <div class="card-body">
+                    @if($tutors->count()) 
                     <table class="table table-sm table-hover table-bordered">
                         <thead class="thead-dark">
                             <tr>
@@ -25,12 +26,18 @@
                             @endforeach 
                         </tbody>
                     </table>
+                    @else 
+                    <div class="alert alert-success" role="alert">
+                        No tutor awaiting for approval.
+                    </div>
+                    @endif 
                 </div>
             </div>
         </div>
         <div class="col-md-6">
             <div class="card">
                 <div class="card-body">
+                @if($students->count()) 
                     <table class="table table-sm table-hover table-bordered">
                         <thead class="thead-dark">
                             <tr>
@@ -48,6 +55,11 @@
                             @endforeach 
                         </tbody>
                     </table>
+                    @else 
+                    <div class="alert alert-success" role="alert">
+                        No tutor awaiting for approval.
+                    </div>
+                    @endif
                 </div>
             </div>
         </div>

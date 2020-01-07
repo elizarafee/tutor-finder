@@ -32,9 +32,10 @@ Route::put('/students', 'StudentController@update');
 Route::post('/students', 'StudentController@store');
 Route::get('/students', 'StudentController@index');
 
-Route::delete('/connections/{request_to}', 'ConnectionController@cancel');
-Route::post('/connections/{request_to}', 'ConnectionController@connect');
-Route::get('/connections', 'ConnectionController@index');
+Route::get('/connects/requests', 'ConnectController@requests');
+Route::delete('/connects/{request_to}', 'ConnectController@cancel');
+Route::post('/connects/{request_to}', 'ConnectController@connect');
+Route::get('/connections', 'ConnectController@connections');
 
 Route::get('/profiles', 'ProfileController@index');
 Route::put('/profiles/{user_id}/disapprove', 'ProfileController@disapprove');

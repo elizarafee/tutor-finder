@@ -139,6 +139,7 @@ class StudentController extends Controller
              'users.mobile as user_mobile', 
              'users.picture as user_picture', 
              'users.proof_of_id as user_proof_of_id', 
+             'users.reviewed',
              'users.approved_at',
              'users.type as user_type',
              'students.id as id', 

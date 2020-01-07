@@ -69,10 +69,8 @@ class TutorController extends Controller
         // echo "</pre>";
 
         $user = Auth::user();
-
         DB::beginTransaction();
         try {
-
             $tutor_data = array(
                 'user_id' => Auth::user()->id,
                 'bio' => $request->get('bio'),
@@ -148,6 +146,7 @@ class TutorController extends Controller
             'users.picture as user_picture', 
             'users.proof_of_id as user_proof_of_id', 
             'users.approved_at',
+            'users.reviewed',
             'users.type as user_type',
             'tutors.id as id', 
             'tutors.bio', 
