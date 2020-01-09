@@ -9,6 +9,8 @@ use App\User;
 use App\Tutor;
 use App\TutorQualification;
 use App\Student;
+use App\Block;
+use App\Connection;
 
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
@@ -177,7 +179,22 @@ class ProfileController extends Controller
 
     public function block($user_id)
     {
+        DB::beginTransaction();
+        try {
 
+            Connection::where('request_to',  Auth::id())
+                ->where('requested_by', $user_id)
+                ->delete();
+
+            Block::create(['blocked' => $user_id, 'blocked_by' => Auth::id()]);
+
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return redirect()->back()->with('error', 'Failed to block the profile. Please try again.'.$e->getMessage());
+        }
+
+        DB::commit();
+        return redirect()->back()->with('success', 'Profile successfully blocked.');
     }
 
     public function unblock($user_id)

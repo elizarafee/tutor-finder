@@ -31,14 +31,12 @@
                 <li><span class="text-muted">Budget: </span>&#2547;{{ $student->budget }}</li>
                 <li class="mt-4 mb-2">
                   <h6 class=" text-muted">Proof of Identification</h6>
-                  <hr class="mt-0" />
-
-                  @if($student->proof_of_id == '')
-                  <i class="far fa-address-card fa-9x text-light"></i>
-                  @else
-                  <img src="{{ asset($student->proof_of_id) }}" class="img-thumbnail" alt="Profile Picture">
-                  @endif
-
+                    <hr class="mt-0" />
+                    @if($student->proof_of_id == '')
+                    <i class="far fa-address-card fa-8x text-light"></i>
+                    @else
+                    <img src="{{ asset($student->proof_of_id) }}" class="img-thumbnail" alt="Profile Picture">
+                    @endif
                 </li>
                 <li class="mt-4">
                   <h6 class="text-muted">Student Details</h6>
@@ -106,11 +104,12 @@
           @elseif(auth()->user()->type == 2)
 
           @if($connection['connected'])
-          @include('students.modals.disconnect')
-          @include('students.modals.block')
+            @include('students.modals.disconnect')
+            @include('students.modals.block')
           @elseif($connection['request'] == 'received')
-          @include('students.modals.accept')
-          @include('students.modals.reject')
+            @include('students.modals.accept')
+            @include('students.modals.reject')
+            @include('students.modals.block')
           @endif
 
           @endif

@@ -19,7 +19,6 @@ use App\Mail\ProfileCompleted;
 Route::group(['middleware' => ['auth', 'verified']], function () {
 
 
-
 Route::get('/tutors/create', 'TutorController@create');
 Route::get('/tutors/{tutor_id}', 'TutorController@show');
 Route::put('/tutors', 'TutorController@update');
@@ -50,13 +49,11 @@ Route::get('/profile', 'ProfileController@show');
 });
 
 
-
 Route::get('/send-mail', function () {
 
     Mail::to('newuser@example.com')->send(new ProfileCompleted()); 
 
     return 'A message has been sent to Mailtrap!';
-
 });
 
 

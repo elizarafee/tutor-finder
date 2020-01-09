@@ -50,6 +50,7 @@ class TutorController extends Controller
         ->select($data)
         ->whereNotNull('users.approved_at')
         ->where('users.type', 2)
+        ->whereNotIn('users.id', blocked_profiles())
         ->orderBy('users.approved_at', 'desc')
         ->paginate(10);
         
@@ -64,9 +65,6 @@ class TutorController extends Controller
      */
     public function store(StoreTutorRequest $request)
     {
-        // echo "<pre>";
-        // print_r($request->all());
-        // echo "</pre>";
 
         $user = Auth::user();
         DB::beginTransaction();
@@ -169,9 +167,13 @@ class TutorController extends Controller
        ->where('tutors.id', $tutor_id)
        ->first($data);
 
-       $connection = has_connection($tutor->user_id);
+        $blocked = has_block($tutor->user_id);
+        if($blocked) {
+            return redirect('/tutors');
+        }
 
-       if($connection['connected'] || $connection['request'] == 'received') {
+       $connection = has_connection($tutor->user_id);
+       if(Auth::user()->type == 1 || $connection['connected'] || $connection['request'] == 'received') {
             return view('tutors.show', ['tutor' => $tutor, 'connection' => $connection]);
        }
 
@@ -212,4 +214,5 @@ class TutorController extends Controller
     {
         //
     }
+
 }

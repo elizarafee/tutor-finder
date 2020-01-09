@@ -156,7 +156,21 @@ class ConnectController extends Controller
 
     public function disconnect($user_id)
     {
+        $user = Auth::user();
+        $disconnect = Connection::where('request_to', $user->id)
+        ->where('requested_by', $user_id)
+        ->whereNotNull('accepted_at')
+        ->delete();
 
+        if($disconnect) {
+            if($user->type == 2) {
+                return redirect('/students')->with('success', 'Successfully disconnected.');
+            } elseif($user->type == 3) {
+                return redirect('/tutors')->with('success', 'Successfully disconnected.');
+            } 
+        }
+
+        return redirect()->back()->with('error', 'Failed to disconnect. Please try again.');
     }
 
     public function accept($user_id)
@@ -164,10 +178,6 @@ class ConnectController extends Controller
         $accept = Connection::where('request_to', Auth::user()->id)
         ->where('requested_by', $user_id)
         ->update(['accepted_at' => date('Y-m-d H:i:s')]);
-
-       // print_r($accept);
-
-       // exit;
 
         if($accept) {
             return redirect()->back()->with('success', 'Connection request successfully accepted.');

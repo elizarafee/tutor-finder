@@ -45,7 +45,7 @@
                   <hr class="mt-0" />
 
                   @if($tutor->user_proof_of_id == '')
-                  <i class="far fa-address-card fa-9x text-light"></i>
+                  <i class="far fa-address-card fa-8x text-light"></i>
                   @else
                   <img src="{{ asset('storage/'.$tutor->proof_of_id) }}" class="img-thumbnail" alt="Profile Picture">
                   @endif

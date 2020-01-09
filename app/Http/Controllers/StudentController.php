@@ -48,6 +48,7 @@ class StudentController extends Controller
         ->select($data)
         ->whereNotNull('users.approved_at')
         ->where('users.type', 3)
+        ->whereNotIn('users.id', blocked_profiles())
         ->orderBy('users.approved_at', 'desc')
         ->paginate(10);
         
@@ -158,13 +159,18 @@ class StudentController extends Controller
         ->where('students.id', $student_id)
         ->first($data);
 
+        $blocked = has_block($student->user_id);
+        if($blocked) {
+            return redirect('/students');
+        }
+
         $connection = has_connection($student->user_id);
 
-       if($connection['connected'] || $connection['request'] == 'received') {
+       if(Auth::user()->type == 1 || $connection['connected'] || $connection['request'] == 'received') {
             return view('students.show', ['student' => $student, 'connection' => $connection]);
        }
 
-       return redirect('/students')->with('warning', 'You are not connected with '.$student->user_first_name.' '.$student->user_last_name);
+       return redirect('/students')->with('warning', 'You are not connected with this student');
        
     }
 

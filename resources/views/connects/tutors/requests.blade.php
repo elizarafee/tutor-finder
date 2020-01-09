@@ -31,7 +31,7 @@
                     @else
 
                     <div class="alert alert-success text-center" role="alert">
-                        <p>You have no pending connection request.</p>
+                        You have no pending connection request.
                     </div>
 
                     @endif
