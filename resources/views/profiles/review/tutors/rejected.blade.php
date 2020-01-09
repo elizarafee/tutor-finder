@@ -2,7 +2,7 @@
                     <table class="table table-sm table-hover table-bordered">
                         <thead class="thead bg-danger text-white">
                             <tr>
-                                <th scope="col">{{ $tutors['awaiting']->count() }} {{ ($tutors['awaiting']->count() > 1)? 'tutors' : 'tutor' }} profile was reject</th>
+                                <th scope="col">{{ $tutors['rejected']->count() }} {{ ($tutors['rejected']->count() > 1)? 'tutors' : 'tutor' }} profile was rejected</th>
                             </tr>
                         </thead>
                         <tbody>
