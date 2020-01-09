@@ -10,7 +10,7 @@
                             <tr>
                                 <td>
                                     <a href="{{ url('/tutors/'.$tutor->id) }}">{{$tutor->first_name.' '.$tutor->last_name}}</a> 
-                                    <small class="text-muted">rejected at {{date('j M Y g:i a', strtotime($tutor->rejected_at))}} for {{$tutor->rejection_reason}}</small>
+                                    <small class="text-muted">rejected for {{$tutor->rejection_reason}} at {{date('j M Y g:i a', strtotime($tutor->rejected_at))}}</small>
                                 </td>
                             </tr>
                             @endforeach 

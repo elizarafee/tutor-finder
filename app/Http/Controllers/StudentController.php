@@ -48,6 +48,7 @@ class StudentController extends Controller
         ->select($data)
         ->whereNotNull('users.approved_at')
         ->where('users.type', 3)
+        ->where('users.active', 1)
         ->whereNotIn('users.id', blocked_profiles())
         ->orderBy('users.approved_at', 'desc')
         ->paginate(10);
