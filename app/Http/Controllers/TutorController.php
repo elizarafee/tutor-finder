@@ -75,7 +75,7 @@ class TutorController extends Controller
                 'gender' => $request->get('gender'),
                 'doy' => $request->get('year_of_birth'),
                 'covered_subjects' => $request->get('subjects'),
-                'covered_area' => $request->get('areas'),
+                'locations' => $request->get('areas'),
                 'covered_years' => $request->get('years'),
                 'salary' => $request->get('salary'),
             );
@@ -106,7 +106,7 @@ class TutorController extends Controller
                 'picture' => $picture,
                 'proof_of_id' => $proof_of_id,
                 'mobile' => $request->get('mobile'),
-                'profile_completed_at' => date('Y-m-d H:i:s')
+                'completed_at' => date('Y-m-d H:i:s')
             );
 
             User::where('id', $user->id)->update($user_data);
