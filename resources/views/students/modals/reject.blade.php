@@ -6,7 +6,7 @@
             <div class="modal-dialog" role="document">
               <div class="modal-content">
 
-                <form method="POST" action="{{ url('/profiles/'.$student->user_id.'/approve') }}">
+                <form method="POST" action="{{ url('/connects/'.$student->user_id.'/reject') }}">
                   @csrf
                   @method('PUT')
 
@@ -17,7 +17,7 @@
                     </button>
                   </div>
                   <div class="modal-body">
-                    <p>
+                    <p class="text-left">
                       Are you sure to approve profile of {{ $student->user_first_name.' '.$student->user_last_name}}?
                       <span class="badge badge-info">Please verify proof of identification before approve the profile</span>
                     </p>

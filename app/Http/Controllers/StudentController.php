@@ -158,7 +158,14 @@ class StudentController extends Controller
         ->where('students.id', $student_id)
         ->first($data);
 
-        return view('students.show', ['student' => $student]);
+        $connection = has_connection($student->user_id);
+
+       if($connection['connected'] || $connection['request'] == 'received') {
+            return view('tutors.show', ['tutor' => $student, 'connection' => $connection]);
+       }
+
+       return redirect('/tutors')->with('warning', 'You are not connected with '.$student->user_first_name.' '.$student->user_last_name);
+       
     }
 
     /**

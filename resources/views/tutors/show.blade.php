@@ -13,6 +13,14 @@
         </div>
 
         <div class="card-body">
+
+          @if($connection['request'] == 'received' && $connection['connected'] == false)
+          <div class="alert alert-warning" role="alert">
+            {{$tutor->user_first_name}} {{$tutor->user_last_name}} requested you to connect at {{date('j M Y g:ia',
+            strtotime($connection['time']))}}.
+          </div>
+          @endif
+
           <div class="row">
             <div class="col-sm-6 col-md-3 text-center">
 
@@ -72,9 +80,25 @@
                   <h6 class="text-muted">Contact Details</h6>
                   <hr class="mt-0" />
                 </li>
-                <li><span class="text-muted">Email Address: </span>{{ $tutor->user_email }}</li>
+                <li>
+                  <span class="text-muted">Email Address: </span>
+                  @if($connection['connected'])
+                  {{ $tutor->user_email }}
+                  @else
+                  <span class="text-warning">********@******.com</span>
+                  @endif
+                </li>
+
                 @if($tutor->user_mobile != "")
-                <li><span class="text-muted">Mobile: </span> +880{{ $tutor->user_mobile }}</li>
+                <li>
+                  <span class="text-muted">Mobile: </span>
+                  @if($connection['connected'])
+                  +880{{ $tutor->user_mobile }}
+                  @else
+                  <span class="text-warning">+880 **** ******</span>
+                  @endif
+
+                </li>
                 @endif
               </ul>
             </div>
@@ -83,33 +107,36 @@
 
         <div class="card-footer text-center pt-4 pb-4">
           @if(auth()->user()->type == 1)
-            @if($tutor->reviewed == 0)
-              @include('tutors.modals.approve')
-              @include('tutors.modals.disapprove')
-            @else
-              @if($tutor->approved_at == "")
-                @include('tutors.modals.approve')
-                <!-- disapproved profile -->
-                <button type="button" class="btn btn-sm btn-danger ml-2">Disapproved profile</button>
-              @else 
-                <!-- approved profile -->
-                <button type="button" class="btn btn-sm btn-success mr-2">Approved profile</button>
-                @include('tutors.modals.disapprove')
-              @endif 
-            @endif
+          @if($tutor->reviewed == 0)
+          @include('tutors.modals.approve')
+          @include('tutors.modals.disapprove')
+          @else
+          @if($tutor->approved_at == "")
+          @include('tutors.modals.approve')
+          <!-- disapproved profile -->
+          <button type="button" class="btn btn-sm btn-danger ml-2">Disapproved profile</button>
+          @else
+          <!-- approved profile -->
+          <button type="button" class="btn btn-sm btn-success mr-2">Approved profile</button>
+          @include('tutors.modals.disapprove')
+          @endif
+          @endif
           @elseif(auth()->user()->type == 3)
-            @include('tutors.modals.disconnect')
-            @include('tutors.modals.block')
+
+          @if($connection['connected'])
+          @include('tutors.modals.disconnect')
+          @include('tutors.modals.block')
+          @elseif($connection['request'] == 'received')
+          @include('tutors.modals.accept')
+          @include('tutors.modals.reject')
+          @endif
+
           @endif
         </div>
-
       </div>
-
     </div>
   </div>
 </div>
 </div>
-
-
 
 @endsection

@@ -1,15 +1,15 @@
 <!-- connection request modal -->
 <button type="button" title="Sent at {{date('j F Y g:iA', strtotime($connection['time']))}}"
-  class="btn btn-sm btn-outline-danger" data-toggle="modal" data-target="#cancel-{{$student->id}}-request-modal">
+  class="btn btn-sm btn-outline-danger" data-toggle="modal" data-target="#cancel-{{$tutor->id}}-request-modal">
   Cancel request
 </button>
 
 <!-- Modal -->
-<div class="modal fade" id="cancel-{{$student->id}}-request-modal" tabindex="-1" role="dialog"
+<div class="modal fade" id="cancel-{{$tutor->id}}-request-modal" tabindex="-1" role="dialog"
   aria-labelledby="cancel-request-modalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
-      <form method="POST" action="{{ url('/connects/'.$student->user_id) }}">
+      <form method="POST" action="{{ url('/connects/'.$tutor->user_id) }}">
         @csrf
         @method('DELETE')
         <div class="modal-header">

@@ -1,13 +1,13 @@
 <!-- connection request modal -->
-<button type="button" class="btn btn-sm btn-outline-primary" data-toggle="modal" data-target="#connection-{{$student->id}}-request-modal">
+<button type="button" class="btn btn-sm btn-outline-primary" data-toggle="modal" data-target="#connection-{{$tutor->id}}-request-modal">
                     Request to connect
                   </button>
 
                   <!-- Modal -->
-                  <div class="modal fade" id="connection-{{$student->id}}-request-modal" tabindex="-1" role="dialog" aria-labelledby="connection-request-modalLabel" aria-hidden="true">
+                  <div class="modal fade" id="connection-{{$tutor->id}}-request-modal" tabindex="-1" role="dialog" aria-labelledby="connection-request-modalLabel" aria-hidden="true">
                     <div class="modal-dialog" role="document">
                       <div class="modal-content">
-                        <form method="POST" action="{{ url('/connects/'.$student->user_id) }}">
+                        <form method="POST" action="{{ url('/connects/'.$tutor->user_id) }}">
                           @csrf
                           <div class="modal-header">
                             <h5 class="modal-title" id="connection-request-modalLabel">Request to connect</h5>

@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Connection;
 use App\Student;
 use App\Tutor;
+use App\User;
 use Illuminate\Support\Facades\Auth;
 
 
@@ -16,7 +17,7 @@ class ConnectController extends Controller
         $user = Auth::user();
         $connections = array(); 
         
-        $requested_to = Connection::whereNotNull('connections.approved_at')
+        $requested_to = Connection::whereNotNull('connections.accepted_at')
         ->where('connections.request_to', $user->id)
         ->get(['requested_by as user']);
         
@@ -26,7 +27,7 @@ class ConnectController extends Controller
             }
         }
 
-        $requested_by = Connection::whereNotNull('connections.approved_at')
+        $requested_by = Connection::whereNotNull('connections.accepted_at')
         ->where('connections.requested_by', $user->id)
         ->get(['request_to as user']);
         
@@ -91,45 +92,36 @@ class ConnectController extends Controller
             ->orderBy('users.approved_at', 'desc')
             ->get($data);
 
-         
             return view('connects.students.connections', ['tutors' => $tutors]);
-
         }
-
     }
 
     public function requests()
     {
         $user = Auth::user();
+        $requests = false;
         if($user->type == 2) {
             
-
-            $requests = Connection::join('users', 'users.id', 'connections.request_to')
-            ->join('students', 'users.id', 'students.user_id')
-            ->whereNull('connections.approved_at')
-            ->where('connections.request_to', $user->id)
-            ->get(['connections.id as id', 'students.id as student_id', 'users.first_name', 'users.last_name']);
-
-            return view('connects.tutors.requests', ['requests' => $requests]);
-
-        } elseif($user->type == 3) {
-
-            $requests = Connection::join('users', 'users.id', 'connections.request_to')
-            ->join('students', 'users.id', 'students.user_id')
-            ->whereNull('connections.approved_at')
+            $requests = Student::join('users', 'users.id', 'students.user_id')
+            ->join('connections', 'users.id', 'connections.requested_by')
             ->where('connections.request_to', $user->id)
             ->get(['connections.id as id', 'students.id as student_id', 'users.first_name', 'users.last_name', 'connections.created_at']);
 
-            return view('connects.students.requests', ['requests' => $requests]);
+        } elseif($user->type == 3) {
 
+            $requests = Tutor::join('users', 'users.id', 'tutors.user_id')
+            ->join('connections', 'users.id', 'connections.requested_by')
+            ->where('connections.request_to', $user->id)
+            ->get(['connections.id as id', 'tutors.id as tutor_id', 'users.first_name', 'users.last_name', 'connections.created_at']);
         }
-        
+
+        return view('connects.requests', ['requests' => $requests]);
     }
 
-    public function connect($request_to)
+    public function connect($user_id)
     {
         $connection_data = array(
-            'request_to' => $request_to,
+            'request_to' => $user_id,
             'requested_by' => Auth::user()->id,
         );
 
@@ -142,9 +134,9 @@ class ConnectController extends Controller
         return redirect()->back()->with('error', 'Failed to send the request. Please try again.');
     }
 
-    public function cancel($request_to)
+    public function cancel($user_id)
     {
-        $cancel = Connection::where('request_to', $request_to)
+        $cancel = Connection::where('request_to', $user_id)
         ->where('requested_by', Auth::user()->id)
         ->delete();
 
@@ -155,13 +147,38 @@ class ConnectController extends Controller
         return redirect()->back()->with('error', 'Failed to cancel the request. Please try again.');
     }
 
-    public function accept()
+    public function accept($user_id)
     {
+        $accept = Connection::where('request_to', Auth::user()->id)
+        ->where('requested_by', $user_id)
+        ->update(['accepted_at' => date('Y-m-d H:i:s')]);
 
+       // print_r($accept);
+
+       // exit;
+
+        if($accept) {
+            return redirect()->back()->with('success', 'Connection request successfully accepted.');
+        }
+
+        return redirect()->back()->with('error', 'Failed to accept the request. Please try again.');
     }
 
-    public function reject() 
+    public function reject($user_id) 
     {
+        $user = Auth::user();
+        $delete = Connection::where('request_to', $user->id)
+        ->where('requested_by', $user_id)
+        ->delete();
 
+        if($delete) {
+            if($user->type == 2) {
+                return redirect('/students')->with('success', 'Connection request successfully rejected.');
+            } elseif($user->type == 3) {
+                return redirect('/tutors')->with('success', 'Connection request successfully rejected.');
+            } 
+        }
+
+        return redirect()->back()->with('error', 'Failed to reject the request. Please try again.');
     }
 }

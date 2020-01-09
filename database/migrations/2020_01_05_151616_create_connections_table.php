@@ -18,8 +18,7 @@ class CreateConnectionsTable extends Migration
             $table->integer('request_to');
             $table->integer('requested_by');
             $table->boolean('seen')->default(0);
-            $table->timestamp('approved_at')->nullable();
-            $table->integer('approved_by')->nullable();
+            $table->timestamp('accepted_at')->nullable();
             $table->timestamps();
         });
     }

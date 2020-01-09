@@ -55,10 +55,25 @@
                   <h6 class="text-muted">Contact Details</h6>
                   <hr class="mt-0" />
                 </li>
-                <li><span class="text-muted">Email Address: </span>{{ $student->user_email }}</li>
+                <li>
+                  <span class="text-muted">Email Address: </span>
+                  @if($connection['connected']) 
+                  {{ $student->user_email }}
+                  @else 
+                  <span class="text-warning">********@******.com</span>
+                  @endif 
+                </li>
                 
                 @if($student->user_mobile != "") 
-                <li><span class="text-muted">Mobile: </span> +880{{ $student->user_mobile }}</li>
+                <li>
+                  <span class="text-muted">Mobile: </span> 
+                  @if($connection['connected']) 
+                  +880{{ $student->user_mobile }}
+                  @else 
+                  <span class="text-warning">+880 **** ******</span>
+                  @endif 
+                 
+                </li>
                 @endif 
               </ul>
             </div>
@@ -67,10 +82,14 @@
 
         <div class="card-footer text-center pt-4 pb-4">
           @if(auth()->user()->type == 1)
+
             @if($student->reviewed == 0)
+
               @include('students.modals.approve')
               @include('students.modals.disapprove')
+
             @else
+
               @if($student->approved_at == "")
                 @include('students.modals.approve')
                 <!-- disapproved profile -->
@@ -80,10 +99,19 @@
                 <button type="button" class="btn btn-sm btn-success mr-2">Approved profile</button>
                 @include('students.modals.disapprove')
               @endif 
+
             @endif
-          @elseif(auth()->user()->type == 3)
-            @include('students.modals.disconnect')
-            @include('students.modals.block')
+
+          @elseif(auth()->user()->type == 2)
+            
+            @if($connection['connected']) 
+              @include('students.modals.disconnect')
+              @include('students.modals.block')
+            @elseif($connection['request'] == 'received') 
+              @include('students.modals.accept')
+              @include('students.modals.reject')
+            @endif 
+
           @endif
         </div>
 

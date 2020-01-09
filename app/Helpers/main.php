@@ -4,14 +4,32 @@ function dev_name() {
         echo "Eliza Ahmed";
     }
 
-    function has_connection($request_to) {
+    function has_connection($user_id) {
+        $received = \App\Connection::where('requested_by', $user_id)
+        ->where('request_to', Auth::user()->id)
+        ->first();
 
-        $connection = \App\Connection::where('request_to', $request_to)
+        if($received) {
+            if($received->accepted_at == '') {
+                return ['connected' => false, 'request' => 'received', 'time' => $received->created_at];
+            } else {
+                return ['connected' => true, 'request' => 'received', 'time' => $received->created_at];
+            }
+        }
+
+        $sent = \App\Connection::where('request_to', $user_id)
         ->where('requested_by', Auth::user()->id)
         ->first();
 
-        return $connection;
+        if($sent) {
+            if($sent->accepted_at == '') {
+                return ['connected' => false, 'request' => 'sent', 'time' => $sent->created_at];
+            } else {
+                return ['connected' => true, 'request' => 'sent', 'time' => $received->created_at];
+            }
+        }
 
+        return ['connected' => false, 'request' => false];
     }
 
 
