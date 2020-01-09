@@ -175,6 +175,16 @@ class ProfileController extends Controller
         return redirect()->back()->with('success', 'Profile of '.$user->first_name.' '.$user->last_name.' successfully disapproved.');
     }
 
+    public function block($user_id)
+    {
+
+    }
+
+    public function unblock($user_id)
+    {
+
+    }
+
     /**
      * Remove the specified resource from storage.
      *

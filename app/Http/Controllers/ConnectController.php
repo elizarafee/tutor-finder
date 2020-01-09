@@ -105,17 +105,24 @@ class ConnectController extends Controller
             $requests = Student::join('users', 'users.id', 'students.user_id')
             ->join('connections', 'users.id', 'connections.requested_by')
             ->where('connections.request_to', $user->id)
+            ->whereNull('connections.accepted_at')
             ->get(['connections.id as id', 'students.id as student_id', 'users.first_name', 'users.last_name', 'connections.created_at']);
 
+            return view('connects.tutors.requests', ['requests' => $requests]);
+        
         } elseif($user->type == 3) {
 
             $requests = Tutor::join('users', 'users.id', 'tutors.user_id')
             ->join('connections', 'users.id', 'connections.requested_by')
             ->where('connections.request_to', $user->id)
+            ->whereNull('connections.accepted_at')
             ->get(['connections.id as id', 'tutors.id as tutor_id', 'users.first_name', 'users.last_name', 'connections.created_at']);
+        
+            return view('connects.students.requests', ['requests' => $requests]);
+        
         }
 
-        return view('connects.requests', ['requests' => $requests]);
+        
     }
 
     public function connect($user_id)
@@ -145,6 +152,11 @@ class ConnectController extends Controller
         }
 
         return redirect()->back()->with('error', 'Failed to cancel the request. Please try again.');
+    }
+
+    public function disconnect($user_id)
+    {
+
     }
 
     public function accept($user_id)

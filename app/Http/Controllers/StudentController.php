@@ -161,10 +161,10 @@ class StudentController extends Controller
         $connection = has_connection($student->user_id);
 
        if($connection['connected'] || $connection['request'] == 'received') {
-            return view('tutors.show', ['tutor' => $student, 'connection' => $connection]);
+            return view('students.show', ['student' => $student, 'connection' => $connection]);
        }
 
-       return redirect('/tutors')->with('warning', 'You are not connected with '.$student->user_first_name.' '.$student->user_last_name);
+       return redirect('/students')->with('warning', 'You are not connected with '.$student->user_first_name.' '.$student->user_last_name);
        
     }
 
