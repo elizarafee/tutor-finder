@@ -18,7 +18,6 @@ use Illuminate\Support\Facades\Mail;
 use App\Mail\ProfileApproved;
 use App\Mail\ProfileDisapproved;
 
-
 class ProfileController extends Controller
 {
     public function review()
@@ -79,11 +78,7 @@ class ProfileController extends Controller
             $tutor = Tutor::where('user_id', $user->id)->first();
             if ($tutor) {
                 $qualification = TutorQualification::where('tutor_id', $tutor->id)->first();
-                if ($completed_profile != '') {
-                    return view('profiles.tutor', ['user' => $user, 'tutor' => $tutor, 'qualification' => $qualification]);
-                } else {
-                    return view('tutors.edit', ['user' => $user]);
-                }
+                return view('profiles.tutor', ['user' => $user, 'tutor' => $tutor, 'qualification' => $qualification]);
             } else {
                 return view('tutors.create', ['user' => $user]);
             }
@@ -91,11 +86,7 @@ class ProfileController extends Controller
             // Student Guardian
             $student = student::where('user_id', $user->id)->first();
             if ($student) {
-                if ($completed_profile != '') {
-                    return view('profiles.student', ['user' => $user, 'student' => $student]);
-                } else {
-                    return view('students.edit', ['user' => $user]);
-                }
+                return view('profiles.student', ['user' => $user, 'student' => $student]);
             } else {
                 return view('students.create', ['user' => $user]);
             }
@@ -113,7 +104,6 @@ class ProfileController extends Controller
     {
         DB::beginTransaction();
         try {
-    
             User::where('id', $user_id)->update([
                 'reviewed' => 1,
                 'approved_at' => date('Y-m-d H:i:s'),
@@ -144,7 +134,6 @@ class ProfileController extends Controller
      */
     public function disapprove(Request $request, $user_id)
     {
-
         $validator = Validator::make($request->all(), [
             'reason' => 'required',
         ]);
@@ -181,13 +170,11 @@ class ProfileController extends Controller
     {
         DB::beginTransaction();
         try {
-
-            Connection::where('request_to',  Auth::id())
+            Connection::where('request_to', Auth::id())
                 ->where('requested_by', $user_id)
                 ->delete();
 
             Block::create(['blocked' => $user_id, 'blocked_by' => Auth::id()]);
-
         } catch (\Exception $e) {
             DB::rollBack();
             return redirect()->back()->with('error', 'Failed to block the profile. Please try again.'.$e->getMessage());
@@ -199,7 +186,6 @@ class ProfileController extends Controller
 
     public function unblock($user_id)
     {
-
     }
 
     /**
