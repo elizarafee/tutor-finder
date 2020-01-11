@@ -71,7 +71,7 @@
                   <h6 class="text-muted">Proof of Document (for qualification)</h6>
                   <hr class="mt-0" />
 
-                  @if($user->proof_of_doc == '')
+                  @if($qualification->proof_of_doc == '')
                   <i class="far fa-image fa-9x text-light"></i>
                   @else
                   <img src="{{ asset('storage/'.$qualification->proof_of_doc) }}" class="img-thumbnail" alt="Profile Picture">
@@ -93,107 +93,11 @@
 
           @if(auth()->user()->active == 1)
 
-          <!-- deactive profile modal -->
-          <button type="button" class="btn btn-sm btn-outline-secondary mr-2" data-toggle="modal" data-target="#deactive-profile-modal">
-            Deactive profile
-          </button>
-          <div class="modal fade" id="deactive-profile-modal" tabindex="-1" role="dialog" aria-labelledby="deactive-profile-modalLabel" aria-hidden="true">
-            <div class="modal-dialog" role="document">
-              <div class="modal-content">
-
-                <form method="POST" action="{{ url('/profile/'.auth()->user()->id.'/deactive') }}">
-                  @csrf
-                  @method('PUT')
-
-                  <div class="modal-header">
-                    <h5 class="modal-title" id="deactive-profile-modalLabel">Deactive profile</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                      <span aria-hidden="true">&times;</span>
-                    </button>
-                  </div>
-                  <div class="modal-body">
-                    <p class="text-left">
-                      Are you sure to deactive your profile?
-                    </p>
-                  </div>
-
-                  <div class="modal-footer">
-                    <button type="button" class="btn btn-sm btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-sm btn-success">Yes</button>
-                  </div>
-              </div>
-              </form>
-            </div>
-          </div>
-
+          <a href="{{ url('/tutor/edit') }}" class="btn btn-sm btn-outline-primary mr-2">Update profile</a>
+          @include('profiles.modals.deactivate')
           @else
 
-          <!-- activate profile modal -->
-          <button type="button" class="btn btn-sm btn-outline-success mr-2" data-toggle="modal" data-target="#activate-profile-modal">
-            Activate profile
-          </button>
-          <div class="modal fade" id="activate-profile-modal" tabindex="-1" role="dialog" aria-labelledby="activate-profile-modalLabel" aria-hidden="true">
-            <div class="modal-dialog" role="document">
-              <div class="modal-content">
-
-                <form method="POST" action="{{ url('/profile/'.$student->user_id.'/activate') }}">
-                  @csrf
-                  @method('PUT')
-
-                  <div class="modal-header">
-                    <h5 class="modal-title" id="activate-profile-modalLabel">Activate profile </h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                      <span aria-hidden="true">&times;</span>
-                    </button>
-                  </div>
-                  <div class="modal-body">
-                    <p class="text-left">
-                      Are you sure to activate your profile?
-                    </p>
-                  </div>
-                  <div class="modal-footer">
-                    <button type="button" class="btn btn-sm btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-sm btn-success">Activate</button>
-                  </div>
-              </div>
-              </form>
-            </div>
-          </div>
-
-          <!-- delete profile modal -->
-          <button type="button" class="btn btn-sm btn-outline-danger" data-toggle="modal" data-target="#delete-profile-modal">
-            Delete profile
-          </button>
-          <div class="modal fade" id="delete-profile-modal" tabindex="-1" role="dialog" aria-labelledby="delete-profile-modalLabel" aria-hidden="true">
-            <div class="modal-dialog" role="document">
-              <div class="modal-content">
-
-                <form method="POST" action="{{ url('/profile/'.$student->user_id) }}">
-                  @csrf
-                  @method('DELETE')
-
-                  <div class="modal-header">
-                    <h5 class="modal-title" id="delete-profile-modalLabel">Delete profile</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                      <span aria-hidden="true">&times;</span>
-                    </button>
-                  </div>
-                  <div class="modal-body">
-                    <p class="text-left">
-                      Are you sure to delete your profile?
-                      It will delete profile and all the it's realated information.
-                    </p>
-                    <p class="text-left text-info">Rether deative your profile. It will hide your profile from students.</p>
-                  </div>
-                  <div class="modal-footer">
-                    <button type="button" class="btn btn-sm btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-sm btn-danger">Delete</button>
-                  </div>
-              </div>
-              </form>
-            </div>
-          </div>
-
+          @include('profiles.modals.activate')
           @endif
 
         </div>

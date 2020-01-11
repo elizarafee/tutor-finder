@@ -2,12 +2,17 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use App\Connection;
-use App\Student;
-use App\Tutor;
+use DB;
 use App\User;
+use App\Tutor;
+use App\Student;
+use App\Connection;
+
 use Illuminate\Support\Facades\Auth;
+
+use Illuminate\Support\Facades\Mail;
+use App\Mail\RequestToConnect;
+use App\Mail\RequestAccepted;
 
 
 class ConnectController extends Controller
@@ -125,21 +130,29 @@ class ConnectController extends Controller
         
     }
 
-    public function connect($user_id)
+    public function connect($request_to)
     {
-        $connection_data = array(
-            'request_to' => $user_id,
-            'requested_by' => Auth::user()->id,
-        );
+        DB::beginTransaction();
+        try {
+            $connection_data = array(
+                'request_to' => $request_to,
+                'requested_by' => Auth::user()->id,
+            );
+    
+            Connection::create($connection_data);
 
-        $connection = Connection::create($connection_data);
+            $user = User::find($request_to);
+            $requested_by = Auth::user()->first_name.' '.Auth::user()->last_name;
+            Mail::to($user->email)->send(new RequestToConnect($user, $requested_by));
 
-        if($connection) {
-            return redirect()->back()->with('success', 'Connection request successfully sent.');
+        } catch(\Exception $e) {
+            DB::rollBack();
+            return redirect()->back()->with('error', 'Failed to send the request. Please try again.');
         }
 
-        return redirect()->back()->with('error', 'Failed to send the request. Please try again.');
-    }
+        DB::commit();
+        return redirect()->back()->with('success', 'Connection request successfully sent.');
+   }
 
     public function cancel($user_id)
     {
@@ -173,17 +186,26 @@ class ConnectController extends Controller
         return redirect()->back()->with('error', 'Failed to disconnect. Please try again.');
     }
 
-    public function accept($user_id)
+    public function accept($requested_by)
     {
-        $accept = Connection::where('request_to', Auth::user()->id)
-        ->where('requested_by', $user_id)
+        DB::beginTransaction();
+        try {
+            Connection::where('request_to', Auth::user()->id)
+        ->where('requested_by', $requested_by)
         ->update(['accepted_at' => date('Y-m-d H:i:s')]);
 
-        if($accept) {
-            return redirect()->back()->with('success', 'Connection request successfully accepted.');
+            $user = User::find($requested_by);
+            $accepted_by = Auth::user()->first_name.' '.Auth::user()->last_name;
+            Mail::to($user->email)->send(new RequestAccepted($user, $accepted_by));
+
+        } catch(\Exception $e) {
+            DB::rollBack();
+            return redirect()->back()->with('error', 'Failed to accept the request. Please try again.');
         }
 
-        return redirect()->back()->with('error', 'Failed to accept the request. Please try again.');
+        DB::commit();
+        return redirect()->back()->with('success', 'Connection request successfully accepted.');
+
     }
 
     public function reject($user_id) 

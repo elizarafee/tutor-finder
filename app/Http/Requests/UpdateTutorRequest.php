@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Auth;
 
 class UpdateTutorRequest extends FormRequest
 {
@@ -26,14 +27,14 @@ class UpdateTutorRequest extends FormRequest
         return [
             'first_name' => 'required|string|max:255',
             'last_name' => 'required|string|max:255',
-            'email' => 'required|email|unique:users',
+            'email' => 'required|email|unique:users,email,'.Auth::id(),
             'bio' => 'required',
             'gender' => 'required',
             'year_of_birth' => 'required|numeric|digits:4',
             'picture' => 'nullable|image|max:1024',
             'proof_of_id' => 'nullable|image|max:2048',
             'subjects' => 'required',
-            'areas' => 'required',
+            'locations' => 'required',
             'years' => 'required',
             'salary' => 'required|numeric',
             'mobile' => 'required|numeric|digits:10',

@@ -26,6 +26,21 @@
                         </div>
 
                         <div class="form-group row">
+                            <label for="picture" class="col-md-4 col-form-label text-md-right">Profile Picture</label>
+                            <div class="col-md-6">
+                                <input type="file" name="picture" class="btn btn-sm btn-outline-secondary @error('picture') is-invalid @enderror">
+                                <small class="form-text text-info"></small>
+
+                                @error('picture')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                                @enderror
+
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
                             <label for="bio" class="col-md-4 col-form-label text-md-right">Bio <span class="text-danger">*</span></label>
                             <div class="col-md-6">
                                 <textarea id="bio" class="form-control @error('bio') is-invalid @enderror" name="bio">{{ old('bio') }}</textarea>
@@ -70,28 +85,11 @@
                             </div>
                         </div>
 
-
-                        <div class="form-group row">
-
-                            <label for="picture" class="col-md-4 col-form-label text-md-right">Profile Picture</label>
-                            <div class="col-md-6">
-                                <input type="file" name="picture" class="btn btn-sm btn-outline-secondary @error('picture') is-invalid @enderror">
-                                <small class="form-text text-info"></small>
-
-                                @error('picture')
-                                <span class="invalid-feedback" role="alert">
-                                    <strong>{{ $message }}</strong>
-                                </span>
-                                @enderror
-
-                            </div>
-                        </div>
-
                         <div class="form-group row">
                             <label for="proof_of_id" class="col-md-4 col-form-label text-md-right">Proof of Identification <span class="text-danger">*</span></label>
                             <div class="col-md-6">
                                 <input type="file" name="proof_of_id" class="btn btn-sm btn-outline-secondary @error('proof_of_id') is-invalid @enderror">
-                                <small class="form-text text-danger"><span class="text-info">i.e. NID card, Passport, Driving Licence, Student ID card.</span> Your profile will not be approved without a valid Proof of identification.</small>
+                                <small class="form-text text-info">i.e. NID card, Passport, Driving Licence, Student ID card. Your profile will not be approved without a valid Proof of identification.</small>
 
                                 @error('proof_of_id')
                                 <span class="invalid-feedback" role="alert">
@@ -278,7 +276,7 @@
                             <label for="proof_of_doc" class="col-md-4 col-form-label text-md-right">Proof of Document <span class="text-danger">*</span></label>
                             <div class="col-md-6">
                                 <input type="file" name="proof_of_doc" class="btn btn-sm btn-outline-secondary @error('proof_of_doc') is-invalid @enderror">
-                                <small class="form-text text-danger"><span class="text-info">i.e. Certificate, Registration card, Student photo card.</span> Your profile will not be approved without a valid Proof of document.</small>
+                                <small class="form-text text-info">i.e. Certificate, Registration card, Student photo card. Your profile will not be approved without a valid Proof of document.</small>
 
                                 @error('proof_of_doc')
                                 <span class="invalid-feedback" role="alert">

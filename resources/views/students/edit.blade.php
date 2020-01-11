@@ -87,9 +87,8 @@
 
                                 <input type="file" name="proof_of_id"
                                     class="btn btn-sm btn-outline-secondary @error('proof_of_id') is-invalid @enderror">
-                                <small class="form-text text-danger"><span class="text-info">i.e. NID card, Passport,
-                                        Driving Licence, Student ID card.</span> Your profile will not be approved
-                                    without a valid Proof of identification.</small>
+                                    <small class="form-text text-info">i.e. NID card, Passport, Driving Licence, Student ID card. Your profile will not be approved without a valid Proof of identification.</small>
+
 
                                 @error('proof_of_id')
                                 <span class="invalid-feedback" role="alert">
@@ -178,7 +177,7 @@
                                     </div>
                                     <input type="text" name="mobile"
                                         class="form-control @error('mobile') is-invalid @enderror"
-                                        aria-describedby="inputMobilePrepend" @if(isset($student->user_mobile)) value="{{ $student->user_mobile }}" @else value="{{ old('mobile') }}" @endif>
+                                        aria-describedby="inputMobilePrepend" @if(old('mobile')) value="{{ old('mobile') }}" @elseif($tutor->user_mobile) value="{{ $tutor->user_mobile }}" @endif>
 
                                     @error('mobile')
                                     <div class="invalid-feedback" role="alert">
@@ -188,7 +187,7 @@
                                 </div>
 
                                 <small class="form-text text-info">Please provide the mobile no. you want receive calls
-                                    from guardians</small>
+                                    from tutors.</small>
                             </div>
                         </div>
 

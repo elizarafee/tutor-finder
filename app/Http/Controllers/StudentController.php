@@ -114,7 +114,7 @@ class StudentController extends Controller
             Mail::to($user->email)->send(new ProfileUpdated($user));
         
             // review profile
-            Mail::to('eliza@tutorfinder.com')->send(new ReviewProfile($user));
+            Mail::to(developer('email'))->send(new ReviewProfile($user));
 
         } catch(\Exception $e) {
             DB::rollBack();
@@ -248,33 +248,6 @@ class StudentController extends Controller
                 'requirements' => $request->get('requirements'),
             );
 
-            Student::where('user_id', $user->id)->update($student_data);
-
-            $picture = null;
-            if($request->has('picture')) {
-                $picture = $request->file('picture')->store('docs/'.$user->id.'/profiles', 'public');
-                
-                if($picture) {
-                    $old_pp = Storage::disk('public')->exists($user->picture);
-                    if($old_pp) {
-                        Storage::disk('public')->delete($user->picture);
-                    }
-                }
-
-            } 
-
-            $proof_of_id = null;
-            if($request->has('proof_of_id')) {
-                $proof_of_id = $request->file('proof_of_id')->store('docs/'.$user->id.'/proof_of_ids', 'public');
-            
-                if($proof_of_id) {
-                    $old_poi = Storage::disk('public')->exists($user->proof_of_id);
-                    if($old_poi) {
-                        Storage::disk('public')->delete($user->proof_of_id);
-                    }
-                }
-            }
-            
             $user_data = array(
                 'first_name' => $request->get('first_name'),
                 'last_name' => $request->get('last_name'),
@@ -287,20 +260,43 @@ class StudentController extends Controller
                 'rejection_reason' => null,
             );
 
-            if($picture) {
+            
+            if($request->has('picture')) {
+                $picture = $request->file('picture')->store('docs/'.$user->id.'/profiles', 'public');
+                
+                if($picture) {
+                    $old_pp = Storage::disk('public')->exists($user->picture);
+                    if($old_pp) {
+                        Storage::disk('public')->delete($user->picture);
+                    }
+                }
+
                 $user_data['picture'] = $picture;
-            }
-            if($proof_of_id) {
+            } 
+
+            $proof_of_id = null;
+            if($request->has('proof_of_id')) {
+                $proof_of_id = $request->file('proof_of_id')->store('docs/'.$user->id.'/proof_of_ids', 'public');
+            
+                if($proof_of_id) {
+                    $old_poi = Storage::disk('public')->exists($user->proof_of_id);
+                    if($old_poi) {
+                        Storage::disk('public')->delete($user->proof_of_id);
+                    }
+                }
+
                 $user_data['proof_of_id'] = $proof_of_id;
             }
+            
 
+            Student::where('user_id', $user->id)->update($student_data);
             User::where('id', $user->id)->update($user_data);
 
             // profile updated
             Mail::to($user->email)->send(new ProfileUpdated($user));
         
             // review profile
-            Mail::to('eliza@tutorfinder.com')->send(new ReviewProfile($user));
+            Mail::to(developer('email'))->send(new ReviewProfile($user));
 
         } catch(\Exception $e) {
             DB::rollBack();

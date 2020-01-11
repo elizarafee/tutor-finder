@@ -12,6 +12,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 use App\Http\Requests\StoreTutorRequest;
+use App\Http\Requests\UpdateTutorRequest;
 
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Mail;
@@ -75,7 +76,7 @@ class TutorController extends Controller
                 'gender' => $request->get('gender'),
                 'year_of_birth' => $request->get('year_of_birth'),
                 'covered_subjects' => $request->get('subjects'),
-                'covered_area' => $request->get('areas'),
+                'locations' => $request->get('locations'),
                 'covered_years' => $request->get('years'),
                 'salary' => $request->get('salary'),
             );
@@ -115,7 +116,7 @@ class TutorController extends Controller
             Mail::to($user->email)->send(new ProfileUpdated($user));
         
             // review profile
-            Mail::to('eliza@tutorfinder.com')->send(new ReviewProfile($user));
+            Mail::to(developer('email'))->send(new ReviewProfile($user));
 
         } catch(\Exception $e) {
             DB::rollBack();
@@ -182,9 +183,41 @@ class TutorController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit()
     {
-        //
+        $data = array(
+            'users.id as user_id', 
+            'users.first_name as user_first_name', 
+            'users.last_name as user_last_name', 
+            'users.email as user_email', 
+            'users.mobile as user_mobile', 
+            'users.picture as user_picture', 
+            'users.proof_of_id as user_proof_of_id', 
+            'users.approved_at',
+            'users.reviewed',
+            'users.type as user_type',
+            'tutors.id as id', 
+            'tutors.bio', 
+            'tutors.year_of_birth', 
+            'tutors.gender', 
+            'tutors.locations', 
+            'tutors.covered_subjects', 
+            'tutors.covered_years',
+            'tutors.salary',  
+            'tutor_qualifications.level',
+            'tutor_qualifications.subject', 
+            'tutor_qualifications.institute', 
+            'tutor_qualifications.status', 
+            'tutor_qualifications.proof_of_doc',
+            'tutor_qualifications.note',
+       );
+
+       $tutor = Tutor::join('users', 'users.id', 'tutors.user_id')
+       ->join('tutor_qualifications', 'tutors.id', 'tutor_qualifications.tutor_id')
+       ->where('users.id', Auth::id())
+       ->first($data);
+
+        return view('tutors.edit', ['tutor' => $tutor]);
     }
 
     /**
@@ -194,9 +227,103 @@ class TutorController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request)
+    public function update(UpdateTutorRequest $request)
     {
-        echo "update";
+
+        $user = Auth::user();
+        $tutor = Tutor::join('users', 'users.id', 'tutors.user_id')
+       ->join('tutor_qualifications', 'tutors.id', 'tutor_qualifications.tutor_id')
+       ->where('users.id', Auth::id())
+       ->first(['users.id as user_id', 'tutors.id as tutor_id', 'tutor_qualifications.id as qualification_id', 'tutor_qualifications.proof_of_doc']);
+
+
+        DB::beginTransaction();
+        try {
+            $tutor_data = array(
+                'bio' => $request->get('bio'),
+                'gender' => $request->get('gender'),
+                'year_of_birth' => $request->get('year_of_birth'),
+                'covered_subjects' => $request->get('subjects'),
+                'locations' => $request->get('locations'),
+                'covered_years' => $request->get('years'),
+                'salary' => $request->get('salary'),
+            );
+
+            $tutor_qualification_data = array(
+                'level' => $request->get('level'),
+                'subject' => $request->get('subject'),
+                'institute' => $request->get('institute'),
+                'status' => $request->get('status'),
+                'note' => $request->get('note'),
+            );
+
+            $user_data = array(
+                'first_name' => $request->get('first_name'),
+                'last_name' => $request->get('last_name'),
+                'email' => $request->get('email'),
+                'mobile' => $request->get('mobile'),
+                'completed_at' => date('Y-m-d H:i:s'),
+                'reviewed' => 0,
+                'approved_at' => null,
+                'rejected_at' => null,
+                'rejection_reason' => null,
+            );
+
+            if($request->has('picture')) {
+                $picture = $request->file('picture')->store('docs/'.$user->id.'/profiles', 'public');
+                
+                if($picture) {
+                    $old_pp = Storage::disk('public')->exists($user->picture);
+                    if($old_pp) {
+                        Storage::disk('public')->delete($user->picture);
+                    }
+                }
+
+                $user_data['picture'] = $picture;
+            } 
+
+            if($request->has('proof_of_id')) {
+                $proof_of_id = $request->file('proof_of_id')->store('docs/'.$user->id.'/proof_of_ids', 'public');
+            
+                if($proof_of_id) {
+                    $old_poi = Storage::disk('public')->exists($user->proof_of_id);
+                    if($old_poi) {
+                        Storage::disk('public')->delete($user->proof_of_id);
+                    }
+                }
+                $user_data['proof_of_id'] = $proof_of_id;
+            }
+
+            if($request->has('proof_of_doc')) {
+                $proof_of_doc = $request->file('proof_of_doc')->store('docs/'.$user->id.'/qualifications/'.$tutor->qualification_id, 'public');
+            
+                if($proof_of_doc) {
+                    $old_pod = Storage::disk('public')->exists($tutor->proof_of_doc);
+                    if($old_pod) {
+                        Storage::disk('public')->delete($tutor->proof_of_doc);
+                    }
+                }
+                $tutor_qualification_data['proof_of_doc'] = $proof_of_doc;
+            }
+
+            TutorQualification::where('id', $tutor->qualification_id)->update($tutor_qualification_data);
+            Tutor::where('id', $tutor->tutor_id)->update($tutor_data);
+            User::where('id', $user->id)->update($user_data);
+
+            // profile updated
+            Mail::to($user->email)->send(new ProfileUpdated($user));
+        
+            // review profile
+            Mail::to(developer('email'))->send(new ReviewProfile($user));
+
+        } catch(\Exception $e) {
+            DB::rollBack();
+            Storage::deleteDirectory('docs/'.$user->id);
+            return redirect('/profile')->with('error', 'Failed to update profile. Please try again.('.$e->getMessage().')');
+        }
+
+        DB::commit();
+        return redirect('/profile')->with('success', 'Profile successfully updated. Admin will review to approve it.');
     }
 
     /**

@@ -2,7 +2,7 @@
             <div class="container">
                 <div class="row justify-content-center">
                     <div class="col-md-8 pt-4 text-muted text-center">
-                        <p>This application is designed and developed by {{ dev_name() }}</p>
+                        <p>This application is designed and developed by {{ developer('name') }}</p>
                         <p>
                             <a href="{{url('/about')}}" class="mr-2">About</a>
                             <a href="{{url('/terms-of-use')}}" class="mr-2">Terms of Use</a>

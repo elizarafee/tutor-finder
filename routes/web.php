@@ -18,9 +18,9 @@ use App\Mail\ProfileCompleted;
 
 Route::group(['middleware' => ['auth', 'verified']], function () {
 
-
 Route::get('/tutors/create', 'TutorController@create');
 Route::get('/tutors/{tutor_id}', 'TutorController@show');
+Route::get('/tutor/edit', 'TutorController@edit');
 Route::put('/tutors', 'TutorController@update');
 Route::post('/tutors', 'TutorController@store');
 Route::get('/tutors', 'TutorController@index');

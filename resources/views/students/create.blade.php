@@ -44,7 +44,7 @@
                             <label for="proof_of_id" class="col-md-4 col-form-label text-md-right">Proof of Identification <span class="text-danger">*</span></label>
                             <div class="col-md-6">
                                 <input type="file" name="proof_of_id" class="btn btn-sm btn-outline-secondary @error('proof_of_id') is-invalid @enderror">
-                                <small class="form-text text-danger"><span class="text-info">i.e. NID card, Passport, Driving Licence, Student ID card.</span> Your profile will not be approved without a valid Proof of identification.</small>
+                                <small class="form-text text-info">i.e. NID card, Passport, Driving Licence, Student ID card. Your profile will not be approved without a valid Proof of identification.</small>
 
                                 @error('proof_of_id')
                                 <span class="invalid-feedback" role="alert">
@@ -120,7 +120,7 @@
                                     @enderror
                                 </div>
 
-                                <small class="form-text text-info">Please provide the mobile no. you want receive calls from guardians</small>
+                                <small class="form-text text-info">Please provide the mobile no. you want receive calls from tutors.</small>
                             </div>
                         </div>
 

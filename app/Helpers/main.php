@@ -1,7 +1,13 @@
 <?php
 
-    function dev_name() {
-        echo "Eliza Ahmed";
+    function developer($key = '') {
+        
+        $info = [
+            'name' => 'Eliza Ahmed',
+            'email' => 'elizarafee@gmail.com',
+        ];
+
+        return (isset($info[$key]))? $info[$key] : '';
     }
 
     function has_connection($user_id) {
