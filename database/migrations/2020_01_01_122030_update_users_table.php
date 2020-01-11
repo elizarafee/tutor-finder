@@ -20,7 +20,7 @@ class UpdateUsersTable extends Migration
             $table->string('mobile', 11)->nullable()->after('last_name');
             $table->text('proof_of_id')->nullable()->after('last_name');
             $table->text('picture')->nullable()->after('last_name');
-            $table->dropUnique('users_email_unique');
+           // $table->dropUnique('users_email_unique');
             $table->boolean('active')->default(1)->after('remember_token');
             $table->boolean('reviewed')->default(0)->after('remember_token');
             $table->timestamp('rejected_at')->nullable()->after('remember_token');

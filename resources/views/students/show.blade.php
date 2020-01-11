@@ -19,10 +19,10 @@
           @endif
           <div class="row">
             <div class="col-sm-6 col-md-3 text-center text-info">
-              @if($student->picture == '')
+              @if($student->user_picture == '')
               <i class="far fa-id-badge fa-9x text-light"></i>
               @else
-              <img src="{{ asset($user->picture) }}" class="img-thumbnail" alt="Profile Picture">
+              <img src="{{ asset($student->user_picture) }}" class="img-thumbnail" alt="Profile Picture">
               @endif
             </div>
             <div class="col-sm-6 col-md-9">
@@ -32,10 +32,10 @@
                 <li class="mt-4 mb-2">
                   <h6 class=" text-muted">Proof of Identification</h6>
                     <hr class="mt-0" />
-                    @if($student->proof_of_id == '')
+                    @if($student->user_proof_of_id == '')
                     <i class="far fa-address-card fa-8x text-light"></i>
                     @else
-                    <img src="{{ asset($student->proof_of_id) }}" class="img-thumbnail" alt="Profile Picture">
+                    <img src="{{ asset($student->user_proof_of_id) }}" class="img-thumbnail" alt="Profile Picture">
                     @endif
                 </li>
                 <li class="mt-4">
@@ -105,11 +105,9 @@
 
           @if($connection['connected'])
             @include('students.modals.disconnect')
-            @include('students.modals.block')
           @elseif($connection['request'] == 'received')
             @include('students.modals.accept')
             @include('students.modals.reject')
-            @include('students.modals.block')
           @endif
 
           @endif

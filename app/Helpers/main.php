@@ -4,27 +4,6 @@
         echo "Eliza Ahmed";
     }
 
-    function has_block($user_id) {
-
-        $blocked = \App\Block::where('blocked', $user_id)
-        ->where('blocked_by', Auth::id())
-        ->first();
-
-        if ($blocked) {
-            return true;
-        }
-
-        $blocked_by = \App\Block::where('blocked_by', $user_id)
-        ->where('blocked', Auth::id())
-        ->first();
-
-        if ($blocked_by) {
-            return true;
-        }
-
-        return false;
-    }
-
     function has_connection($user_id) {
         $received = \App\Connection::where('requested_by', $user_id)
         ->where('request_to', Auth::user()->id)
@@ -113,27 +92,4 @@
             return ($subject)? $subject->name : 'Not found';
         }
         return \App\Area::orderBy('name', 'asc')->get()->toArray();
-    }
-
-    function blocked_profiles()
-    {
-        $profiles = array();
-
-        // profiles logged in user blocked
-        $blocked = \App\Block::where('blocked_by', Auth::id())->get();
-        if ($blocked->count() > 0) {
-            foreach($blocked as $profile) {
-                $profiles[] = $profile->blocked;
-            }
-        }
-
-        // logged in user blocked by other users
-        $blocked_by = \App\Block::where('blocked', Auth::id())->get();
-        if ($blocked_by->count() > 0) {
-            foreach($blocked_by as $profile) {
-                $profiles[] = $profile->blocked_by;
-            }
-        }
-
-        return $profiles;
     }

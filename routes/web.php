@@ -41,10 +41,12 @@ Route::put('/connects/{user_id}/reject', 'ConnectController@reject');
 Route::get('/connections', 'ConnectController@connections');
 
 Route::get('/profiles/review', 'ProfileController@review');
-Route::put('/profiles/{user_id}/block', 'ProfileController@block');
-Route::put('/profiles/{user_id}/unblock', 'ProfileController@unblock');
 Route::put('/profiles/{user_id}/disapprove', 'ProfileController@disapprove');
 Route::put('/profiles/{user_id}/approve', 'ProfileController@approve');
+
+Route::put('/profile/activate', 'ProfileController@activate');
+Route::put('/profile/deactivate', 'ProfileController@deactivate');
+
 Route::get('/profile', 'ProfileController@show');
 
 });

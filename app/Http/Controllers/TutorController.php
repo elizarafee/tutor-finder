@@ -51,7 +51,6 @@ class TutorController extends Controller
         ->whereNotNull('users.approved_at')
         ->where('users.type', 2)
         ->where('users.active', 1)
-        ->whereNotIn('users.id', blocked_profiles())
         ->orderBy('users.approved_at', 'desc')
         ->paginate(10);
         
@@ -167,11 +166,6 @@ class TutorController extends Controller
        ->join('tutor_qualifications', 'tutors.id', 'tutor_qualifications.tutor_id')
        ->where('tutors.id', $tutor_id)
        ->first($data);
-
-        $blocked = has_block($tutor->user_id);
-        if($blocked) {
-            return redirect('/tutors');
-        }
 
        $connection = has_connection($tutor->user_id);
        if(Auth::user()->type == 1 || $connection['connected'] || $connection['request'] == 'received') {

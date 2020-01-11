@@ -11,7 +11,7 @@
                     @method('PUT')
 
                     <div class="card-header">
-                        <h5 class="card-title text-center">Your Profile</h5>
+                        <h5 class="card-title text-center">Update Profile</h5>
                         <h6 class="card-subtitle mb-2 text-muted text-center">Please complete your profile</h6>
                     </div>
 
@@ -28,8 +28,7 @@
                             <div class="col-md-6">
                                 <input id="first_name" type="text"
                                     class="form-control @error('first_name') is-invalid @enderror" name="first_name"
-                                    @if(isset($student->user_first_name)) value="{{ $student->user_first_name }}" @else
-                                value="{{ old('first_name') }}" @endif>
+                                    @if(old('first_name')) value="{{ old('first_name') }}" @elseif(isset($student->user_first_name)) value="{{ $student->user_first_name }}" @endif>
 
                                 @error('first_name')
                                 <span class="invalid-feedback" role="alert">
@@ -46,8 +45,7 @@
                             <div class="col-md-6">
                                 <input id="last_name" type="text"
                                     class="form-control @error('last_name') is-invalid @enderror" name="last_name"
-                                    @if(isset($student->user_last_name)) value="{{ $student->user_last_name }}" @else
-                                value="{{ old('last_name') }}" @endif>
+                                    @if(old('last_name')) value="{{ old('last_name') }}" @elseif(isset($student->user_last_name)) value="{{ $student->user_last_name }}" @endif>
 
                                 @error('last_name')
                                 <span class="invalid-feedback" role="alert">

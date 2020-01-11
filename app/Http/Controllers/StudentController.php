@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use DB;
+use League\Flysystem\File;
 use Illuminate\Support\Facades\Storage;
 use App\User;
 use App\Student;
@@ -13,6 +14,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 use App\Http\Requests\StoreStudentRequest;
+use App\Http\Requests\UpdateStudentRequest;
 
 use Illuminate\Support\Facades\Mail;
 use App\Mail\ProfileUpdated;
@@ -49,7 +51,6 @@ class StudentController extends Controller
         ->whereNotNull('users.approved_at')
         ->where('users.type', 3)
         ->where('users.active', 1)
-        ->whereNotIn('users.id', blocked_profiles())
         ->orderBy('users.approved_at', 'desc')
         ->paginate(10);
         
@@ -96,9 +97,9 @@ class StudentController extends Controller
 
             $picture = null;
             if($request->has('picture')) {
-                $picture = $request->file('picture')->store('storage/docs/'.$user->id.'/profiles', 'public');
+                $picture = $request->file('picture')->store('docs/'.$user->id.'/profiles', 'public');
             } 
-            $proof_of_id = $request->file('proof_of_id')->store('storage/docs/'.$user->id.'/proof_of_ids', 'public');
+            $proof_of_id = $request->file('proof_of_id')->store('docs/'.$user->id.'/proof_of_ids', 'public');
 
             $user_data = array(
                 'picture' => $picture,
@@ -160,11 +161,6 @@ class StudentController extends Controller
         ->where('students.id', $student_id)
         ->first($data);
 
-        $blocked = has_block($student->user_id);
-        if($blocked) {
-            return redirect('/students');
-        }
-
         $connection = has_connection($student->user_id);
 
        if(Auth::user()->type == 1 || $connection['connected'] || $connection['request'] == 'received') {
@@ -183,6 +179,17 @@ class StudentController extends Controller
      */
     public function edit()
     {
+
+
+        // $user = Auth::user();
+        // $file = Storage::disk('public')->exists($user->picture);
+
+        // print_r($file);
+
+
+        // exit;
+
+
         $data = array(
             'users.id as user_id', 
             'users.first_name as user_first_name', 
@@ -221,21 +228,86 @@ class StudentController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request)
+    public function update(UpdateStudentRequest $request)
     {
-        echo "<pre>";
-        print_r($request->all());
-        echo "</pre>";
-    }
+       
+        $user = Auth::user();
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
+        DB::beginTransaction();
+        try {
+
+            $student_data = array(
+                'bio' => $request->get('bio'),
+                'gender' => $request->get('gender'),
+                'year_of_birth' => $request->get('year_of_birth'),
+                'class' => $request->get('class'),
+                'institute' => $request->get('institute'),
+                'subjects' => $request->get('subjects'),
+                'location' => $request->get('location'),
+                'budget' => $request->get('budget'),
+                'requirements' => $request->get('requirements'),
+            );
+
+            Student::where('user_id', $user->id)->update($student_data);
+
+            $picture = null;
+            if($request->has('picture')) {
+                $picture = $request->file('picture')->store('docs/'.$user->id.'/profiles', 'public');
+                
+                if($picture) {
+                    $old_pp = Storage::disk('public')->exists($user->picture);
+                    if($old_pp) {
+                        Storage::disk('public')->delete($user->picture);
+                    }
+                }
+
+            } 
+
+            $proof_of_id = null;
+            if($request->has('proof_of_id')) {
+                $proof_of_id = $request->file('proof_of_id')->store('docs/'.$user->id.'/proof_of_ids', 'public');
+            
+                if($proof_of_id) {
+                    $old_poi = Storage::disk('public')->exists($user->proof_of_id);
+                    if($old_poi) {
+                        Storage::disk('public')->delete($user->proof_of_id);
+                    }
+                }
+            }
+            
+            $user_data = array(
+                'first_name' => $request->get('first_name'),
+                'last_name' => $request->get('last_name'),
+                'email' => $request->get('email'),
+                'mobile' => $request->get('mobile'),
+                'completed_at' => date('Y-m-d H:i:s'),
+                'reviewed' => 0,
+                'approved_at' => null,
+                'rejected_at' => null,
+                'rejection_reason' => null,
+            );
+
+            if($picture) {
+                $user_data['picture'] = $picture;
+            }
+            if($proof_of_id) {
+                $user_data['proof_of_id'] = $proof_of_id;
+            }
+
+            User::where('id', $user->id)->update($user_data);
+
+            // profile updated
+            Mail::to($user->email)->send(new ProfileUpdated($user));
+        
+            // review profile
+            Mail::to('eliza@tutorfinder.com')->send(new ReviewProfile($user));
+
+        } catch(\Exception $e) {
+            DB::rollBack();
+            return redirect('/profile')->with('error', 'Failed to update profile. Please try again.('.$e->getMessage().')');
+        }
+
+        DB::commit();
+        return redirect('/profile')->with('success', 'Profile successfully updated. Admin will review to approve it.');
     }
 }

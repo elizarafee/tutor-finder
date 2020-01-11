@@ -159,36 +159,27 @@ class ProfileController extends Controller
         return redirect()->back()->with('success', 'Profile of '.$user->first_name.' '.$user->last_name.' successfully disapproved.');
     }
 
-    public function block($user_id)
+    public function activate()
     {
-        DB::beginTransaction();
-        try {
-            Connection::where('request_to', Auth::id())
-                ->where('requested_by', $user_id)
-                ->delete();
+        $activate = User::where('id', Auth::id())->update(['active' => 1]);
 
-            Block::create(['blocked' => $user_id, 'blocked_by' => Auth::id()]);
-        } catch (\Exception $e) {
-            DB::rollBack();
-            return redirect()->back()->with('error', 'Failed to block the profile. Please try again.'.$e->getMessage());
+        if($activate) {
+            return redirect()->back()->with('success', 'Your profile successfully activated.');
         }
 
-        DB::commit();
-        return redirect()->back()->with('success', 'Profile successfully blocked.');
+        return redirect()->back()->with('error', 'Failed to activate. Please try again.');
     }
 
-    public function unblock($user_id)
+    public function deactivate()
     {
+        $activate = User::where('id', Auth::id())->update(['active' => 0]);
+
+        if($activate) {
+            return redirect()->back()->with('success', 'Your profile successfully deactivated.');
+        }
+
+        return redirect()->back()->with('error', 'Failed to deactivate. Please try again.');
+
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($user_id)
-    {
-        //
-    }
 }
