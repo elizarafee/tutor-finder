@@ -1,11 +1,13 @@
 @extends('layouts.app')
 
+@section('page_title', 'Reset password')
+
 @section('content')
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header">{{ __('Reset Password') }}</div>
+                
 
                 <div class="card-body">
                     <form method="POST" action="{{ route('password.update') }}">

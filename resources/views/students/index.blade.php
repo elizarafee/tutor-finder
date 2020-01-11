@@ -25,7 +25,7 @@
               <li class="text-muted"><span class="text-dark">Location: </span>{{ $student->location }}</li>
               <li class="text-muted"><span class="text-dark">Budget: </span>&#2547;{{ $student->budget }} <small>(per
                   subject per month)</small></li>
-              <li class="text-muted"><span class="text-dark">Student bio <small>({{date('Y') - $student->doy}} year old
+              <li class="text-muted"><span class="text-dark">Student bio <small>({{date('Y') - $student->year_of_birth}} year old
                     {{$student->gender}})</small> : </span>{{substr($student->bio, 0, 120)}}
                 @if(strlen($student->bio)>120) ... @endif</li>
               <li class="text-muted"><span class="text-dark">Tution needed for: </span> {{$student->subjects}}</li>

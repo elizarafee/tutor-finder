@@ -305,7 +305,7 @@
 
                     <div class="card-footer text-center">
                         <button type="submit" class="btn btn-outline-secondary pl-5 pr-5">
-                            Save Profile
+                            Submit Profile
                         </button>
                     </div>
                 </form>

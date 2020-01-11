@@ -27,6 +27,7 @@ Route::get('/tutors', 'TutorController@index');
 
 Route::get('/students/create', 'StudentController@create');
 Route::get('/students/{student_id}', 'StudentController@show');
+Route::get('/student/edit', 'StudentController@edit');
 Route::put('/students', 'StudentController@update');
 Route::post('/students', 'StudentController@store');
 Route::get('/students', 'StudentController@index');

@@ -1,23 +1,24 @@
 @extends('layouts.app')
 
+@section('page_title', $user->first_name.' '.$user->last_name)
+
 @section('content')
 
 <div class="container">
   <div class="row justify-content-center">
     <div class="col-md-8">
 
-      @if($user->approved_at == '')
+      @if($user->reviewed == 1 && $user->approved_at == '')
+      <div class="alert alert-warning alert-dismissible fade show" role="alert">
+        Your profile was rejected for {{$user->rejection_reason}} at {{date('j M Y g:ia', strtotime($user->rejected_at))}}. You can update your profile and resubmit.
+      </div>
+      @elseif($user->approved_at == '')
       <div class="alert alert-warning alert-dismissible fade show" role="alert">
         This profile is not yet approved.
       </div>
       @endif
 
       <div class="card">
-        <div class="card-header text-center">
-          <h5 class="card-title">{{$user->first_name}} {{$user->last_name}}</h5>
-          <h6 class="card-subtitle mb-2 text-muted">Student Guardian / Student</h6>
-        </div>
-
         <div class="card-body">
           <div class="row">
             <div class="col-sm-6 col-md-4 text-center text-info">
@@ -52,7 +53,7 @@
                 </li>
 
                 <li><span class="text-muted">Bio: </span>{{ $student->bio }}</li>
-                <li><span class="text-muted">Age: </span>{{ date('Y') - $student->doy }}</li>
+                <li><span class="text-muted">Age: </span>{{ date('Y') - $student->year_of_birth }}</li>
                 <li><span class="text-muted">Gender: </span>{{ $student->gender }}</li>
                 <li><span class="text-muted">Class: </span>{{ years_of_study($student->class) }}</li>
                 <li><span class="text-muted">Institute: </span>{{ $student->institute }}</li>
@@ -81,6 +82,8 @@
         <div class="card-footer text-center pt-4 pb-4">
 
           @if(auth()->user()->active == 1)
+
+          <a href="{{ url('/student/edit') }}" class="btn btn-sm btn-outline-primary mr-2">Update profile</a>
 
           <!-- deactive profile modal -->
           <button type="button" class="btn btn-sm btn-outline-secondary mr-2" data-toggle="modal" data-target="#deactive-profile-modal">

@@ -36,7 +36,7 @@ class TutorController extends Controller
             'users.approved_at',
             'tutors.salary', 
             'tutors.bio', 
-            'tutors.doy', 
+            'tutors.year_of_birth', 
             'tutors.gender',  
             'tutors.locations', 
             'tutors.covered_subjects', 
@@ -50,6 +50,7 @@ class TutorController extends Controller
         ->select($data)
         ->whereNotNull('users.approved_at')
         ->where('users.type', 2)
+        ->where('users.active', 1)
         ->whereNotIn('users.id', blocked_profiles())
         ->orderBy('users.approved_at', 'desc')
         ->paginate(10);
@@ -73,9 +74,9 @@ class TutorController extends Controller
                 'user_id' => Auth::user()->id,
                 'bio' => $request->get('bio'),
                 'gender' => $request->get('gender'),
-                'doy' => $request->get('year_of_birth'),
+                'year_of_birth' => $request->get('year_of_birth'),
                 'covered_subjects' => $request->get('subjects'),
-                'locations' => $request->get('areas'),
+                'covered_area' => $request->get('areas'),
                 'covered_years' => $request->get('years'),
                 'salary' => $request->get('salary'),
             );
@@ -106,7 +107,7 @@ class TutorController extends Controller
                 'picture' => $picture,
                 'proof_of_id' => $proof_of_id,
                 'mobile' => $request->get('mobile'),
-                'completed_at' => date('Y-m-d H:i:s')
+                'profile_completed_at' => date('Y-m-d H:i:s')
             );
 
             User::where('id', $user->id)->update($user_data);
@@ -148,7 +149,7 @@ class TutorController extends Controller
             'users.type as user_type',
             'tutors.id as id', 
             'tutors.bio', 
-            'tutors.doy', 
+            'tutors.year_of_birth', 
             'tutors.gender', 
             'tutors.locations', 
             'tutors.covered_subjects', 

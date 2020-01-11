@@ -27,7 +27,7 @@
                 @if(auth()->user()->type != 5)
                 <li><a href="{{url('/tutors/'.$tutor->id)}}">{{$tutor->first_name.' '.$tutor->last_name}}</a></li>
                 @endif 
-                <li><span class="text-muted">Bio <small>({{date('Y') - $tutor->doy}} year old
+                <li><span class="text-muted">Bio <small>({{date('Y') - $tutor->year_of_birth}} year old
                       {{$tutor->gender}})</small> : </span>{{substr($tutor->bio, 0, 120)}} @if(strlen($tutor->bio)>120)
                   ... @endif</li>
                 <li><span class="text-muted">Subjects covered: </span>{{$tutor->covered_subjects}}</li>

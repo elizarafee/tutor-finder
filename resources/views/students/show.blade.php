@@ -43,7 +43,7 @@
                   <hr class="mt-0" />
                 </li>
                 <li><span class="text-muted">Bio: </span>{{ $student->bio }}</li>
-                <li><span class="text-muted">Age: </span>{{ date('Y') - $student->doy }}</li>
+                <li><span class="text-muted">Age: </span>{{ date('Y') - $student->year_of_birth }}</li>
                 <li><span class="text-muted">Gender: </span>{{ $student->gender }}</li>
                 <li><span class="text-muted">Class: </span></li>
                 <li><span class="text-muted">Institute: </span>{{ $student->institute }}</li>

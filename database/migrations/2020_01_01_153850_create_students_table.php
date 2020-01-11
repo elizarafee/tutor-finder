@@ -17,7 +17,7 @@ class CreateStudentsTable extends Migration
             $table->bigIncrements('id');
             $table->integer('user_id');
             $table->string('bio');
-            $table->string('doy', 4);
+            $table->string('year_of_birth', 4);
             $table->string('gender', 10);
             $table->integer('class');
             $table->string('institute');

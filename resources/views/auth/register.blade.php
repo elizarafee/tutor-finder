@@ -1,19 +1,21 @@
 @extends('layouts.app')
 
+@section('page_title', 'Register')
+
 @section('content')
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
+
+        <form method="POST" action="{{ route('register') }}">
+                    @csrf
+
             <div class="card">
 
-                <form method="POST" action="{{ route('register') }}">
-                    @csrf
-                    <div class="card-header">
-                        <h5 class="card-title text-center">Registration</h5>
-                        <h6 class="card-subtitle mb-2 text-muted text-center">Please register</h6>
-                    </div>
+               
+                   
 
-                    <div class="card-body">
+                    <div class="card-body pt-5">
                         <div class="form-group row">
                             <label for="first_name" class="col-md-4 col-form-label text-md-right">First Name <span
                                     class="text-danger">*</span></label>
@@ -121,13 +123,15 @@
                         </div>
                     </div>
 
-                    <div class="card-footer text-center">
+                    </div>
+
+                    <div class="text-center mt-3">
                         <button type="submit" class="btn btn-outline-secondary pl-5 pr-5">
                             Register
                         </button>
                     </div>
                 </form>
-            </div>
+           
         </div>
     </div>
 </div>

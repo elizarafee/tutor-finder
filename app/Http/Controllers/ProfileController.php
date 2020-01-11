@@ -14,6 +14,7 @@ use App\Connection;
 
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
+
 use Illuminate\Support\Facades\Mail;
 use App\Mail\ProfileApproved;
 use App\Mail\ProfileDisapproved;
@@ -29,15 +30,11 @@ class ProfileController extends Controller
         ->whereNull('approved_at')
         ->get(['users.id as user_id', 'users.first_name', 'users.last_name', 'tutors.id as id', 'users.completed_at']);
 
-
         $tutors['rejected'] = User::join('tutors', 'tutors.user_id', 'users.id')
         ->where('users.type', 2)
         ->whereNotNull('completed_at')
         ->whereNotNull('rejected_at')
         ->get(['users.id as user_id', 'users.first_name', 'users.last_name', 'tutors.id as id', 'users.rejected_at', 'users.rejection_reason']);
-
-
-
 
         $students['awaiting'] = User::join('students', 'students.user_id', 'users.id')
         ->where('users.type', 3)
@@ -51,10 +48,6 @@ class ProfileController extends Controller
         ->whereNotNull('completed_at')
         ->whereNotNull('rejected_at')
         ->get(['users.id as user_id', 'users.first_name', 'users.last_name', 'students.id as id', 'users.rejected_at', 'users.rejection_reason']);
-
-
-
-
 
         return view('profiles.review.index', ['tutors' => $tutors, 'students' => $students]);
     }

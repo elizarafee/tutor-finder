@@ -35,7 +35,7 @@
               <ul class="list-unstyled float-left">
                 <li><span class="text-muted">Bio: </span>{{ $tutor->bio }}</li>
                 <li><span class="text-muted">Gender: </span>{{ $tutor->gender }}</li>
-                <li><span class="text-muted">Age: </span>{{ date('Y') - $tutor->doy }}</li>
+                <li><span class="text-muted">Age: </span>{{ date('Y') - $tutor->year_of_birth }}</li>
                 <li><span class="text-muted">Covered subjects: </span>{{ $tutor->covered_subjects }}</li>
                 <li><span class="text-muted">Locations: </span>{{ $tutor->locations }}</li>
                 <li><span class="text-muted">Expected salary: </span>&#2547;{{ $tutor->salary }}</li>

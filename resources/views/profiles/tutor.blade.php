@@ -1,17 +1,27 @@
 @extends('layouts.app')
 
+@section('page_title', $user->first_name.' '.$user->last_name)
+
 @section('content')
 
 <div class="container">
   <div class="row justify-content-center">
     <div class="col-md-8">
+
+
+    @if($user->reviewed == 1 && $user->approved_at == '')
+      <div class="alert alert-warning alert-dismissible fade show" role="alert">
+        Your profile was rejected for {{$user->rejection_reason}} at {{date('j M Y g:ia', strtotime($user->rejected_at))}}. You can update your profile and resubmit.
+      </div>
+      @elseif($user->approved_at == '')
+      <div class="alert alert-warning alert-dismissible fade show" role="alert">
+        This profile is not yet approved.
+      </div>
+      @endif
+
+
+
       <div class="card">
-
-        <div class="card-header text-center">
-          <h5 class="card-title">{{$user->first_name}} {{$user->last_name}}</h5>
-          <h6 class="card-subtitle mb-2 text-muted">Tutor</h6>
-        </div>
-
         <div class="card-body">
           <div class="row">
             <div class="col-sm-6 col-md-3 text-center">
@@ -27,7 +37,7 @@
               <ul class="list-unstyled float-left">
                 <li><span class="text-muted">Bio: </span>{{ $tutor->bio }}</li>
                 <li><span class="text-muted">Gender: </span>{{ $tutor->gender }}</li>
-                <li><span class="text-muted">Age: </span>{{ date('Y') - $tutor->doy }}</li>
+                <li><span class="text-muted">Age: </span>{{ date('Y') - $tutor->year_of_birth }}</li>
                 <li><span class="text-muted">Covered subjects: </span>{{ $tutor->covered_subjects }}</li>
                 <li><span class="text-muted">Locations: </span>{{ $tutor->locations }}</li>
                 <li><span class="text-muted">Expected salary: </span>&#2547;{{ $tutor->salary }}</li>

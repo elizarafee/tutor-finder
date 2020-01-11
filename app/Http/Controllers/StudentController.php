@@ -37,7 +37,7 @@ class StudentController extends Controller
             'students.location', 
             'students.budget', 
             'students.bio', 
-            'students.doy', 
+            'students.year_of_birth', 
             'students.gender', 
             'students.class', 
             'students.institute', 
@@ -83,7 +83,7 @@ class StudentController extends Controller
                 'user_id' => Auth::user()->id,
                 'bio' => $request->get('bio'),
                 'gender' => $request->get('gender'),
-                'doy' => $request->get('year_of_birth'),
+                'year_of_birth' => $request->get('year_of_birth'),
                 'class' => $request->get('class'),
                 'institute' => $request->get('institute'),
                 'subjects' => $request->get('subjects'),
@@ -148,7 +148,7 @@ class StudentController extends Controller
              'students.location', 
              'students.budget', 
              'students.bio', 
-             'students.doy', 
+             'students.year_of_birth', 
              'students.gender', 
              'students.class', 
              'students.institute', 
@@ -181,9 +181,37 @@ class StudentController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit()
     {
-        //
+        $data = array(
+            'users.id as user_id', 
+            'users.first_name as user_first_name', 
+            'users.last_name as user_last_name', 
+            'users.email as user_email', 
+            'users.mobile as user_mobile', 
+            'users.picture as user_picture', 
+            'users.proof_of_id as user_proof_of_id', 
+            'users.reviewed',
+            'users.approved_at',
+            'users.type as user_type',
+            'students.id as id', 
+            'students.location', 
+            'students.budget', 
+            'students.bio', 
+            'students.year_of_birth', 
+            'students.gender', 
+            'students.class', 
+            'students.institute', 
+            'students.subjects', 
+            'students.requirements', 
+       );
+
+        $student = Student::join('users', 'users.id', 'students.user_id')
+        ->where('users.id', Auth::id())
+        ->where('users.type', 3)
+        ->first($data);
+
+        return view('students.edit', ['student' => $student]);
     }
 
     /**
@@ -193,9 +221,11 @@ class StudentController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
-        //
+        echo "<pre>";
+        print_r($request->all());
+        echo "</pre>";
     }
 
     /**
