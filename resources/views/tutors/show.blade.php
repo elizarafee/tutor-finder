@@ -125,7 +125,6 @@
 
           @if($connection['connected'])
           @include('tutors.modals.disconnect')
-          @include('tutors.modals.block')
           @elseif($connection['request'] == 'received')
           @include('tutors.modals.accept')
           @include('tutors.modals.reject')

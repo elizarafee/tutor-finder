@@ -99,3 +99,18 @@
         }
         return \App\Area::orderBy('name', 'asc')->get()->toArray();
     }
+
+
+    function no_of_awaiting_response() {
+        return \App\User::whereNotNull('completed_at')
+        ->whereNull('rejected_at')
+        ->whereNull('approved_at')
+        ->where('reviewed', 0)
+        ->count();
+    }
+
+    function no_of_connection_requests() {
+        return \App\Connection::whereNull('accepted_at')
+        ->where('request_to', Auth::id())
+        ->count();
+    }

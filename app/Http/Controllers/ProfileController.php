@@ -9,7 +9,6 @@ use App\User;
 use App\Tutor;
 use App\TutorQualification;
 use App\Student;
-use App\Block;
 use App\Connection;
 
 use Illuminate\Support\Facades\Validator;
@@ -112,10 +111,10 @@ class ProfileController extends Controller
             Mail::to($user->email)->send(new ProfileApproved($user));
         } catch (\Exception $e) {
             DB::rollBack();
-            return redirect()->back()->with('error', 'Failed to approved the profile. Please try again.'.$e->getMessage());
+            return redirect('profiles/review')->with('error', 'Failed to approved the profile. Please try again.'.$e->getMessage());
         }
         DB::commit();
-        return redirect()->back()->with('success', 'Profile of '.$user->first_name.' '.$user->last_name.' successfully approved.');
+        return redirect('profiles/review')->with('success', 'Profile of '.$user->first_name.' '.$user->last_name.' successfully approved.');
     }
 
     /**
@@ -153,10 +152,10 @@ class ProfileController extends Controller
             Mail::to($user->email)->send(new ProfileDisapproved($user));
         } catch (\Exception $e) {
             DB::rollBack();
-            return redirect()->back()->with('error', 'Failed to disapproved the profile. Please try again.'.$e->getMessage());
+            return redirect('profiles/review')->with('error', 'Failed to disapproved the profile. Please try again.'.$e->getMessage());
         }
         DB::commit();
-        return redirect()->back()->with('success', 'Profile of '.$user->first_name.' '.$user->last_name.' successfully disapproved.');
+        return redirect('profiles/review')->with('success', 'Profile of '.$user->first_name.' '.$user->last_name.' successfully disapproved.');
     }
 
     public function activate()

@@ -82,10 +82,11 @@
                         
 
                             @if(auth()->user()->type == 1)
+                            <?php $no_of_awaiting_response = no_of_awaiting_response(); ?>
                             <li class="nav-item mr-3">
                             <a class="nav-link" href="{{ url('/profiles/review') }}" title="Review profiles"><i
-                                    class="fas fa-bell fa-2x float-left"></i><sup class="badge badge-success float-left"
-                                    title="Profiles pending approval">3</sup></a>
+                                    class="fas fa-bell fa-2x float-left"></i>@if($no_of_awaiting_response > 0)<sup class="badge badge-danger float-left"
+                                    title="Profiles pending approval">{{ $no_of_awaiting_response }}</sup>@endif</a>
                             </li>
 
                             @elseif(auth()->user()->type == 2 || auth()->user()->type == 3)
@@ -95,10 +96,11 @@
                             </li>
 
                             <li class="nav-item mr-3">
+                            <?php $no_of_connection_request = no_of_connection_requests(); ?>
                             <a class="nav-link" href="{{ url('/connects/requests') }}" title="Pending connection requests"><i
-                                    class="fas fa-user-friends fa-2x float-left"></i><sup
-                                    class="badge badge-success float-left"
-                                    title="Pending connection requests">3</sup></a>
+                                    class="fas fa-user-friends fa-2x float-left"></i>@if($no_of_connection_request > 0)<sup
+                                    class="badge badge-danger float-left"
+                                    title="Pending connection requests">{{ $no_of_connection_request }}</sup>@endif</a>
                             </li>
 
                             @endif
