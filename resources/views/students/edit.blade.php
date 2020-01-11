@@ -177,7 +177,7 @@
                                     </div>
                                     <input type="text" name="mobile"
                                         class="form-control @error('mobile') is-invalid @enderror"
-                                        aria-describedby="inputMobilePrepend" @if(old('mobile')) value="{{ old('mobile') }}" @elseif($tutor->user_mobile) value="{{ $tutor->user_mobile }}" @endif>
+                                        aria-describedby="inputMobilePrepend" @if(old('mobile')) value="{{ old('mobile') }}" @elseif($student->user_mobile) value="{{ $student->user_mobile }}" @endif>
 
                                     @error('mobile')
                                     <div class="invalid-feedback" role="alert">

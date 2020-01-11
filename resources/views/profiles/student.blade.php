@@ -82,12 +82,10 @@
         <div class="card-footer text-center pt-4 pb-4">
 
           @if(auth()->user()->active == 1)
-
-          <a href="{{ url('/student/edit') }}" class="btn btn-sm btn-outline-primary mr-2">Update profile</a>
-          @include('profiles.modals.deactivate')
+            <a href="{{ url('/student/edit') }}" class="btn btn-sm btn-outline-primary mr-2">Update profile</a>
+            @include('profiles.modals.deactivate')
           @else
-
-          @include('profiles.modals.activate')
+            @include('profiles.modals.activate')
           @endif
 
         </div>

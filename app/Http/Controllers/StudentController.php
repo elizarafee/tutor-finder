@@ -180,16 +180,6 @@ class StudentController extends Controller
     public function edit()
     {
 
-
-        // $user = Auth::user();
-        // $file = Storage::disk('public')->exists($user->picture);
-
-        // print_r($file);
-
-
-        // exit;
-
-
         $data = array(
             'users.id as user_id', 
             'users.first_name as user_first_name', 
