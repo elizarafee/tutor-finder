@@ -105,7 +105,7 @@
                             <label for="subjects" class="col-md-4 col-form-label text-md-right">Subjects <span class="text-danger">*</span></label>
 
                             <div class="col-md-6">
-                                <textarea id="subjects" class="form-control @error('subjects') is-invalid @enderror" name="subjects">{{ old('subjects') }}</textarea>
+                                <textarea id="subjects" class="form-control subject-tags @error('subjects') is-invalid @enderror" name="subjects">{{ old('subjects') }}</textarea>
                                 <small class="form-text text-info">Please type subjects you will want provide tution</small>
 
                                 @error('subjects')
@@ -117,11 +117,11 @@
                         </div>
 
                         <div class="form-group row">
-                            <label for="areas" class="col-md-4 col-form-label text-md-right">Areas <span class="text-danger">*</span></label>
+                            <label for="locations" class="col-md-4 col-form-label text-md-right">Locations <span class="text-danger">*</span></label>
 
                             <div class="col-md-6">
-                                <textarea id="areas" class="form-control @error('areas') is-invalid @enderror" name="areas">{{ old('areas') }}</textarea>
-                                <small class="form-text text-info">Please provide areas you will cover for tution</small>
+                                <textarea id="locations" class="form-control location-tags @error('locations') is-invalid @enderror" name="locations">{{ old('locations') }}</textarea>
+                                <small class="form-text text-info">Please provide locations you will cover for tution</small>
 
                                 @error('areas')
                                 <span class="invalid-feedback" role="alert">
@@ -135,7 +135,7 @@
                             <label for="years" class="col-md-4 col-form-label text-md-right">Years <span class="text-danger">*</span></label>
 
                             <div class="col-md-6">
-                                <textarea id="years" class="form-control @error('years') is-invalid @enderror" name="years">{{ old('years') }}</textarea>
+                                <textarea id="years" class="form-control class-tags @error('years') is-invalid @enderror" name="years">{{ old('years') }}</textarea>
                                 <small class="form-text text-info">Please provide years you will cover for tution</small>
 
                                 @error('years')

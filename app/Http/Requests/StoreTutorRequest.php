@@ -30,7 +30,7 @@ class StoreTutorRequest extends FormRequest
             'picture' => 'nullable|image|max:1024',
             'proof_of_id' => 'required|image|max:2048',
             'subjects' => 'required',
-            'areas' => 'required',
+            'locations' => 'required',
             'years' => 'required',
             'salary' => 'required|numeric',
             'mobile' => 'required|numeric|digits:10',

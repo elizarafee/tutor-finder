@@ -169,10 +169,10 @@ class StudentController extends Controller
             User::where('id', $user->id)->update($user_data);
 
             // profile updated
-            Mail::to($user->email)->send(new ProfileUpdated($user));
+            //Mail::to($user->email)->send(new ProfileUpdated($user));
         
             // review profile
-            Mail::to(developer('email'))->send(new ReviewProfile($user));
+            //Mail::to(developer('email'))->send(new ReviewProfile($user));
 
         } catch(\Exception $e) {
             DB::rollBack();
@@ -341,10 +341,10 @@ class StudentController extends Controller
             User::where('id', $user->id)->update($user_data);
 
             // profile updated
-            Mail::to($user->email)->send(new ProfileUpdated($user));
+            //Mail::to($user->email)->send(new ProfileUpdated($user));
         
             // review profile
-            Mail::to(developer('email'))->send(new ReviewProfile($user));
+            //Mail::to(developer('email'))->send(new ReviewProfile($user));
 
         } catch(\Exception $e) {
             DB::rollBack();

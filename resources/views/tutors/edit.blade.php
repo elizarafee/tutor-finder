@@ -147,7 +147,7 @@
                             <label for="subjects" class="col-md-4 col-form-label text-md-right">Subjects <span class="text-danger">*</span></label>
 
                             <div class="col-md-6">
-                                <textarea id="subjects" class="form-control @error('subjects') is-invalid @enderror" name="subjects">@if(old('subjects')){{ old('subjects') }}@elseif(isset($tutor->covered_subjects)){{ $tutor->covered_subjects }}@endif</textarea>
+                                <textarea id="subjects" class="form-control subject-tags @error('subjects') is-invalid @enderror" name="subjects">@if(old('subjects')){{ old('subjects') }}@elseif(isset($tutor->covered_subjects)){{ $tutor->covered_subjects }}@endif</textarea>
                                 <small class="form-text text-info">Please type subjects you will want provide tution</small>
 
                                 @error('subjects')
@@ -162,7 +162,7 @@
                             <label for="locations" class="col-md-4 col-form-label text-md-right">Locations <span class="text-danger">*</span></label>
 
                             <div class="col-md-6">
-                                <textarea id="locations" class="form-control @error('locations') is-invalid @enderror" name="locations">@if(old('locations')){{ old('locations') }}@elseif(isset($tutor->locations)){{ $tutor->locations }}@endif</textarea>
+                                <textarea id="locations" class="form-control location-tags @error('locations') is-invalid @enderror" name="locations">@if(old('locations')){{ old('locations') }}@elseif(isset($tutor->locations)){{ $tutor->locations }}@endif</textarea>
                                 <small class="form-text text-info">Please provide locations you will cover for tution</small>
 
                                 @error('locations')
@@ -177,7 +177,7 @@
                             <label for="years" class="col-md-4 col-form-label text-md-right">Years <span class="text-danger">*</span></label>
 
                             <div class="col-md-6">
-                                <textarea id="years" class="form-control @error('years') is-invalid @enderror" name="years">@if(old('years')){{ old('years') }}@elseif(isset($tutor->covered_years)){{ $tutor->covered_years }}@endif</textarea>
+                                <textarea id="years" class="form-control class-tags @error('years') is-invalid @enderror" name="years">@if(old('years')){{ old('years') }}@elseif(isset($tutor->covered_years)){{ $tutor->covered_years }}@endif</textarea>
                                 <small class="form-text text-info">Please provide years you will cover for tution</small>
 
                                 @error('years')

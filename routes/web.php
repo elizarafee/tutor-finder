@@ -51,6 +51,9 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
     Route::any('/search/students', 'StudentController@search');
     Route::get('/students/{student_id}', 'StudentController@show');
     Route::get('/students', 'StudentController@index');
+
+    Route::get('/ajax/get-subjects', 'AjaxController@getSubjects');
+    Route::get('/ajax/get-locations', 'AjaxController@getLocations');
 });
 
 

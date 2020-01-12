@@ -212,7 +212,7 @@
                             <label for="subjects" class="col-md-4 col-form-label text-md-right">Subjects <span class="text-danger">*</span></label>
 
                             <div class="col-md-6">
-                                <textarea id="subjects" class="form-control @error('subjects') is-invalid @enderror" name="subjects">{{ old('subjects') }}</textarea>
+                                <textarea id="subjects" class="form-control subject-tags @error('subjects') is-invalid @enderror" name="subjects">{{ old('subjects') }}</textarea>
                                 <small class="form-text text-info">Please type subjects you want to take tution</small>
 
                                 @error('subjects')

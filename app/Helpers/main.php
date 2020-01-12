@@ -114,3 +114,4 @@
         ->where('request_to', Auth::id())
         ->count();
     }
+

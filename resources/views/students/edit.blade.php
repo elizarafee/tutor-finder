@@ -292,7 +292,7 @@
                                     class="text-danger">*</span></label>
 
                             <div class="col-md-6">
-                                <textarea id="subjects" class="form-control @error('subjects') is-invalid @enderror"
+                                <textarea id="subjects" class="form-control subject-tags @error('subjects') is-invalid @enderror"
                                     name="subjects">@if(old('subjects')){{ old('subjects') }}@elseif($student->subjects){{ $student->subjects }}@endif</textarea>
                                 <small class="form-text text-info">Please type subjects you want to take tution</small>
 

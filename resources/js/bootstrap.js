@@ -40,11 +40,6 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 //     encrypted: true
 // });
 
-$(function () {
 
-  $('.pagination').addClass('justify-content-center');
-
-    
-  });
 
  
