@@ -44,6 +44,7 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
     Route::put('/profile/deactivate', 'ProfileController@deactivate');
     Route::get('/profile', 'ProfileController@show');
 
+    Route::any('/search/tutors', 'TutorController@search');
     Route::get('/tutors/{tutor_id}', 'TutorController@show');
     Route::get('/tutors', 'TutorController@index');
 

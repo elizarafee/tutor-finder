@@ -89,7 +89,10 @@ class StudentController extends Controller
 
         if(count($conditions) > 0) {
             Session::put('conditions', $conditions);
-            Session::put('input', $request->all());
+            
+            $inputs = $request->all();
+            unset($inputs['_token']);
+            Session::put('input', $inputs);
         }
 
         $data = array(

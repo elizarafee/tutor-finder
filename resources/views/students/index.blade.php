@@ -3,6 +3,7 @@
 @section('page_title', ((isset($page_title))? $page_title : 'Studetns'))
 
 @section('content')
+<div class="container">
 
 @include('students.search')
 

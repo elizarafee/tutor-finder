@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use DB;
+use Session;
 use App\User;
 use App\Tutor;
 use App\TutorQualification;
@@ -13,6 +14,7 @@ use Illuminate\Support\Facades\Auth;
 
 use App\Http\Requests\StoreTutorRequest;
 use App\Http\Requests\UpdateTutorRequest;
+use App\Http\Requests\SearchTutorRequest;
 
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Mail;
@@ -41,6 +43,8 @@ class TutorController extends Controller
             'tutors.gender',  
             'tutors.locations', 
             'tutors.covered_subjects', 
+            'tutors.covered_years', 
+            'tutor_qualifications.level',
             'tutor_qualifications.institute',
             'tutor_qualifications.subject',
             'tutor_qualifications.status',
@@ -56,6 +60,89 @@ class TutorController extends Controller
         ->paginate(10);
         
         return view('tutors.index', ['tutors' => $tutors]);
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function search(SearchTutorRequest $request)
+    {
+        // echo "<pre>";
+        // print_r($request->all());
+        // echo "</pre>";
+
+        if ($request->isMethod('post')) {
+            Session::forget('conditions');
+        }
+
+        $conditions = array();
+        if ($request->get('class') != "") {
+            $conditions[] = ['tutors.covered_years', '=', $request->get('class')];
+        }
+
+        if ($request->get('subject') != "") {
+            $conditions[] = ['tutors.covered_subjects', 'like', '%' . ($request->get('subject')) . '%'];
+        }
+
+        if ($request->get('location') != "") {
+            $conditions[] = ['tutors.locations', 'like', '%' . ($request->get('location')) . '%'];
+        }
+
+        if ($request->get('salary') != "") {
+            $conditions[] = ['tutors.salary', '<=', $request->get('salary')];
+        }
+
+        if ($request->get('status') != "") {
+            $conditions[] = ['tutor_qualifications.status', '=', $request->get('status')];
+        }
+
+        if ($request->get('level') != "") {
+            $conditions[] = ['tutor_qualifications.level', '=', $request->get('level')];
+        }
+
+        if(count($conditions) > 0) {
+            Session::put('conditions', $conditions);
+            
+            $inputs = $request->all();
+            unset($inputs['_token']);
+            Session::put('input', $inputs);
+        }
+
+        $data = array(
+            'tutors.id as id',
+            'users.id as user_id',
+            'users.first_name',
+            'users.last_name',
+            'users.picture as picture', 
+            'users.approved_at',
+            'tutors.salary', 
+            'tutors.bio', 
+            'tutors.year_of_birth', 
+            'tutors.gender',  
+            'tutors.locations', 
+            'tutors.covered_years', 
+            'tutors.covered_subjects', 
+            'tutor_qualifications.level',
+            'tutor_qualifications.institute',
+            'tutor_qualifications.subject',
+            'tutor_qualifications.status',
+       );
+
+        $tutors = Tutor::join('users', 'users.id', 'tutors.user_id')
+        ->join('tutor_qualifications', 'tutors.id', 'tutor_qualifications.tutor_id')
+        ->select($data)
+        ->whereNotNull('users.approved_at')
+        ->where('users.type', 2)
+        ->where('users.active', 1)
+        ->where(Session::get('conditions'))
+        ->orderBy('users.approved_at', 'desc')
+        ->paginate(10);
+ 
+       
+        return view('tutors.index', ['tutors' => $tutors, 'page_title' => 'Searched Tutors', 'input' => Session::get('input')]);
+
     }
 
     /**
