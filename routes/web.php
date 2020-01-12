@@ -11,11 +11,7 @@
 |
 */
 
-Route::group(['middleware' => ['auth', 'admin']], function () {
-    Route::get('/profiles/review', 'ProfileController@review');
-    Route::put('/profiles/{user_id}/disapprove', 'ProfileController@disapprove');
-    Route::put('/profiles/{user_id}/approve', 'ProfileController@approve');
-});
+
 
 Route::group(['middleware' => ['auth', 'verified', 'tutor']], function () {
     Route::get('/tutors/create', 'TutorController@create');
@@ -23,8 +19,7 @@ Route::group(['middleware' => ['auth', 'verified', 'tutor']], function () {
     Route::put('/tutors', 'TutorController@update');
     Route::post('/tutors', 'TutorController@store');
 
-    Route::get('/students/{student_id}', 'StudentController@show');
-    Route::get('/students', 'StudentController@index');
+    
 });
 
 
@@ -33,9 +28,31 @@ Route::group(['middleware' => ['auth', 'verified', 'student']], function () {
     Route::get('/student/edit', 'StudentController@edit');
     Route::put('/students', 'StudentController@update');
     Route::post('/students', 'StudentController@store');
-    
+
+    // Route::get('/tutors/{tutor_id}', 'TutorController@show');
+    // Route::get('/tutors', 'TutorController@index');
+});
+
+Route::group(['middleware' => ['auth', 'verified', 'admin']], function () {
+    Route::get('/profiles/review', 'ProfileController@review');
+    Route::put('/profiles/{user_id}/disapprove', 'ProfileController@disapprove');
+    Route::put('/profiles/{user_id}/approve', 'ProfileController@approve');
+
+    // Route::get('/students/{student_id}', 'StudentController@show');
+    // Route::get('/students', 'StudentController@index');
+
+    // Route::get('/tutors/{tutor_id}', 'TutorController@show');
+    // Route::get('/tutors', 'TutorController@index');
+});
+
+Route::group(['middleware' => ['auth', 'verified', 'admin|student']], function () {
     Route::get('/tutors/{tutor_id}', 'TutorController@show');
     Route::get('/tutors', 'TutorController@index');
+});
+
+Route::group(['middleware' => ['auth', 'verified', 'admin|tutor']], function () {
+    Route::get('/students/{student_id}', 'StudentController@show');
+    Route::get('/students', 'StudentController@index');
 });
 
 
