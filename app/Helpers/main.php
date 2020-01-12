@@ -97,7 +97,7 @@
             $subject = \App\Subject::find($subject_id);
             return ($subject)? $subject->name : 'Not found';
         }
-        return \App\Area::orderBy('name', 'asc')->get()->toArray();
+        return \App\Subject::orderBy('name', 'asc')->get()->toArray();
     }
 
 

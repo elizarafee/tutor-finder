@@ -3,18 +3,16 @@
 namespace App\Http\Controllers;
 
 use DB;
-use League\Flysystem\File;
+use Session;
 use Illuminate\Support\Facades\Storage;
 use App\User;
 use App\Student;
-
-use Illuminate\Http\Request;
-
 
 use Illuminate\Support\Facades\Auth;
 
 use App\Http\Requests\StoreStudentRequest;
 use App\Http\Requests\UpdateStudentRequest;
+use App\Http\Requests\SearchStudentRequest;
 
 use Illuminate\Support\Facades\Mail;
 use App\Mail\ProfileUpdated;
@@ -54,7 +52,7 @@ class StudentController extends Controller
         ->orderBy('users.approved_at', 'desc')
         ->paginate(10);
         
-        return view('students.index', ['students' => $students]);
+        return view('students.index', ['students' => $students, 'page_title' => 'All Students']);
     }
 
     /**
@@ -62,9 +60,66 @@ class StudentController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function search(SearchStudentRequest $request)
     {
-        //
+        // echo "<pre>";
+        // print_r($request->all());
+        // echo "</pre>";
+
+        if ($request->isMethod('post')) {
+            Session::forget('conditions');
+        }
+
+        $conditions = array();
+        if ($request->get('class') != "") {
+            $conditions[] = ['students.class', '=', $request->get('class')];
+        }
+
+        if ($request->get('subject') != "") {
+            $conditions[] = ['students.subjects', 'like', '%' . ($request->get('subject')) . '%'];
+        }
+
+        if ($request->get('location') != "") {
+            $conditions[] = ['students.location', '=', $request->get('location')];
+        }
+
+        if ($request->get('budget') != "") {
+            $conditions[] = ['students.budget', '<=', $request->get('budget')];
+        }
+
+        if(count($conditions) > 0) {
+            Session::put('conditions', $conditions);
+            Session::put('input', $request->all());
+        }
+
+        $data = array(
+            'students.id as id',
+            'users.id as user_id',
+            'users.first_name',
+            'users.last_name',
+            'users.picture as picture', 
+            'users.approved_at',
+            'students.location', 
+            'students.budget', 
+            'students.bio', 
+            'students.year_of_birth', 
+            'students.gender', 
+            'students.class', 
+            'students.institute', 
+            'students.subjects', 
+       );
+
+        $students = Student::join('users', 'users.id', 'students.user_id')
+        ->select($data)
+        ->whereNotNull('users.approved_at')
+        ->where('users.type', 3)
+        ->where('users.active', 1)
+        ->where(Session::get('conditions'))
+        ->orderBy('users.approved_at', 'desc')
+        ->paginate(10);
+        
+        return view('students.index', ['students' => $students, 'page_title' => 'Searched Students', 'input' => Session::get('input')]);
+
     }
 
     /**

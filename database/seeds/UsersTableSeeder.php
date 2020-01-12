@@ -16,7 +16,7 @@ class UsersTableSeeder extends Seeder
         $years = ['Year 1', 'Year 2', 'Year 3', 'Year 4', 'Year 5', 'Year 6', 'Year 7', 'Year 8', 'Year 9', 'Year 10', 'HSC - Year 1', 'HSC - Year 2'];
         $faker = \Faker\Factory::create();
 
-        for ($i = 1; $i <= 10; $i++) {
+        for ($i = 1; $i <= 100; $i++) {
 
             $type = rand(2, 3);
 
@@ -26,11 +26,9 @@ class UsersTableSeeder extends Seeder
             if($i == 1) {
                 $type = 2;
                 $email = 'tutor@email.com';
-                $completed_at = date('Y-m-d H:i:s');
             } elseif($i == 2) {
                 $type = 3;
                 $email = 'student@email.com';
-                $completed_at = date('Y-m-d H:i:s');
             }
             
             
@@ -45,8 +43,8 @@ class UsersTableSeeder extends Seeder
                 'mobile' => '01711' . $faker->numberBetween(100000, 999999),
                 'password' => Hash::make('111'),
                 'completed_at' => date('Y-m-d H:i:s'),
-                'reviewed' => in_array($i, $varified_profiles)? 1 : 0,
-                'approved_at' => in_array($i, $varified_profiles)? date('Y-m-d H:i:s') : null,
+                'reviewed' => 1,//in_array($i, $varified_profiles)? 1 : 0,
+                'approved_at' => date('Y-m-d H:i:s'),//in_array($i, $varified_profiles)? date('Y-m-d H:i:s') : null,
                 'approved_by' => 1
             ]);
 

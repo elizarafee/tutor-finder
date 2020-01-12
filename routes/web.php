@@ -47,6 +47,7 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
     Route::get('/tutors/{tutor_id}', 'TutorController@show');
     Route::get('/tutors', 'TutorController@index');
 
+    Route::any('/search/students', 'StudentController@search');
     Route::get('/students/{student_id}', 'StudentController@show');
     Route::get('/students', 'StudentController@index');
 });
