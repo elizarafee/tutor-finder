@@ -5,6 +5,10 @@ namespace App\Http\Middleware;
 use Closure;
 use Illuminate\Support\Facades\Auth;
 
+/**
+ * If user is not guardian or student then redirect to profile route
+ */
+
 class isStudent
 {
     /**

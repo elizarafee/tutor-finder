@@ -5,6 +5,10 @@ namespace App\Http\Middleware;
 use Closure;
 use Illuminate\Support\Facades\Auth;
 
+/**
+ * If user is not admin then redirect to profile route
+ */
+
 class isAdmin
 {
     /**
