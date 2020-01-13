@@ -26,7 +26,7 @@
               @if($user->picture == '')
               <i class="far fa-id-badge fa-9x text-light"></i>
               @else
-              <img src="{{ asset($user->picture) }}" class="img-thumbnail" alt="Profile Picture">
+              <img src="{{ asset('storage/'.$user->picture) }}" class="img-thumbnail" alt="Profile Picture">
               @endif
 
             </div>
