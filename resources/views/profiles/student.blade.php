@@ -43,7 +43,7 @@
                   @if($user->proof_of_id == '')
                   <i class="far fa-address-card fa-9x text-light"></i>
                   @else
-                  <img src="{{ asset($user->proof_of_id) }}" class="img-thumbnail" alt="Profile Picture">
+                  <img src="{{ asset('storage/'.$user->proof_of_id) }}" class="img-thumbnail" alt="Profile Picture">
                   @endif
                 </li>
 
