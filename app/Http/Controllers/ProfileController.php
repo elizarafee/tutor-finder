@@ -9,7 +9,6 @@ use App\User;
 use App\Tutor;
 use App\TutorQualification;
 use App\Student;
-use App\Connection;
 
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
@@ -50,6 +49,7 @@ class ProfileController extends Controller
 
         return view('profiles.review.index', ['tutors' => $tutors, 'students' => $students]);
     }
+
     /**
      * Display a listing of the resource.
      *
@@ -90,7 +90,7 @@ class ProfileController extends Controller
      * Show the form for editing the specified resource.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return Illuminate\Support\Facades\Redirect
      */
     public function approve($user_id)
     {
@@ -177,8 +177,6 @@ class ProfileController extends Controller
             return redirect()->back()->with('success', 'Your profile successfully deactivated.');
         }
 
-        return redirect()->back()->with('error', 'Failed to deactivate. Please try again.');
-
+        return redirect()->back()->with('error', 'Failed to deactivate. Please try again.'); 
     }
-
 }

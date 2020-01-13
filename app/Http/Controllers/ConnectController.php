@@ -14,6 +14,9 @@ use Illuminate\Support\Facades\Mail;
 use App\Mail\RequestToConnect;
 use App\Mail\RequestAccepted;
 
+/**
+ * Takes care of connect requests 
+ */
 class ConnectController extends Controller
 {
     /**

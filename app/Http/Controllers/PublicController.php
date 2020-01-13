@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 class PublicController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Show the home page 
      *
      * @return \Illuminate\Http\Response
      */
@@ -17,7 +17,7 @@ class PublicController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
+     * Show the about page 
      *
      * @return \Illuminate\Http\Response
      */
@@ -27,9 +27,8 @@ class PublicController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * Show the terms of use page 
      *
-     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function termsOfUse()
@@ -38,9 +37,8 @@ class PublicController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Show the contact page 
      *
-     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
     public function contact()
@@ -49,10 +47,10 @@ class PublicController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Send me to admin 
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @return Redirect 
      */
     public function sendContact(Request $request)
     {
