@@ -17,7 +17,6 @@ class CreateConnectionsTable extends Migration
             $table->bigIncrements('id');
             $table->integer('request_to');
             $table->integer('requested_by');
-            $table->boolean('seen')->default(0);
             $table->timestamp('accepted_at')->nullable();
             $table->timestamps();
         });

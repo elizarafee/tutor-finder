@@ -76,7 +76,7 @@ class ProfileController extends Controller
             }
         } elseif ($type == 3) {
             // Student Guardian
-            $student = student::where('user_id', $user->id)->first();
+            $student = Student::where('user_id', $user->id)->first();
             if ($student) {
                 return view('profiles.student', ['user' => $user, 'student' => $student]);
             } else {
