@@ -22,7 +22,7 @@
               @if($student->user_picture == '')
               <i class="far fa-id-badge fa-9x text-light"></i>
               @else
-              <img src="{{ asset($student->user_picture) }}" class="img-thumbnail" alt="Profile Picture">
+              <img src="{{ asset('storage/'.$student->user_picture) }}" class="img-thumbnail" alt="Profile Picture">
               @endif
             </div>
             <div class="col-sm-6 col-md-9">
@@ -35,7 +35,7 @@
                     @if($student->user_proof_of_id == '')
                     <i class="far fa-address-card fa-8x text-light"></i>
                     @else
-                    <img src="{{ asset($student->user_proof_of_id) }}" class="img-thumbnail" alt="Profile Picture">
+                    <img src="{{ asset('storage/'.$student->user_proof_of_id) }}" class="img-thumbnail" alt="Profile Picture">
                     @endif
                 </li>
                 <li class="mt-4">
