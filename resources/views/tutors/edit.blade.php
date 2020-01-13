@@ -28,7 +28,7 @@
                             <div class="col-md-6">
                                 <input id="first_name" type="text"
                                     class="form-control @error('first_name') is-invalid @enderror" name="first_name"
-                                    @if(old('first_name')) value="{{ old('first_name') }}" @elseif(isset($tutor->user_first_name)) value="{{ $tutor->user_first_name }}" @endif>
+                                    @if(old('first_name')) value="{{ old('first_name') }}" @elseif(isset($tutor->first_name)) value="{{ $tutor->first_name }}" @endif>
 
                                 @error('first_name')
                                 <span class="invalid-feedback" role="alert">
@@ -45,7 +45,7 @@
                             <div class="col-md-6">
                                 <input id="last_name" type="text"
                                     class="form-control @error('last_name') is-invalid @enderror" name="last_name"
-                                    @if(old('last_name')) value="{{ old('last_name') }}" @elseif(isset($tutor->user_last_name)) value="{{ $tutor->user_last_name }}" @endif>
+                                    @if(old('last_name')) value="{{ old('last_name') }}" @elseif(isset($tutor->last_name)) value="{{ $tutor->last_name }}" @endif>
 
                                 @error('last_name')
                                 <span class="invalid-feedback" role="alert">
@@ -58,8 +58,8 @@
                         <div class="form-group row">
                             <label for="picture" class="col-md-4 col-form-label text-md-right">Profile Picture</label>
                             <div class="col-md-6">
-                                @if($tutor->user_picture != '')
-                                <img src="{{ asset('storage/'.$tutor->user_picture) }}" class="img-thumbnail mb-3"
+                                @if($tutor->picture != '')
+                                <img src="{{ asset('storage/'.$tutor->picture) }}" class="img-thumbnail mb-3"
                                     alt="Profile Picture">
                                 @endif
 
@@ -125,8 +125,8 @@
                         <div class="form-group row">
                             <label for="proof_of_id" class="col-md-4 col-form-label text-md-right">Proof of Identification <span class="text-danger">*</span></label>
                             <div class="col-md-6">
-                                @if($tutor->user_proof_of_id != '')
-                                <img src="{{ asset('storage/'.$tutor->user_proof_of_id) }}" class="img-thumbnail mb-3"
+                                @if($tutor->proof_of_id != '')
+                                <img src="{{ asset('storage/'.$tutor->proof_of_id) }}" class="img-thumbnail mb-3"
                                     alt="Profile Proof of Identification">
                                 @endif
 
@@ -218,7 +218,7 @@
 
                             <div class="col-md-6">
                                 <input id="email" type="text" class="form-control @error('email') is-invalid @enderror"
-                                    name="email" @if(isset($tutor->user_email)) value="{{ $tutor->user_email }}" @else value="{{ old('email') }}" @endif>
+                                    name="email" @if(isset($tutor->email)) value="{{ $tutor->email }}" @else value="{{ old('email') }}" @endif>
 
                                 @error('email')
                                 <span class="invalid-feedback" role="alert">
@@ -238,7 +238,7 @@
                                     </div>
                                     <input type="text" name="mobile"
                                         class="form-control @error('mobile') is-invalid @enderror"
-                                        aria-describedby="inputMobilePrepend" @if(old('mobile')) value="{{ old('mobile') }}" @elseif($tutor->user_mobile) value="{{ $tutor->user_mobile }}" @endif>
+                                        aria-describedby="inputMobilePrepend" @if(old('mobile')) value="{{ old('mobile') }}" @elseif($tutor->mobile) value="{{ $tutor->mobile }}" @endif>
 
                                     @error('mobile')
                                     <div class="invalid-feedback" role="alert">

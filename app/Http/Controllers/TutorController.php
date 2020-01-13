@@ -8,8 +8,6 @@ use App\User;
 use App\Tutor;
 use App\TutorQualification;
 
-use Illuminate\Http\Request;
-
 use Illuminate\Support\Facades\Auth;
 
 use App\Http\Requests\StoreTutorRequest;
@@ -225,12 +223,12 @@ class TutorController extends Controller
     {
         $data = array(
             'users.id as user_id', 
-            'users.first_name as user_first_name', 
-            'users.last_name as user_last_name', 
-            'users.email as user_email', 
-            'users.mobile as user_mobile', 
-            'users.picture as user_picture', 
-            'users.proof_of_id as user_proof_of_id', 
+            'users.first_name as first_name', 
+            'users.last_name as last_name', 
+            'users.email as email', 
+            'users.mobile as mobile', 
+            'users.picture as picture', 
+            'users.proof_of_id as proof_of_id', 
             'users.approved_at',
             'users.reviewed',
             'users.type as user_type',
@@ -274,12 +272,12 @@ class TutorController extends Controller
     {
         $data = array(
             'users.id as user_id', 
-            'users.first_name as user_first_name', 
-            'users.last_name as user_last_name', 
-            'users.email as user_email', 
-            'users.mobile as user_mobile', 
-            'users.picture as user_picture', 
-            'users.proof_of_id as user_proof_of_id', 
+            'users.first_name as first_name', 
+            'users.last_name as last_name', 
+            'users.email as email', 
+            'users.mobile as mobile', 
+            'users.picture as picture', 
+            'users.proof_of_id as proof_of_id', 
             'users.approved_at',
             'users.reviewed',
             'users.type as user_type',

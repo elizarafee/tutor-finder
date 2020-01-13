@@ -7,23 +7,14 @@
     <div class="col-md-8">
       <div class="card">
         <div class="card-header text-center">
-          <h5 class="card-title">{{$student->user_first_name}} {{$student->user_last_name}}</h5>
+          <h5 class="card-title">{{$student->first_name}} {{$student->last_name}}</h5>
           <h6 class="card-subtitle mb-2 text-muted">Guardian</h6>
         </div>
         <div class="card-body">
-          @if($connection['request'] == 'received' && $connection['connected'] == false)
-          <div class="alert alert-warning" role="alert">
-            {{$student->user_first_name}} {{$student->user_last_name}} requested you to connect at {{date('j M Y g:ia',
-            strtotime($connection['time']))}}.
-          </div>
-          @endif
+        @include('students.alert')
           <div class="row">
             <div class="col-sm-6 col-md-3 text-center text-info">
-              @if($student->user_picture == '')
-              <i class="far fa-id-badge fa-9x text-light"></i>
-              @else
-              <img src="{{ asset('storage/'.$student->user_picture) }}" class="img-thumbnail" alt="Profile Picture">
-              @endif
+              @include('students.docs.picture')
             </div>
             <div class="col-sm-6 col-md-9">
               <ul class="list-unstyled float-left">
@@ -32,11 +23,7 @@
                 <li class="mt-4 mb-2">
                   <h6 class=" text-muted">Proof of Identification</h6>
                     <hr class="mt-0" />
-                    @if($student->user_proof_of_id == '')
-                    <i class="far fa-address-card fa-8x text-light"></i>
-                    @else
-                    <img src="{{ asset('storage/'.$student->user_proof_of_id) }}" class="img-thumbnail" alt="Profile Picture">
-                    @endif
+                    @include('students.docs.proof-of-id')
                 </li>
                 <li class="mt-4">
                   <h6 class="text-muted">Student Details</h6>
@@ -58,17 +45,17 @@
                 <li>
                   <span class="text-muted">Email Address: </span>
                   @if($connection['connected'])
-                  {{ $student->user_email }}
+                  {{ $student->email }}
                   @else
                   <span class="text-warning">********@******.com</span>
                   @endif
                 </li>
 
-                @if($student->user_mobile != "")
+                @if($student->mobile != "")
                 <li>
                   <span class="text-muted">Mobile: </span>
                   @if($connection['connected'])
-                  +880{{ $student->user_mobile }}
+                  +880{{ $student->mobile }}
                   @else
                   <span class="text-warning">+880 **** ******</span>
                   @endif
@@ -82,33 +69,33 @@
         <div class="card-footer text-center pt-4 pb-4">
           @if(auth()->user()->type == 1)
 
-          @if($student->reviewed == 0)
+            @if($student->reviewed == 0)
 
-          @include('students.modals.approve')
-          @include('students.modals.disapprove')
+              @include('students.modals.approve')
+              @include('students.modals.disapprove')
 
-          @else
+            @else
 
-          @if($student->approved_at == "")
-          @include('students.modals.approve')
-          <!-- disapproved profile -->
-          <button type="button" class="btn btn-sm btn-danger ml-2">Disapproved profile</button>
-          @else
-          <!-- approved profile -->
-          <button type="button" class="btn btn-sm btn-success mr-2">Approved profile</button>
-          @include('students.modals.disapprove')
-          @endif
+              @if($student->approved_at == "")
+                @include('students.modals.approve')
+                <!-- disapproved profile -->
+                <button type="button" class="btn btn-sm btn-danger ml-2">Disapproved profile</button>
+              @else
+                <!-- approved profile -->
+                <button type="button" class="btn btn-sm btn-success mr-2">Approved profile</button>
+                @include('students.modals.disapprove')
+              @endif
 
-          @endif
+            @endif
 
           @elseif(auth()->user()->type == 2)
 
-          @if($connection['connected'])
-            @include('students.modals.disconnect')
-          @elseif($connection['request'] == 'received')
-            @include('students.modals.accept')
-            @include('students.modals.reject')
-          @endif
+            @if($connection['connected'])
+              @include('students.modals.disconnect')
+            @elseif($connection['request'] == 'received')
+              @include('students.modals.accept')
+              @include('students.modals.reject')
+            @endif
 
           @endif
         </div>
