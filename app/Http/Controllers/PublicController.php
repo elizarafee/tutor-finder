@@ -2,12 +2,19 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use App\Http\Requests\SendMailRequest;
+
+use Illuminate\Support\Facades\Mail;
+use App\Mail\SendContactMail;
+
+/**
+ * Takes care of all the public pages
+ */
 
 class PublicController extends Controller
 {
     /**
-     * Show the home page 
+     * Show the home page
      *
      * @return \Illuminate\Http\Response
      */
@@ -17,7 +24,7 @@ class PublicController extends Controller
     }
 
     /**
-     * Show the about page 
+     * Show the about page
      *
      * @return \Illuminate\Http\Response
      */
@@ -27,7 +34,7 @@ class PublicController extends Controller
     }
 
     /**
-     * Show the terms of use page 
+     * Show the terms of use page
      *
      * @return \Illuminate\Http\Response
      */
@@ -37,7 +44,7 @@ class PublicController extends Controller
     }
 
     /**
-     * Show the contact page 
+     * Show the contact page
      *
      * @return \Illuminate\Http\Response
      */
@@ -47,15 +54,25 @@ class PublicController extends Controller
     }
 
     /**
-     * Send me to admin 
+     * Send mail to admin
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return Redirect 
+     * @param  App\Http\Requests\SendMailRequest $request;
+     * @return Illuminate\Support\Facades\Redirect
      */
-    public function sendContact(Request $request)
+    public function sendContact(SendMailRequest $request)
     {
-        echo "<pre>";
-        print_r($request->all());
-        echo "</pre>";
+        try {
+            $contact = array(
+                'name' => $request->get('name'),
+                'email' => $request->get('email'),
+                'msg' => $request->get('message')
+            );
+
+            Mail::to(developer('email'))->send(new SendContactMail($contact));
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'Failed to send the message. Please try again.');
+        }
+
+        return redirect()->back()->with('success', 'Message sent successfully.');
     }
 }

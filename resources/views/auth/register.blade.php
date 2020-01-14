@@ -6,15 +6,9 @@
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
-
-        <form method="POST" action="{{ route('register') }}">
-                    @csrf
-
-            <div class="card">
-
-               
-                   
-
+            <form method="POST" action="{{ route('register') }}">
+                @csrf
+                <div class="card">
                     <div class="card-body pt-5">
                         <div class="form-group row">
                             <label for="first_name" class="col-md-4 col-form-label text-md-right">First Name <span
@@ -103,14 +97,16 @@
                                 <span class="text-danger">*</span></label>
 
                             <div class="col-md-6">
-                                <div class="custom-control @error('type') is-invalid @enderror custom-radio custom-control-inline">
-                                    <input type="radio" name="type" value="2" id="customRadioInline1" name="customRadioInline1"
-                                        class="custom-control-input">
+                                <div
+                                    class="custom-control @error('type') is-invalid @enderror custom-radio custom-control-inline">
+                                    <input type="radio" name="type" value="2" id="customRadioInline1"
+                                        name="customRadioInline1" class="custom-control-input">
                                     <label class="custom-control-label" for="customRadioInline1">Tutor</label>
                                 </div>
-                                <div class="custom-control @error('type') is-invalid @enderror custom-radio custom-control-inline">
-                                    <input type="radio" name="type" value="3" id="customRadioInline2" name="customRadioInline1"
-                                        class="custom-control-input">
+                                <div
+                                    class="custom-control @error('type') is-invalid @enderror custom-radio custom-control-inline">
+                                    <input type="radio" name="type" value="3" id="customRadioInline2"
+                                        name="customRadioInline1" class="custom-control-input">
                                     <label class="custom-control-label" for="customRadioInline2">Guardian</label>
                                 </div>
 
@@ -123,15 +119,15 @@
                         </div>
                     </div>
 
-                    </div>
+                </div>
 
-                    <div class="text-center mt-3">
-                        <button type="submit" class="btn btn-outline-secondary pl-5 pr-5">
-                            Register
-                        </button>
-                    </div>
-                </form>
-           
+                <div class="text-center mt-3">
+                    <button type="submit" class="btn btn-outline-secondary pl-5 pr-5">
+                        Register
+                    </button>
+                </div>
+            </form>
+
         </div>
     </div>
 </div>

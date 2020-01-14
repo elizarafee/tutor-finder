@@ -14,6 +14,8 @@ use Illuminate\Support\Facades\Mail;
 use App\Mail\RequestToConnect;
 use App\Mail\RequestAccepted;
 
+
+
 /**
  * Takes care of connect requests 
  */
@@ -22,6 +24,8 @@ class ConnectController extends Controller
     /**
      * Showing list of connected user with logged in user
      * (tutor or guardian)
+     * 
+     * @return \Illuminate\Http\Response
      */
     public function connections()
     {
@@ -110,6 +114,8 @@ class ConnectController extends Controller
     /**
      * Shows pending requests received by logged in user
      * (tutor or guardian)
+     * 
+     * @return \Illuminate\Http\Response
      */
     public function requests()
     {
@@ -138,8 +144,7 @@ class ConnectController extends Controller
      * Store and send email to connect with other user
      *
      * @param int $request_to user id of requesting to connect
-     *
-     * @return Redirect
+     * @return Illuminate\Support\Facades\Redirect 
      */
     public function connect($request_to)
     {
@@ -169,8 +174,7 @@ class ConnectController extends Controller
      * Cancels request to connect
      *
      * @param int $request_to user id of requested to connect
-     *
-     * @return Redirect
+     * @return Illuminate\Support\Facades\Redirect 
      */
     public function cancel($request_to)
     {
@@ -189,8 +193,7 @@ class ConnectController extends Controller
      * Disconnects from a connected user
      *
      * @param int $requested_by already connected user id
-     *
-     * @return Redirect
+     * @return Illuminate\Support\Facades\Redirect 
      */
     public function disconnect($requested_by)
     {
@@ -214,9 +217,8 @@ class ConnectController extends Controller
     /**
      * Accept request to connect
      *
-    * @param int $requested_by user id who wants to connect
-     *
-     * @return Redirect
+     * @param int $requested_by user id who wants to connect
+     * @return Illuminate\Support\Facades\Redirect 
      */
     public function accept($requested_by)
     {
@@ -243,8 +245,7 @@ class ConnectController extends Controller
      * Rejects request to connect
      *
      * @param int $requested_by user id who wants to connect
-     *
-     * @return Redirect
+     * @return Illuminate\Support\Facades\Redirect 
      */
 
     public function reject($requested_by)

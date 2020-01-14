@@ -17,8 +17,19 @@ use Illuminate\Support\Facades\Mail;
 use App\Mail\ProfileApproved;
 use App\Mail\ProfileDisapproved;
 
+/**
+ * Takes care of the profile realated operations
+ */
+
 class ProfileController extends Controller
 {
+
+    /**
+     * Shows the user () pending for review which
+     * Admin should approve or disapprove
+     *
+     * @return Illuminate\Http\Response
+     */
     public function review()
     {
         $tutors['awaiting'] = User::join('tutors', 'tutors.user_id', 'users.id')
@@ -51,16 +62,15 @@ class ProfileController extends Controller
     }
 
     /**
-     * Display a listing of the resource.
+     * Show the profile of the logged in user
+     * or the view to create the profile
      *
      * @return \Illuminate\Http\Response
      */
     public function show()
     {
-        $user = Auth::user();
-
+        $user = Auth::user(); // logged in user
         $type = $user->type;
-        $completed_profile = $user->completed_at;
         
         if ($type == 1) {
             // Admin
@@ -87,9 +97,9 @@ class ProfileController extends Controller
 
 
     /**
-     * Show the form for editing the specified resource.
+     * Makes the profile approvee
      *
-     * @param  int  $id
+     * @param  int  $user_id specified user id
      * @return Illuminate\Support\Facades\Redirect
      */
     public function approve($user_id)
@@ -118,11 +128,11 @@ class ProfileController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * Makes the profile disapproved
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param  int  $user_id specified user id
+     * @return Illuminate\Support\Facades\Redirect
      */
     public function disapprove(Request $request, $user_id)
     {
@@ -158,25 +168,36 @@ class ProfileController extends Controller
         return redirect('profiles/review')->with('success', 'Profile of '.$user->first_name.' '.$user->last_name.' successfully disapproved.');
     }
 
+    /**
+     * Makes the profile active by logged in user
+     *
+     * @return Illuminate\Support\Facades\Redirect
+     */
     public function activate()
     {
         $activate = User::where('id', Auth::id())->update(['active' => 1]);
 
-        if($activate) {
+        if ($activate) {
             return redirect()->back()->with('success', 'Your profile successfully activated.');
         }
 
         return redirect()->back()->with('error', 'Failed to activate. Please try again.');
     }
 
+
+    /**
+     * Makes the profile inactive by logged in user
+     *
+     * @return Illuminate\Support\Facades\Redirect
+     */
     public function deactivate()
     {
         $activate = User::where('id', Auth::id())->update(['active' => 0]);
 
-        if($activate) {
+        if ($activate) {
             return redirect()->back()->with('success', 'Your profile successfully deactivated.');
         }
 
-        return redirect()->back()->with('error', 'Failed to deactivate. Please try again.'); 
+        return redirect()->back()->with('error', 'Failed to deactivate. Please try again.');
     }
 }
