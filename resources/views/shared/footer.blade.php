@@ -6,7 +6,9 @@
                         <p>
                             <a href="{{url('/about')}}" class="mr-2">About</a>
                             <a href="{{url('/terms-of-use')}}" class="mr-2">Terms of Use</a>
+                            @if(auth()->user() == false || in_array(auth()->user()->type, [2,3]))
                             <a href="{{url('/contact')}}">Contact</a>
+                            @endif 
                         </p>
                         <p>Tutor Finder &copy; {{date('Y')}}</p>
                     </div>

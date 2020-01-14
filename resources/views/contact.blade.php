@@ -18,7 +18,7 @@
                             <div class="col-md-6">
                                 <input id="name" type="text"
                                     class="form-control @error('name') is-invalid @enderror" name="name"
-                                    value="{{ old('name') }}" autofocus>
+                                    @if(Auth::check())  value="{{ auth()->user()->first_name.' '.auth()->user()->last_name }}" readonly="true" @else value="{{ old('name') }}" @endif autofocus>
 
                                 @error('name')
                                 <span class="invalid-feedback" role="alert">
@@ -34,7 +34,7 @@
 
                             <div class="col-md-6">
                                 <input id="email" type="email" class="form-control @error('email') is-invalid @enderror"
-                                    name="email" value="{{ old('email') }}" autocomplete="email">
+                                    name="email" @if(Auth::check()) value="{{ auth()->user()->email }}" readonly="true" @else value="{{ old('email') }}" @endif>
                                 
                                 @error('email')
                                 <span class="invalid-feedback" role="alert">
@@ -48,7 +48,7 @@
                             <label for="message" class="col-md-4 col-form-label text-md-right">Message <span
                                     class="text-danger">*</span></label>
                             <div class="col-md-6">
-                                <textarea id="message" class="form-control @error('message') is-invalid @enderror" name="message">{{ old('message') }}</textarea>
+                                <textarea id="message" rows="5" class="form-control @error('message') is-invalid @enderror" name="message">{{ old('message') }}</textarea>
                                 
                                 @error('message')
                                 <span class="invalid-feedback" role="alert">
