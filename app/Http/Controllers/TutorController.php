@@ -19,10 +19,14 @@ use Illuminate\Support\Facades\Mail;
 use App\Mail\ProfileUpdated;
 use App\Mail\ReviewProfile;
 
+/**
+ * Takes care of all tutor related operations
+ */
+
 class TutorController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Display a listing of the approve tutor list
      *
      * @return \Illuminate\Http\Response
      */
@@ -33,15 +37,15 @@ class TutorController extends Controller
             'users.id as user_id',
             'users.first_name',
             'users.last_name',
-            'users.picture as picture', 
+            'users.picture as picture',
             'users.approved_at',
-            'tutors.salary', 
-            'tutors.bio', 
-            'tutors.year_of_birth', 
-            'tutors.gender',  
-            'tutors.locations', 
-            'tutors.covered_subjects', 
-            'tutors.covered_years', 
+            'tutors.salary',
+            'tutors.bio',
+            'tutors.year_of_birth',
+            'tutors.gender',
+            'tutors.locations',
+            'tutors.covered_subjects',
+            'tutors.covered_years',
             'tutor_qualifications.level',
             'tutor_qualifications.institute',
             'tutor_qualifications.subject',
@@ -61,16 +65,13 @@ class TutorController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
+     * Search a listing of the approve tutor list
      *
+     * @param App\Http\Requests\SearchTutorRequest $request
      * @return \Illuminate\Http\Response
      */
     public function search(SearchTutorRequest $request)
     {
-        // echo "<pre>";
-        // print_r($request->all());
-        // echo "</pre>";
-
         if ($request->isMethod('post')) {
             Session::forget('conditions');
         }
@@ -100,7 +101,7 @@ class TutorController extends Controller
             $conditions[] = ['tutor_qualifications.level', '=', $request->get('level')];
         }
 
-        if(count($conditions) > 0) {
+        if (count($conditions) > 0) {
             Session::put('conditions', $conditions);
             
             $inputs = $request->all();
@@ -113,15 +114,15 @@ class TutorController extends Controller
             'users.id as user_id',
             'users.first_name',
             'users.last_name',
-            'users.picture as picture', 
+            'users.picture as picture',
             'users.approved_at',
-            'tutors.salary', 
-            'tutors.bio', 
-            'tutors.year_of_birth', 
-            'tutors.gender',  
-            'tutors.locations', 
-            'tutors.covered_years', 
-            'tutors.covered_subjects', 
+            'tutors.salary',
+            'tutors.bio',
+            'tutors.year_of_birth',
+            'tutors.gender',
+            'tutors.locations',
+            'tutors.covered_years',
+            'tutors.covered_subjects',
             'tutor_qualifications.level',
             'tutor_qualifications.institute',
             'tutor_qualifications.subject',
@@ -140,18 +141,16 @@ class TutorController extends Controller
  
        
         return view('tutors.index', ['tutors' => $tutors, 'page_title' => 'Searched Tutors', 'input' => Session::get('input')]);
-
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Store a newly created tutor profile
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param  App\Http\Requests\StoreTutorRequest $request
+     * @return Illuminate\Support\Facades\Redirect
      */
     public function store(StoreTutorRequest $request)
     {
-
         $user = Auth::user();
         DB::beginTransaction();
         try {
@@ -183,9 +182,9 @@ class TutorController extends Controller
             TutorQualification::where('id', $tutor_qualification->id)->update(['proof_of_doc' => $proof_of_doc]);
 
             $picture = null;
-            if($request->has('picture')) {
+            if ($request->has('picture')) {
                 $picture = $request->file('picture')->store('docs/'.$user->id.'/profiles', 'public');
-            } 
+            }
             $proof_of_id = $request->file('proof_of_id')->store('docs/'.$user->id.'/proof_of_ids', 'public');
 
             $user_data = array(
@@ -198,12 +197,11 @@ class TutorController extends Controller
             User::where('id', $user->id)->update($user_data);
 
             // profile updated
-            //Mail::to($user->email)->send(new ProfileUpdated($user));
+            Mail::to($user->email)->send(new ProfileUpdated($user));
         
             // review profile
-            //Mail::to(developer('email'))->send(new ReviewProfile($user));
-
-        } catch(\Exception $e) {
+            Mail::to(developer('email'))->send(new ReviewProfile($user));
+        } catch (\Exception $e) {
             DB::rollBack();
             Storage::deleteDirectory('docs/'.$user->id);
             return redirect('/profile')->with('error', 'Failed to update profile. Please try again.('.$e->getMessage().')');
@@ -214,90 +212,88 @@ class TutorController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * Display the specified tutor profile
      *
-     * @param  int  $id
+     * @param  int  $tutor_id
      * @return \Illuminate\Http\Response
      */
     public function show($tutor_id)
     {
         $data = array(
-            'users.id as user_id', 
-            'users.first_name as first_name', 
-            'users.last_name as last_name', 
-            'users.email as email', 
-            'users.mobile as mobile', 
-            'users.picture as picture', 
-            'users.proof_of_id as proof_of_id', 
+            'users.id as user_id',
+            'users.first_name as first_name',
+            'users.last_name as last_name',
+            'users.email as email',
+            'users.mobile as mobile',
+            'users.picture as picture',
+            'users.proof_of_id as proof_of_id',
             'users.approved_at',
             'users.reviewed',
             'users.type as user_type',
-            'tutors.id as id', 
-            'tutors.bio', 
-            'tutors.year_of_birth', 
-            'tutors.gender', 
-            'tutors.locations', 
-            'tutors.covered_subjects', 
+            'tutors.id as id',
+            'tutors.bio',
+            'tutors.year_of_birth',
+            'tutors.gender',
+            'tutors.locations',
+            'tutors.covered_subjects',
             'tutors.covered_years',
-            'tutors.salary',  
+            'tutors.salary',
             'tutor_qualifications.level',
-            'tutor_qualifications.subject', 
-            'tutor_qualifications.institute', 
-            'tutor_qualifications.status', 
+            'tutor_qualifications.subject',
+            'tutor_qualifications.institute',
+            'tutor_qualifications.status',
             'tutor_qualifications.proof_of_doc',
             'tutor_qualifications.note',
        );
 
-       $tutor = Tutor::join('users', 'users.id', 'tutors.user_id')
+        $tutor = Tutor::join('users', 'users.id', 'tutors.user_id')
        ->join('tutor_qualifications', 'tutors.id', 'tutor_qualifications.tutor_id')
        ->where('tutors.id', $tutor_id)
        ->first($data);
 
-       $connection = has_connection($tutor->user_id);
-       if(Auth::user()->type == 1 || $connection['connected'] || $connection['request'] == 'received') {
+        $connection = has_connection($tutor->user_id);
+        if (Auth::user()->type == 1 || $connection['connected'] || $connection['request'] == 'received') {
             return view('tutors.show', ['tutor' => $tutor, 'connection' => $connection]);
-       }
+        }
 
-       return redirect('/tutors')->with('warning', 'You are not connected with '.$tutor->user_first_name.' '.$tutor->user_last_name);
-       
+        return redirect('/tutors')->with('warning', 'You are not connected with '.$tutor->user_first_name.' '.$tutor->user_last_name);
     }
 
     /**
-     * Show the form for editing the specified resource.
+     * Show the form for editing the logged in tutor
      *
-     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function edit()
     {
         $data = array(
-            'users.id as user_id', 
-            'users.first_name as first_name', 
-            'users.last_name as last_name', 
-            'users.email as email', 
-            'users.mobile as mobile', 
-            'users.picture as picture', 
-            'users.proof_of_id as proof_of_id', 
+            'users.id as user_id',
+            'users.first_name as first_name',
+            'users.last_name as last_name',
+            'users.email as email',
+            'users.mobile as mobile',
+            'users.picture as picture',
+            'users.proof_of_id as proof_of_id',
             'users.approved_at',
             'users.reviewed',
             'users.type as user_type',
-            'tutors.id as id', 
-            'tutors.bio', 
-            'tutors.year_of_birth', 
-            'tutors.gender', 
-            'tutors.locations', 
-            'tutors.covered_subjects', 
+            'tutors.id as id',
+            'tutors.bio',
+            'tutors.year_of_birth',
+            'tutors.gender',
+            'tutors.locations',
+            'tutors.covered_subjects',
             'tutors.covered_years',
-            'tutors.salary',  
+            'tutors.salary',
             'tutor_qualifications.level',
-            'tutor_qualifications.subject', 
-            'tutor_qualifications.institute', 
-            'tutor_qualifications.status', 
+            'tutor_qualifications.subject',
+            'tutor_qualifications.institute',
+            'tutor_qualifications.status',
             'tutor_qualifications.proof_of_doc',
             'tutor_qualifications.note',
        );
 
-       $tutor = Tutor::join('users', 'users.id', 'tutors.user_id')
+        $tutor = Tutor::join('users', 'users.id', 'tutors.user_id')
        ->join('tutor_qualifications', 'tutors.id', 'tutor_qualifications.tutor_id')
        ->where('users.id', Auth::id())
        ->first($data);
@@ -306,21 +302,18 @@ class TutorController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * Update the logged in tutor
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param  App\Http\Requests\UpdateTutorRequest  $request
+     * @return Illuminate\Support\Facades\Redirect
      */
     public function update(UpdateTutorRequest $request)
     {
-
-        $user = Auth::user();
+        $user = Auth::user(); // logged in user
         $tutor = Tutor::join('users', 'users.id', 'tutors.user_id')
        ->join('tutor_qualifications', 'tutors.id', 'tutor_qualifications.tutor_id')
        ->where('users.id', Auth::id())
        ->first(['users.id as user_id', 'tutors.id as tutor_id', 'tutor_qualifications.id as qualification_id', 'tutor_qualifications.proof_of_doc']);
-
 
         DB::beginTransaction();
         try {
@@ -354,37 +347,37 @@ class TutorController extends Controller
                 'rejection_reason' => null,
             );
 
-            if($request->has('picture')) {
+            if ($request->has('picture')) {
                 $picture = $request->file('picture')->store('docs/'.$user->id.'/profiles', 'public');
                 
-                if($picture) {
+                if ($picture) {
                     $old_pp = Storage::disk('public')->exists($user->picture);
-                    if($old_pp) {
+                    if ($old_pp) {
                         Storage::disk('public')->delete($user->picture);
                     }
                 }
 
                 $user_data['picture'] = $picture;
-            } 
+            }
 
-            if($request->has('proof_of_id')) {
+            if ($request->has('proof_of_id')) {
                 $proof_of_id = $request->file('proof_of_id')->store('docs/'.$user->id.'/proof_of_ids', 'public');
             
-                if($proof_of_id) {
+                if ($proof_of_id) {
                     $old_poi = Storage::disk('public')->exists($user->proof_of_id);
-                    if($old_poi) {
+                    if ($old_poi) {
                         Storage::disk('public')->delete($user->proof_of_id);
                     }
                 }
                 $user_data['proof_of_id'] = $proof_of_id;
             }
 
-            if($request->has('proof_of_doc')) {
+            if ($request->has('proof_of_doc')) {
                 $proof_of_doc = $request->file('proof_of_doc')->store('docs/'.$user->id.'/qualifications/'.$tutor->qualification_id, 'public');
             
-                if($proof_of_doc) {
+                if ($proof_of_doc) {
                     $old_pod = Storage::disk('public')->exists($tutor->proof_of_doc);
-                    if($old_pod) {
+                    if ($old_pod) {
                         Storage::disk('public')->delete($tutor->proof_of_doc);
                     }
                 }
@@ -396,12 +389,11 @@ class TutorController extends Controller
             User::where('id', $user->id)->update($user_data);
 
             // profile updated
-            //Mail::to($user->email)->send(new ProfileUpdated($user));
+            Mail::to($user->email)->send(new ProfileUpdated($user));
         
             // review profile
-            //Mail::to(developer('email'))->send(new ReviewProfile($user));
-
-        } catch(\Exception $e) {
+            Mail::to(developer('email'))->send(new ReviewProfile($user));
+        } catch (\Exception $e) {
             DB::rollBack();
             Storage::deleteDirectory('docs/'.$user->id);
             return redirect('/profile')->with('error', 'Failed to update profile. Please try again.('.$e->getMessage().')');
@@ -410,16 +402,4 @@ class TutorController extends Controller
         DB::commit();
         return redirect('/profile')->with('success', 'Profile successfully updated. Admin will review to approve it.');
     }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
-    }
-
 }

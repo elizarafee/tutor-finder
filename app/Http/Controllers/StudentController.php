@@ -18,10 +18,14 @@ use Illuminate\Support\Facades\Mail;
 use App\Mail\ProfileUpdated;
 use App\Mail\ReviewProfile;
 
+/**
+ * Takes care of all student related operations
+ */
+
 class StudentController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Display a listing of the approved students
      *
      * @return \Illuminate\Http\Response
      */
@@ -32,16 +36,16 @@ class StudentController extends Controller
             'users.id as user_id',
             'users.first_name',
             'users.last_name',
-            'users.picture as picture', 
+            'users.picture as picture',
             'users.approved_at',
-            'students.location', 
-            'students.budget', 
-            'students.bio', 
-            'students.year_of_birth', 
-            'students.gender', 
-            'students.class', 
-            'students.institute', 
-            'students.subjects', 
+            'students.location',
+            'students.budget',
+            'students.bio',
+            'students.year_of_birth',
+            'students.gender',
+            'students.class',
+            'students.institute',
+            'students.subjects',
        );
 
         $students = Student::join('users', 'users.id', 'students.user_id')
@@ -56,16 +60,13 @@ class StudentController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
+     * Search a listing of the approved students
      *
+     * @param App\Http\Requests\SearchStudentRequest $request
      * @return \Illuminate\Http\Response
      */
     public function search(SearchStudentRequest $request)
     {
-        // echo "<pre>";
-        // print_r($request->all());
-        // echo "</pre>";
-
         if ($request->isMethod('post')) {
             Session::forget('conditions');
         }
@@ -87,7 +88,7 @@ class StudentController extends Controller
             $conditions[] = ['students.budget', '<=', $request->get('budget')];
         }
 
-        if(count($conditions) > 0) {
+        if (count($conditions) > 0) {
             Session::put('conditions', $conditions);
             
             $inputs = $request->all();
@@ -100,16 +101,16 @@ class StudentController extends Controller
             'users.id as user_id',
             'users.first_name',
             'users.last_name',
-            'users.picture as picture', 
+            'users.picture as picture',
             'users.approved_at',
-            'students.location', 
-            'students.budget', 
-            'students.bio', 
-            'students.year_of_birth', 
-            'students.gender', 
-            'students.class', 
-            'students.institute', 
-            'students.subjects', 
+            'students.location',
+            'students.budget',
+            'students.bio',
+            'students.year_of_birth',
+            'students.gender',
+            'students.class',
+            'students.institute',
+            'students.subjects',
        );
 
         $students = Student::join('users', 'users.id', 'students.user_id')
@@ -122,22 +123,20 @@ class StudentController extends Controller
         ->paginate(10);
         
         return view('students.index', ['students' => $students, 'page_title' => 'Searched Students', 'input' => Session::get('input')]);
-
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Store a newly created guardian profile with student details as well
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param  App\Http\Requests\StoreStudentRequest  $request
+     * @return Illuminate\Support\Facades\Redirect
      */
     public function store(StoreStudentRequest $request)
     {
-        $user = Auth::user();
+        $user = Auth::user(); // logged in user
 
         DB::beginTransaction();
         try {
-
             $student_data = array(
                 'user_id' => Auth::user()->id,
                 'bio' => $request->get('bio'),
@@ -154,9 +153,9 @@ class StudentController extends Controller
             Student::create($student_data);
 
             $picture = null;
-            if($request->has('picture')) {
+            if ($request->has('picture')) {
                 $picture = $request->file('picture')->store('docs/'.$user->id.'/profiles', 'public');
-            } 
+            }
             $proof_of_id = $request->file('proof_of_id')->store('docs/'.$user->id.'/proof_of_ids', 'public');
 
             $user_data = array(
@@ -169,12 +168,11 @@ class StudentController extends Controller
             User::where('id', $user->id)->update($user_data);
 
             // profile updated
-            //Mail::to($user->email)->send(new ProfileUpdated($user));
+            Mail::to($user->email)->send(new ProfileUpdated($user));
         
             // review profile
-            //Mail::to(developer('email'))->send(new ReviewProfile($user));
-
-        } catch(\Exception $e) {
+            Mail::to(developer('email'))->send(new ReviewProfile($user));
+        } catch (\Exception $e) {
             DB::rollBack();
             Storage::deleteDirectory('storage/docs/'.$user->id);
             return redirect('/profile')->with('error', 'Failed to update profile. Please try again.('.$e->getMessage().')');
@@ -185,34 +183,34 @@ class StudentController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * Display the specified guardian profile with student detials
      *
-     * @param  int  $id
+     * @param  int  $student_id
      * @return \Illuminate\Http\Response
      */
     public function show($student_id)
     {
         $data = array(
-             'users.id as user_id', 
-             'users.first_name as first_name', 
-             'users.last_name as last_name', 
-             'users.email as email', 
-             'users.mobile as mobile', 
-             'users.picture as picture', 
-             'users.proof_of_id as proof_of_id', 
+             'users.id as user_id',
+             'users.first_name as first_name',
+             'users.last_name as last_name',
+             'users.email as email',
+             'users.mobile as mobile',
+             'users.picture as picture',
+             'users.proof_of_id as proof_of_id',
              'users.reviewed',
              'users.approved_at',
              'users.type as user_type',
-             'students.id as id', 
-             'students.location', 
-             'students.budget', 
-             'students.bio', 
-             'students.year_of_birth', 
-             'students.gender', 
-             'students.class', 
-             'students.institute', 
-             'students.subjects', 
-             'students.requirements', 
+             'students.id as id',
+             'students.location',
+             'students.budget',
+             'students.bio',
+             'students.year_of_birth',
+             'students.gender',
+             'students.class',
+             'students.institute',
+             'students.subjects',
+             'students.requirements',
         );
 
         $student = Student::join('users', 'users.id', 'students.user_id')
@@ -221,44 +219,41 @@ class StudentController extends Controller
 
         $connection = has_connection($student->user_id);
 
-       if(Auth::user()->type == 1 || $connection['connected'] || $connection['request'] == 'received') {
+        if (Auth::user()->type == 1 || $connection['connected'] || $connection['request'] == 'received') {
             return view('students.show', ['student' => $student, 'connection' => $connection]);
-       }
+        }
 
-       return redirect('/students')->with('warning', 'You are not connected with this student');
-       
+        return redirect('/students')->with('warning', 'You are not connected with this student');
     }
 
     /**
-     * Show the form for editing the specified resource.
+     * Show the form for editing the logged in guardian profile with student details
      *
-     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function edit()
     {
-
         $data = array(
-            'users.id as user_id', 
-            'users.first_name as first_name', 
-            'users.last_name as last_name', 
-            'users.email as email', 
-            'users.mobile as mobile', 
-            'users.picture as picture', 
-            'users.proof_of_id as proof_of_id', 
+            'users.id as user_id',
+            'users.first_name as first_name',
+            'users.last_name as last_name',
+            'users.email as email',
+            'users.mobile as mobile',
+            'users.picture as picture',
+            'users.proof_of_id as proof_of_id',
             'users.reviewed',
             'users.approved_at',
             'users.type as user_type',
-            'students.id as id', 
-            'students.location', 
-            'students.budget', 
-            'students.bio', 
-            'students.year_of_birth', 
-            'students.gender', 
-            'students.class', 
-            'students.institute', 
-            'students.subjects', 
-            'students.requirements', 
+            'students.id as id',
+            'students.location',
+            'students.budget',
+            'students.bio',
+            'students.year_of_birth',
+            'students.gender',
+            'students.class',
+            'students.institute',
+            'students.subjects',
+            'students.requirements',
        );
 
         $student = Student::join('users', 'users.id', 'students.user_id')
@@ -270,20 +265,17 @@ class StudentController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * Update the logged in guardian profile with student details
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param  App\Http\Requests\UpdateStudentRequest  $request
+     * @return Illuminate\Support\Facades\Redirect
      */
     public function update(UpdateStudentRequest $request)
     {
-       
-        $user = Auth::user();
+        $user = Auth::user(); // logged in user
 
         DB::beginTransaction();
         try {
-
             $student_data = array(
                 'bio' => $request->get('bio'),
                 'gender' => $request->get('gender'),
@@ -309,26 +301,26 @@ class StudentController extends Controller
             );
 
             
-            if($request->has('picture')) {
+            if ($request->has('picture')) {
                 $picture = $request->file('picture')->store('docs/'.$user->id.'/profiles', 'public');
                 
-                if($picture) {
+                if ($picture) {
                     $old_pp = Storage::disk('public')->exists($user->picture);
-                    if($old_pp) {
+                    if ($old_pp) {
                         Storage::disk('public')->delete($user->picture);
                     }
                 }
 
                 $user_data['picture'] = $picture;
-            } 
+            }
 
             $proof_of_id = null;
-            if($request->has('proof_of_id')) {
+            if ($request->has('proof_of_id')) {
                 $proof_of_id = $request->file('proof_of_id')->store('docs/'.$user->id.'/proof_of_ids', 'public');
             
-                if($proof_of_id) {
+                if ($proof_of_id) {
                     $old_poi = Storage::disk('public')->exists($user->proof_of_id);
-                    if($old_poi) {
+                    if ($old_poi) {
                         Storage::disk('public')->delete($user->proof_of_id);
                     }
                 }
@@ -336,17 +328,15 @@ class StudentController extends Controller
                 $user_data['proof_of_id'] = $proof_of_id;
             }
             
-
             Student::where('user_id', $user->id)->update($student_data);
             User::where('id', $user->id)->update($user_data);
 
             // profile updated
-            //Mail::to($user->email)->send(new ProfileUpdated($user));
+            Mail::to($user->email)->send(new ProfileUpdated($user));
         
             // review profile
-            //Mail::to(developer('email'))->send(new ReviewProfile($user));
-
-        } catch(\Exception $e) {
+            Mail::to(developer('email'))->send(new ReviewProfile($user));
+        } catch (\Exception $e) {
             DB::rollBack();
             return redirect('/profile')->with('error', 'Failed to update profile. Please try again.('.$e->getMessage().')');
         }

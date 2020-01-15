@@ -1,7 +1,12 @@
 <?php
 
-    function developer($key = '') {
-        
+    /**
+     * Show developer info
+     *
+     * @return string developer info
+     */
+    function developer($key = '')
+    {
         $info = [
             'name' => 'Eliza Ahmed',
             'email' => 'elizarafee@gmail.com',
@@ -10,7 +15,14 @@
         return (isset($info[$key]))? $info[$key] : '';
     }
 
-    function has_connection($user_id) {
+    /**
+     * Determines the user is connected with logged in user
+     *
+     * @param int $user_id
+     * @return array connection state
+     */
+    function has_connection($user_id)
+    {
         $received = \App\Connection::where('requested_by', $user_id)
         ->where('request_to', Auth::user()->id)
         ->first();
@@ -38,8 +50,14 @@
         return ['connected' => false, 'request' => false];
     }
 
+    /**
+     * Level of study
+     *
+     * @return array | string
+     */
 
-    function levels_of_study($level  = false) {
+    function levels_of_study($level  = false)
+    {
         $levels = [
             1 => 'School Student',
             2 => 'SSC',
@@ -58,7 +76,13 @@
         return $levels;
     }
 
-    function years_of_study($class_id = false) {
+    /**
+     * Student class
+     *
+     * @return array | string
+     */
+    function years_of_study($class_id = false)
+    {
         $classes = [
             1 => 'Play Group',
             2 => 'Class 1',
@@ -83,7 +107,13 @@
     }
 
 
-    function locations($location_id = false) {
+    /**
+     * Locations
+     *
+     * @return string | array
+     */
+    function locations($location_id = false)
+    {
         if ($location_id) {
             $location = \App\Area::find($location_id);
             return ($location)? $location->name : 'Not found';
@@ -92,7 +122,13 @@
     }
 
 
-    function tution_subjects($subject_id = false) {
+    /**
+     * Students subjects
+     *
+     * @return string | array
+     */
+    function tution_subjects($subject_id = false)
+    {
         if ($subject_id) {
             $subject = \App\Subject::find($subject_id);
             return ($subject)? $subject->name : 'Not found';
@@ -101,7 +137,13 @@
     }
 
 
-    function no_of_awaiting_response() {
+    /**
+     * No of awating profile for approval
+     *
+     * @return int
+     */
+    function no_of_awaiting_response()
+    {
         return \App\User::whereNotNull('completed_at')
         ->whereNull('rejected_at')
         ->whereNull('approved_at')
@@ -109,9 +151,14 @@
         ->count();
     }
 
-    function no_of_connection_requests() {
+    /**
+     * No of request pening request to logged in user
+     *
+     * @return int
+     */
+    function no_of_connection_requests()
+    {
         return \App\Connection::whereNull('accepted_at')
         ->where('request_to', Auth::id())
         ->count();
     }
-
