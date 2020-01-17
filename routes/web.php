@@ -56,9 +56,9 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
     Route::get('/ajax/get-locations', 'AjaxController@getLocations');
 });
 
-
 Auth::routes(['verify' => true]);
 
+// public routes 
 Route::get('/about', 'PublicController@about');
 Route::get('/terms-of-use', 'PublicController@termsOfUse');
 Route::post('/contact', 'PublicController@sendContact');
