@@ -101,6 +101,7 @@
                             Logout <i class="fas fa-sign-out-alt"></i>
                         </a>
 
+                        <!-- logout form post -->
                         <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                             @csrf
                         </form>
