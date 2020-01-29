@@ -7,6 +7,8 @@ use App\Http\Requests\SendMailRequest;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\SendContactMail;
 
+
+
 /**
  * Takes care of all the public pages
  */
