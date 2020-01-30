@@ -6,7 +6,9 @@
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8 text-center">
-           <h6>An intuitive application to connect potential tutors with students</h6>
+           <h4>An intuitive application to connect potential tutors with student's guardians</h4>
+           <img class="w-50" src="{{ url('images/connections.png') }}"/>
+           <p class="mt-3">Please register and complete your profile to find and make connection with tutor or guardian.</p>
         </div>
     </div>
 </div>

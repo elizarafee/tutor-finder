@@ -27,7 +27,7 @@
 <body>
     <div id="app">
         @include('shared.nav')
-        <main class="container py-4" style="min-height: 450px;">
+        <main class="container py-4" style="min-height: 350px;">
 
             @hasSection('page_title')
             <div class="row mb-3 justify-content-center">

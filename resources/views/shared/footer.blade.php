@@ -10,7 +10,7 @@
                             <a href="{{url('/contact')}}">Contact</a>
                             @endif 
                         </p>
-                        <p>Tutor Finder &copy; {{date('Y')}}</p>
+                        <p>Tutor Finder &copy; {{date('Y')}} <i class="far fa-heart text-danger"></i></p>
                     </div>
                 </div>
             </div>
