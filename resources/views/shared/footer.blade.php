@@ -6,6 +6,7 @@
                         <p>
                             <a href="{{url('/about')}}" class="mr-2">About</a>
                             <a href="{{url('/terms-of-use')}}" class="mr-2">Terms of Use</a>
+                            <a href="{{url('/privacy-and-cookie-policy')}}" class="mr-2">Privacy & Cookie Policy</a>
                             @if(auth()->user() == false || in_array(auth()->user()->type, [2,3]))
                             <a href="{{url('/contact')}}">Contact</a>
                             @endif 

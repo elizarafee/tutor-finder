@@ -61,6 +61,7 @@ Auth::routes(['verify' => true]);
 // public routes 
 Route::get('/about', 'PublicController@about');
 Route::get('/terms-of-use', 'PublicController@termsOfUse');
+Route::get('/privacy-and-cookie-policy', 'PublicController@privacyAndCookiePolicy');
 Route::post('/contact', 'PublicController@sendContact');
 Route::get('/contact', 'PublicController@contact');
 Route::get('/', 'PublicController@home');

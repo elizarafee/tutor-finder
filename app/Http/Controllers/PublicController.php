@@ -46,6 +46,16 @@ class PublicController extends Controller
     }
 
     /**
+     * Show the privacy and cookie policy page
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function privacyAndCookiePolicy()
+    {
+        return view('privacy-and-cookie-policy');
+    }
+
+    /**
      * Show the contact page
      *
      * @return \Illuminate\Http\Response
