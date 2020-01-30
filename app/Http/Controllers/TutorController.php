@@ -89,8 +89,15 @@ class TutorController extends Controller
             $conditions[] = ['tutors.locations', 'like', '%' . ($request->get('location')) . '%'];
         }
 
-        if ($request->get('salary') != "") {
-            $conditions[] = ['tutors.salary', '<=', $request->get('salary')];
+        if ($request->get('min_salary') != "" && $request->get('max_salary') != "") {
+            $conditions[] = ['tutors.salary', '>=', $request->get('min_salary')];
+            $conditions[] = ['tutors.salary', '<=', $request->get('max_salary')];
+        }
+        if ($request->get('min_salary') != "" && $request->get('max_salary') == "") {
+            $conditions[] = ['tutors.salary', '>=', $request->get('min_salary')];
+        }
+        if ($request->get('min_salary') == "" && $request->get('max_salary') != "") {
+            $conditions[] = ['tutors.salary', '<=', $request->get('max_salary')];
         }
 
         if ($request->get('status') != "") {

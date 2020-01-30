@@ -84,8 +84,15 @@ class StudentController extends Controller
             $conditions[] = ['students.location', '=', $request->get('location')];
         }
 
-        if ($request->get('budget') != "") {
-            $conditions[] = ['students.budget', '<=', $request->get('budget')];
+        if ($request->get('min_budget') != "" && $request->get('max_budget') != "") {
+            $conditions[] = ['students.budget', '>=', $request->get('min_budget')];
+            $conditions[] = ['students.budget', '<=', $request->get('max_budget')];
+        }
+        if ($request->get('min_budget') != "" && $request->get('max_budget') == "") {
+            $conditions[] = ['students.budget', '>=', $request->get('min_budget')];
+        }
+        if ($request->get('min_budget') == "" && $request->get('max_budget') != "") {
+            $conditions[] = ['students.budget', '<=', $request->get('max_budget')];
         }
 
         if (count($conditions) > 0) {

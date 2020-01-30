@@ -8,7 +8,7 @@
                 <div class="card-body">
                     <div class="row">
                         <div class="col-sm-6 col-md-3 text-center text-light">
-                            <i class="far fa-id-badge text-info fa-7x"></i>
+                            <img src="{{ url('images/eliza2.png') }}" class="img-thumbnail" alt="Profile Picture">
                         </div>
                         <div class="col-sm-6 col-md-9">
                             <h5 class="card-title">Administrator</h5>

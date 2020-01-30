@@ -46,9 +46,17 @@
                             </select>
                         </div>
                         <div class="form-group col-md-6">
-                            <label for="budget">Budget</label>
-                            <input type="text" class="form-control" id="budget" name="budget"
-                                @if(isset($input['budget'])) value="{{ $input['budget'] }}" @endif>
+                            <label for="budget">Budget (range)</label>
+                                <div class="row">
+                                    <div class="col-6">
+                                    <input type="text" class="form-control" placeholder="Min" id="budget" name="min_budget"
+                                                                @if(isset($input['min_budget'])) value="{{ $input['min_budget'] }}" @endif>
+                                    </div>
+                                    <div class="col-6">
+                                    <input type="text" class="form-control" placeholder="Max" id="budget" name="max_budget"
+                                                                @if(isset($input['max_budget'])) value="{{ $input['max_budget'] }}" @endif>
+                                    </div>
+                                </div>
                         </div>
                     </div>
 

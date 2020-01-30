@@ -37,8 +37,12 @@
                             <label for="status">Qualification status</label>
                             <select id="status" class="form-control" name="status">
                                 <option selected value="">Choose...</option>
-                                <option value="Studying" @if(old('status')=='Studying' ) selected @elseif(isset($input['status']) && $input['status'] == 'Studying') selected @endif> Studying </option>
-                                <option value="Completed" @if(old('status')=='Completed' ) selected @elseif(isset($input['status']) && $input['status'] == 'Completed') selected @endif> Completed </option>
+                                <option value="Studying" @if(old('status')=='Studying' ) selected
+                                    @elseif(isset($input['status']) && $input['status']=='Studying' ) selected @endif>
+                                    Studying </option>
+                                <option value="Completed" @if(old('status')=='Completed' ) selected
+                                    @elseif(isset($input['status']) && $input['status']=='Completed' ) selected @endif>
+                                    Completed </option>
                             </select>
                         </div>
                         <div class="form-group col-md-6">
@@ -46,8 +50,10 @@
                             <select id="level" class="form-control" name="level">
                                 <option selected value="">Choose...</option>
                                 @foreach(levels_of_study() as $key => $level)
-                                    <option value="{{ $key }}" @if(old('level') == $key) selected @elseif(isset($input['level']) && $input['level'] == $key) selected @endif> {{ $level }} </option>
-                                    @endforeach 
+                                <option value="{{ $key }}" @if(old('level')==$key) selected
+                                    @elseif(isset($input['level']) && $input['level']==$key) selected @endif> {{ $level
+                                    }} </option>
+                                @endforeach
                             </select>
                         </div>
                     </div>
@@ -66,16 +72,26 @@
                             </select>
                         </div>
                         <div class="form-group col-md-6">
-                            <label for="salary">Salary</label>
-                            <input type="text" class="form-control" id="salary" name="salary"
-                                @if(isset($input['salary'])) value="{{ $input['salary'] }}" @endif>
+                            <label for="salary">Salary (range)</label>
+                            <div class="row">
+                                <div class="col-6">
+                                    <input type="text" class="form-control" placeholder="Min" id="min_salary"
+                                        name="min_salary" @if(isset($input['min_salary']))
+                                        value="{{ $input['min_salary'] }}" @endif>
+                                </div>
+                                <div class="col-6">
+                                    <input type="text" class="form-control" placeholder="Max" id="max_salary"
+                                        name="max_salary" @if(isset($input['max_salary']))
+                                        value="{{ $input['max_salary'] }}" @endif>
+                                </div>
+                            </div>
                         </div>
                     </div>
 
                     <div class="text-center d-block w-100">
                         <hr />
                         <button type="submit" class="btn btn-sm btn-primary pl-5 pr-5 mr-2">Search</button>
-                        
+
                         @if(isset($input) && count($input) > 0)
                         <a href="{{ url('/tutors') }}" class="btn btn-sm btn-outline-secondary pl-5 pr-5">All
                             tutors</a>
@@ -83,7 +99,7 @@
                         <hr />
                         <h5 class="text-info">{{ $tutors->total() }} tutor(s) found on search</5>
 
-                        @endif
+                            @endif
                     </div>
                 </div>
             </form>

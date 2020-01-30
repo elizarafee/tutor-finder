@@ -13,20 +13,75 @@ class UsersTableSeeder extends Seeder
     {
         $gender = ['Male', 'Female'];
         $status = ['Studying', 'Completed'];
-        $years = ['Year 1', 'Year 2', 'Year 3', 'Year 4', 'Year 5', 'Year 6', 'Year 7', 'Year 8', 'Year 9', 'Year 10', 'HSC - Year 1', 'HSC - Year 2'];
+        $class = years_of_study();
+        $institutes = array(
+            'Shahjalal University of Science and Technology',
+            'Sylhet Agricultural University',
+            'Sylhet Engineering College',
+            'Leading University',
+            'Metropolitan University',
+            'North East University',
+            'Sylhet International University',
+            'Sylhet Law College',
+            'Metropolitan Law College',
+            'Madan Mohan College',
+            'Murari Chand College',
+            'British Engineering College',
+            'Sylhet Polytechnic Institute',
+            'Islami Bank Institute of Technology',
+            'Impt Medical technology College',
+            'Sylhet MAG Osmani Medical College',
+            'Jalalabad Ragib-Rabeya Medical College',
+            'Sylhet Women\'s Medical College',
+            'North East Medical College',
+            'Park View Medical College',
+            'Sylhet Central Dental College',
+            );
+
+            $schools = array(
+                'Anandaniketan',
+                'Banyan British School',
+                'Cambridge Grammar School & College',
+                'Oxford International School & College',
+                'Presidency School & College',
+                'Royal Institute of Smart Education',
+                'Sylhet Grammar School',
+                'Sylhet International School & College',
+                'The Sylhet Khajanchibari International School & College',
+                'Sunny Hill International School',
+                'Kawsarabad International School',
+                'British Bangladesh International School & College',
+                'Jalalabad Cantonment Public School and College',
+                'Sylhet Government Pilot High School',
+                'Blue Bird School and College',
+                'Scholarshome',
+                'Government Agragami Girls High School',
+                'Border Guard public School and College',
+                'Shahjalal Jamia Islamia School and College',
+                'Al-Amin Jamia Islamia School and College',
+                'Sylhet Government Model School and College',
+                'Sylhet Railway Government Primary School',
+                'The Sylhet Khajanchi bari International School and College',
+                'Beter Bazar Urban Slum Anando School',
+                'Kishori Mohon Sorkari Prathomik Biddaloy',
+                'Amberkhana Dorga Gate Govt Primary School',
+                'Police Lines High School',
+                'Syed Hatim Ali Government Primary School',
+                'The Aided High School',
+                );
+        
         $faker = \Faker\Factory::create();
 
-        for ($i = 1; $i <= 100; $i++) {
-
+        for ($i = 1; $i <= 10; $i++) {
             $type = rand(2, 3);
 
             $varified_profiles = [1,2,5,7];
 
             $completed_at = null;
-            if($i == 1) {
+            if ($i == 1) {
                 $type = 2;
                 $email = 'tutor@email.com';
-            } elseif($i == 2) {
+            } elseif ($i == 2) {
                 $type = 3;
                 $email = 'student@email.com';
             }
@@ -43,31 +98,50 @@ class UsersTableSeeder extends Seeder
                 'mobile' => '01711' . $faker->numberBetween(100000, 999999),
                 'password' => Hash::make('111'),
                 'completed_at' => date('Y-m-d H:i:s'),
-                'reviewed' => 1,//in_array($i, $varified_profiles)? 1 : 0,
-                'approved_at' => date('Y-m-d H:i:s'),//in_array($i, $varified_profiles)? date('Y-m-d H:i:s') : null,
+                'reviewed' => in_array($i, $varified_profiles)? 1 : 0,
+                'approved_at' => in_array($i, $varified_profiles)? date('Y-m-d H:i:s') : null,
                 'approved_by' => 1
             ]);
 
 
             // Tutor
             if ($type == 2) {
-
                 $tutor_id = DB::table('tutors')->insertGetId([
                     'user_id' => $user_id,
-                    'bio' => $faker->realText(rand(150, 200)),
+                    'bio' => $faker->realText(rand(100, 150)),
                     'gender' => $gender[rand(0, 1)],
                     'year_of_birth' => $faker->year('now'),
-                    'locations' => locations(rand(1,200)).','.locations(rand(1,200)).','.locations(rand(1,200)),
-                    'covered_subjects' => tution_subjects(rand(1,20)).', '.tution_subjects(rand(1,20)).', '.tution_subjects(rand(1,20)),
-                    'covered_years' => $faker->realText(rand(150, 200)),
+                    'locations' => locations(rand(1, 80)).', '.locations(rand(1, 80)).', '.locations(rand(1, 80)),
+                    'covered_subjects' => tution_subjects(rand(1, 20)).', '.tution_subjects(rand(1, 20)).', '.tution_subjects(rand(1, 20)),
+                    'covered_years' => $class[rand(1, count($class)-1)].', '.$class[rand(1, count($class)-1)].', '.$class[rand(1, count($class)-1)], 
                     'salary' => $faker->numberBetween(1000, 5000),
                 ]);
 
+                $level = 1;
+                $subject = 'CSE';
+                $institute_id = rand(0, count($institutes)-1);
+                if($institute_id >= 0 && $institute_id <= 6) {
+                    $level = 3;
+                    $subject = 'CSE';
+                } elseif($institute_id >= 7 && $institute_id <= 8) {
+                    $level = 3;
+                    $subject = 'LLB';
+                } elseif($institute_id >= 9 && $institute_id <= 10) {
+                    $level = 2;
+                    $subject = 'Degree';
+                } elseif($institute_id >= 11 && $institute_id <= 13) {
+                    $level = 1;
+                    $subject = 'Vocational';
+                } else {
+                    $level = 3;
+                    $subject = 'MBBS';
+                }
+
                 DB::table('tutor_qualifications')->insertGetId([
                     'tutor_id' => $tutor_id,
-                    'level' => rand(1, 5),
-                    'subject' => $faker->text(20),
-                    'institute' => $faker->company,
+                    'level' => $level,
+                    'subject' => $subject,
+                    'institute' => $institutes[$institute_id],
                     'status' => $status[rand(0, 1)],
                     'proof_of_doc' => null,
                     'note' => $faker->realText(rand(100, 200)),
@@ -76,16 +150,16 @@ class UsersTableSeeder extends Seeder
 
             // Student
             } elseif ($type == 3) {
-                $class = years_of_study();
+                
                 DB::table('students')->insertGetId([
                     'user_id' => $user_id,
-                    'bio' => $faker->realText(rand(150, 200)),
+                    'bio' => $faker->realText(rand(100, 150)),
                     'gender' => $gender[rand(0, 1)],
                     'year_of_birth' => $faker->year('now'),
                     'class' => rand(1, count($class)),
-                    'institute' => $faker->company,
-                    'location' => locations(rand(1,200)),
-                    'subjects' => tution_subjects(rand(1,20)).', '.tution_subjects(rand(1,20)).', '.tution_subjects(rand(1,20)),
+                    'institute' => $schools[rand(0, count($schools)-1)],
+                    'location' => locations(rand(1, 80)),
+                    'subjects' => tution_subjects(rand(1, 20)).', '.tution_subjects(rand(1, 20)).', '.tution_subjects(rand(1, 20)),
                     'requirements' => $faker->realText(rand(100, 200)),
                     'budget' => $faker->numberBetween(1000, 5000),
                 ]);
@@ -93,3 +167,7 @@ class UsersTableSeeder extends Seeder
         }
     }
 }
+
+
+
+

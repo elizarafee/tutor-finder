@@ -68,7 +68,7 @@
                   @if($connection['connected'])
                   {{ $tutor->email }}
                   @else
-                  <span class="text-warning">********@******.com</span>
+                  <span class="text-primary">********@******.com</span>
                   @endif
                 </li>
 
@@ -78,7 +78,7 @@
                   @if($connection['connected'])
                   +880{{ $tutor->mobile }}
                   @else
-                  <span class="text-warning">+880 **** ******</span>
+                  <span class="text-primary">+880 **** ******</span>
                   @endif
 
                 </li>

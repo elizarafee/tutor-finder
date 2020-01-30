@@ -59,14 +59,10 @@
     function levels_of_study($level  = false)
     {
         $levels = [
-            1 => 'School Student',
-            2 => 'SSC',
-            3 => 'HSC',
-            4 => 'Other Training',
-            5 => 'Diploma',
-            6 => 'Bachelor',
-            7 => 'Master',
-            8 => 'Ph.D.',
+            1 => 'Other Training',
+            2 => 'Diploma',
+            3 => 'Bachelor',
+            4 => 'Master',
         ];
 
         if ($level) {
