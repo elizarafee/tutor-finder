@@ -22,7 +22,7 @@
             </div>
             <div class="col-sm-6 col-md-9">
               <ul class="list-unstyled float-left">
-                @if(auth()->user()->type != 5)
+                @if(auth()->user()->type == 1)
                 <li><a href="{{url('/tutors/'.$tutor->id)}}">{{$tutor->first_name.' '.$tutor->last_name}}</a></li>
                 @endif
                 <li><span class="text-muted">Bio <small>({{date('Y') - $tutor->year_of_birth}} year old

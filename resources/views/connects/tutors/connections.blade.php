@@ -16,6 +16,8 @@
                     <div class="col">
                         <div class="card">
                             <div class="card-body">
+
+                            
                                 <div class="row">
                                     <div class="col-sm-6 col-md-3 text-center text-info">
                                         <a href="{{url('/students/'.$student->id)}}">
