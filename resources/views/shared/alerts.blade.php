@@ -3,6 +3,7 @@
   <div class="row justify-content-center">
     <div class="col-md-8">
 
+     <!-- success alert -->
       @if(session('success'))
       <div class="alert alert-success alert-dismissible fade show" role="alert">
         {{session('success')}}
@@ -12,6 +13,7 @@
       </div>
       @endif
 
+      <!-- error alert -->
       @if(session('error'))
       <div class="alert alert-danger alert-dismissible fade show" role="alert">
         {{session('error')}}
@@ -21,6 +23,7 @@
       </div>
       @endif
 
+      <!-- warning alert -->
       @if(session('warning'))
       <div class="alert alert-warning alert-dismissible fade show" role="alert">
         {{session('warning')}}
