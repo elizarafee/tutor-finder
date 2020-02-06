@@ -11,12 +11,14 @@
 |
 */
 
+// admin routes 
 Route::group(['middleware' => ['auth', 'verified', 'admin']], function () {
     Route::get('/profiles/review', 'ProfileController@review');
     Route::put('/profiles/{user_id}/disapprove', 'ProfileController@disapprove');
     Route::put('/profiles/{user_id}/approve', 'ProfileController@approve');
 });
 
+// tutor routes 
 Route::group(['middleware' => ['auth', 'verified', 'tutor']], function () {
     Route::get('/tutors/create', 'TutorController@create');
     Route::get('/tutor/edit', 'TutorController@edit');
@@ -24,6 +26,7 @@ Route::group(['middleware' => ['auth', 'verified', 'tutor']], function () {
     Route::post('/tutors', 'TutorController@store');
 });
 
+// student routes 
 Route::group(['middleware' => ['auth', 'verified', 'student']], function () {
     Route::get('/students/create', 'StudentController@create');
     Route::get('/student/edit', 'StudentController@edit');
