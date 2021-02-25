@@ -1,72 +1,54 @@
-<p align="center"><img src="https://res.cloudinary.com/dtfbvvkyp/image/upload/v1566331377/laravel-logolockup-cmyk-red.svg" width="400"></p>
+# *Tutor Finder*
+## Project Description
+Private tuition is very common in our society and it is benefiting a lot of students to boost their ability as well as a lot of tutors to have income support. But, there are some media nowadays takes unfair advantages of this situation when students and tutor suffer. I have developed a web-based platform where guardians or students who can find available teachers registered in the application, as well as teacher, will find potential students. All the necessary information are nicely organized here.
 
-<p align="center">
-<a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/d/total.svg" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/v/stable.svg" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/license.svg" alt="License"></a>
-</p>
+## Looking for Students?
 
-## About Laravel
+<!-- ![student](./images/student.png) -->
+<img style="float: left;" src="./images/student.png" width="120" height="120">
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+If you are a tutor and looking for potential students in Sylhet City then this application will help you to find registered guardians with the student details.
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+It will help you find students without any other form of media and save you time and money.
 
-## Learning Laravel
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+## Looking for Tutors?
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 1500 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+<!-- ![student](./images/teacher.png) -->
+<img style="float: left;" src="./images/teacher.png" width="120" height="120">
 
-## Laravel Sponsors
+If you are a guardian and looking for a qualified tutor in Sylhet City then this application will help you to find registered tutors.
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+It will help you find tutors without any other form of media and save you time and money.
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[British Software Development](https://www.britishsoftware.co)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- [UserInsights](https://userinsights.com)
-- [Fragrantica](https://www.fragrantica.com)
-- [SOFTonSOFA](https://softonsofa.com/)
-- [User10](https://user10.com)
-- [Soumettre.fr](https://soumettre.fr/)
-- [CodeBrisk](https://codebrisk.com)
-- [1Forge](https://1forge.com)
-- [TECPRESSO](https://tecpresso.co.jp/)
-- [Runtime Converter](http://runtimeconverter.com/)
-- [WebL'Agence](https://weblagence.com/)
-- [Invoice Ninja](https://www.invoiceninja.com)
-- [iMi digital](https://www.imi-digital.de/)
-- [Earthlink](https://www.earthlink.ro/)
-- [Steadfast Collective](https://steadfastcollective.com/)
-- [We Are The Robots Inc.](https://watr.mx/)
-- [Understand.io](https://www.understand.io/)
-- [Abdel Elrafa](https://abdelelrafa.com)
-- [Hyper Host](https://hyper.host)
+### Features 
 
-## Contributing
+* Implemented the *Tutor-finder* which helps users to find their home Tutors and student.
+* Use of this application: 
+    * Guardian or Adult students can register in the system and can search for a potential tutor once their proof of id is verified. 
+ 
+    * Tutors can register in the system and can search for a potential student once their proof of id and qualification documents are verified.  
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+    * The administrator will look after the application, will verify the profile of Guardians or students, tutors by checking their documents.  
 
-## Security Vulnerabilities
+    * A verified account of Tutor can search for Students by their preferences and send them request to connect.
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+    * A verified account of Student can search for Tutors by their preferences and send them request to connect.
 
-## License
+    * Students/Tutors can update their profile 
 
-The Laravel framework is open-source software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+
+    * After matching the Student or Tutor they can deactivate their account as well.
+
+# Tech Stack
+### Backend
+* [PHP](https://www.php.net/) and [Laravel](https://laravel.com/) is used for the backend. 
+* [Mysql](https://www.mysql.com/) is used for database management
+* [Eloquent ORM](https://lumen.laravel.com/docs/6.x/database) is used for my database model
+* [JavaScript](https://www.javascript.com/) is used for interactive action in my app such as selecting courses, locations and subjects. 
+
+### Frontend
+
+* [Bootstrap](https://getbootstrap.com/) is used for styling
+
